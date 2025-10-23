@@ -25,6 +25,7 @@ Route::get('/products', [ProductController::class, 'index'])->name('products.ind
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 Route::get('/about', [AboutController::class, 'index'])->name('about.index');
 Route::get('/contact', [ContactController::class, 'frontendIndex'])->name('contact.index');
+Route::get('/contact/{contact}', [ContactController::class, 'show'])->name('contact.show');
 Route::get('/marketplaces', [MarketplaceController::class, 'index'])->name('marketplaces.index');
 Route::get('/marketplaces/{marketplace}', [MarketplaceController::class, 'show'])->name('marketplaces.show');
 Route::get('/profile', [ProfilController::class, 'index'])->name('profile.index');

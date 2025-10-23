@@ -64,7 +64,7 @@
                     <a href="{{ url('superadmin/home-content/edit') }}" class="list-group-item list-group-item-action">🖋 Kelola Halaman Home</a>
                     <a href="#" class="list-group-item list-group-item-action">📦 Kelola Produk</a>
                     <a href="#" class="list-group-item list-group-item-action">🛍 Kelola Marketplace</a>
-                    <a href="#" class="list-group-item list-group-item-action">📞 Kelola Kontak</a>
+                    <a href="{{ url('/' . Auth::user()->role . '/contact/edit') }}" class="list-group-item list-group-item-action">📞 Kelola Kontak</a>
                     <a href="{{ url('/superadmin/profil/edit') }}" class="list-group-item list-group-item-action">👤 Kelola Profil</a>
                     <!-- 👇 tambahan khusus superadmin -->
                     <a href="{{ route('superadmin.users.index') }}" class="list-group-item list-group-item-action text-danger fw-bold">
