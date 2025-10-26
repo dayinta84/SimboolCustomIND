@@ -1,119 +1,96 @@
-@extends('layout.app')
+@extends('layout.adminlte')
+
+@section('title', 'Edit Halaman Kontak')
+
+@section('sidebar')
+    <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+            <li class="nav-item">
+                <a href="{{ route('admin.dashboard') }}" class="nav-link">
+                    <i class="nav-icon fas fa-home"></i>
+                    <p>Dashboard</p>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('admin.contact.editpage', ['role' => Auth::user()->role]) }}" class="nav-link active">
+                    <i class="nav-icon fas fa-address-book"></i>
+                    <p>Kelola Kontak</p>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('profil.edit', ['role' => Auth::user()->role]) }}" class="nav-link">
+                    <i class="nav-icon fas fa-user"></i>
+                    <p>Profil</p>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('product.index') }}" class="nav-link">
+                    <i class="nav-icon fas fa-box"></i>
+                    <p>Produk</p>
+                </a>
+            </li>
+        </ul>
+    </nav>
+@endsection
 
 @section('content')
-<div class="container mt-4">
-    <h2>Edit Halaman Kontak</h2>
-
+<div class="container-fluid">
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <form action="{{ route('admin.contact.updatepage', ['role' => Auth::user()->role]) }}" method="POST" enctype="multipart/form-data">
-        @csrf
-
-        <div class="mb-3">
-            <label for="alamat" class="form-label">Alamat</label>
-            <textarea name="alamat" id="alamat" class="form-control" rows="3" required>{{ old('alamat', $contact->alamat ?? '') }}</textarea>
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Edit Halaman Kontak</h3>
         </div>
 
-        <div class="mb-3">
-            <label class="form-label">Gambar (bisa pilih file atau pakai kamera di HP)</label>
+        <form action="{{ route('admin.contact.updatepage', ['role' => Auth::user()->role]) }}" 
+              method="POST" enctype="multipart/form-data">
+            @csrf
 
-            <!-- tampilkan gambar lama jika ada -->
-            @if(!empty($contact->gambar))
-                <div class="mb-2">
-                    <img id="current-image" src="{{ asset('storage/' . $contact->gambar) }}" alt="Gambar Kontak" style="max-width:200px; display:block;">
+            <div class="card-body">
+                <div class="form-group">
+                    <label>Alamat</label>
+                    <input type="text" name="alamat" class="form-control" 
+                           value="{{ old('alamat', $contact->alamat) }}" required>
                 </div>
-            @endif
 
-            <!-- preview gambar baru -->
-            <div class="mb-2">
-                <img id="preview-image" src="#" alt="Preview Gambar" style="max-width:200px; display:none;">
-            </div>
+                <div class="form-group">
+                    <label>Gambar (opsional)</label>
+                    <input type="file" name="gambar" class="form-control-file">
+                    @if($contact->gambar)
+                        <div class="mt-2">
+                            <img src="{{ asset('storage/' . $contact->gambar) }}" 
+                                 alt="Gambar Kontak" width="120" class="img-thumbnail">
+                        </div>
+                    @endif
+                </div>
 
-            <!-- input file -->
-            <input
-                type="file"
-                name="gambar"
-                id="gambar"
-                accept="image/*"
-                capture="environment"
-                class="form-control"
-            >
-            <small class="form-text text-muted">
-                Boleh memilih dari galeri atau ambil foto langsung (pada HP pilih "Camera" / "Take Photo").
-            </small>
-        </div>
+                <div class="form-group">
+                    <label>Nomor WhatsApp</label>
+                    @php
+                        $whatsapps = old('whatsapp', $contact->whatsapp ?? []);
+                    @endphp
 
-        <div class="mb-3">
-            <label>Nomor WhatsApp</label>
-            <div id="wa-container">
-                @php
-                    $whats = old('whatsapp', $contact->whatsapp ?? []);
-                @endphp
-
-                @if(!empty($whats))
-                    @foreach($whats as $wa)
-                        <div class="d-flex mb-2">
+                    @foreach($whatsapps as $index => $wa)
+                        <div class="input-group mb-2">
                             <input type="text" name="whatsapp[]" class="form-control" value="{{ $wa }}">
-                            <button type="button" class="btn btn-danger ms-2 btn-remove-wa">Hapus</button>
                         </div>
                     @endforeach
-                @else
-                    <div class="d-flex mb-2">
-                        <input type="text" name="whatsapp[]" class="form-control" placeholder="Masukkan nomor WA">
-                        <button type="button" class="btn btn-danger ms-2 btn-remove-wa">Hapus</button>
+
+                    <div class="input-group mb-2">
+                        <input type="text" name="whatsapp[]" class="form-control" placeholder="Tambah nomor baru">
                     </div>
-                @endif
+                </div>
             </div>
 
-            <button type="button" class="btn btn-success btn-sm" id="add-wa">Tambah Nomor WA</button>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-    </form>
+            <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+            </div>
+        </form>
+    </div>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    // preview gambar saat memilih file
-    const gambarInput = document.getElementById('gambar');
-    const preview = document.getElementById('preview-image');
-    const current = document.getElementById('current-image');
-
-    gambarInput.addEventListener('change', function (e) {
-        const file = this.files[0];
-        if (!file) {
-            preview.style.display = 'none';
-            return;
-        }
-        const reader = new FileReader();
-        reader.onload = function (evt) {
-            preview.src = evt.target.result;
-            preview.style.display = 'block';
-            if (current) current.style.display = 'none';
-        }
-        reader.readAsDataURL(file);
-    });
-
-    // tambah/ hapus nomor WA
-    document.getElementById('add-wa').addEventListener('click', function () {
-        const container = document.getElementById('wa-container');
-        const wrapper = document.createElement('div');
-        wrapper.className = 'd-flex mb-2';
-        wrapper.innerHTML = `
-            <input type="text" name="whatsapp[]" class="form-control" placeholder="Masukkan nomor WA">
-            <button type="button" class="btn btn-danger ms-2 btn-remove-wa">Hapus</button>
-        `;
-        container.appendChild(wrapper);
-    });
-
-    document.getElementById('wa-container').addEventListener('click', function (e) {
-        if (e.target && e.target.classList.contains('btn-remove-wa')) {
-            e.target.closest('.d-flex').remove();
-        }
-    });
-
-});
-</script>
 @endsection

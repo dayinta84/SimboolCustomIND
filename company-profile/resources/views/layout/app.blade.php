@@ -17,6 +17,7 @@
                     <li class="nav-item"><a href="{{ route('profile.index') }}" class="nav-link">Profil</a></li>
                     <li class="nav-item"><a href="{{ route('product.index') }}" class="nav-link">Produk</a></li>
                     <li class="nav-item"><a href="{{ route('contact.index') }}" class="nav-link">Kontak</a></li>
+                    <li class="nav-item"><a href="{{ route('marketplace.index') }}" class="nav-link">Marketplace</a></li>
                     
                 </ul>
                 <form method="POST" action="{{ route('logout') }}">

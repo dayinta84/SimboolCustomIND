@@ -29,6 +29,28 @@
                 <p>Kelola Produk</p>
             </a>
         </li>
+        <li class="nav-item">
+            <a href="{{ url(Auth::user()->role . '/marketplace/edit') }}" class="nav-link">
+                <i class="nav-icon fas fa-store"></i>
+                <p>Kelola Marketplace</p>
+            </a>
+        </li>
+    </ul>
+
+    {{-- Form logout tersembunyi --}}
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        @csrf<li class="nav-item">
+            <a href="#" class="nav-link text-danger"
+               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <i class="nav-icon fas fa-sign-out-alt"></i>
+                <p>Logout</p>
+            </a>
+        </li>
+    </ul>
+
+    {{-- Form logout tersembunyi --}}
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        @csrf
     </ul>
 </nav>
 @endsection

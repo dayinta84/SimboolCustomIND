@@ -18,19 +18,20 @@
 
             {{-- Info Kontak --}}
             <div class="col-md-8">
-                <p><strong>📍 Alamat:</strong> {{ $contact->alamat ?? '-' }}</p>
-                <p>
-                    <strong>📞 WhatsApp:</strong> 
-                    @if(!empty($contact->whatsapp))
-                        <a href="https://wa.me/{{ preg_replace('/\D/', '', $contact->whatsapp) }}" 
-                           target="_blank" 
-                           class="text-success text-decoration-none">
-                           {{ $contact->whatsapp }}
-                        </a>
+               <p> <strong>📞 WhatsApp:</strong>
+                    @if(!empty($contact->whatsapp) && is_array($contact->whatsapp))
+                    @foreach($contact->whatsapp as $wa)
+                    <a href="https://wa.me/{{ preg_replace('/\D/', '', $wa) }}"
+                    target="_blank"
+                    class="text-success text-decoration-none d-block">
+                    {{ $wa }}
+                    </a>
+                    @endforeach
                     @else
-                        -
-                    @endif
-                </p>
+                    -
+                @endif
+            </p>x
+
             </div>
         </div>
     </div>

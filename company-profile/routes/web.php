@@ -26,8 +26,8 @@ Route::get('/products/{product}', [ProductController::class, 'show'])->name('pro
 Route::get('/about', [AboutController::class, 'index'])->name('about.index');
 Route::get('/contact', [ContactController::class, 'frontendIndex'])->name('contact.index');
 Route::get('/contact/{contact}', [ContactController::class, 'show'])->name('contact.show');
-Route::get('/marketplaces', [MarketplaceController::class, 'index'])->name('marketplaces.index');
-Route::get('/marketplaces/{marketplace}', [MarketplaceController::class, 'show'])->name('marketplaces.show');
+Route::get('/marketplace', [MarketplaceController::class, 'index'])->name('marketplace.index');
+Route::get('/marketplace/{marketplace}', [MarketplaceController::class, 'show'])->name('marketplace.show');
 Route::get('/profile', [ProfilController::class, 'index'])->name('profile.index');
 Route::get('/profile/{profile}', [ProfilController::class, 'show'])->name('profile.show');
 
@@ -38,12 +38,20 @@ Route::get('/profile/{profile}', [ProfilController::class, 'show'])->name('profi
 |--------------------------------------------------------------------------
 */
 Route::get('/administrator', function () {
-    // Jika user sudah login, logout otomatis dulu
+    // Jika user sudah login, langsung arahkan ke dashboard sesuai role
     if (Auth::check()) {
-        Auth::logout();
+        $user = Auth::user();
+        if ($user->role === 'superadmin') {
+            return redirect()->route('superadmin.dashboard');
+        } elseif ($user->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        } else {
+            return redirect('/');
+        }
     }
-    // Panggil tampilan form login dari controller
-    return app(LoginController::class)->showLoginForm();
+
+    // Kalau belum login, tampilkan form login
+    return app(\App\Http\Controllers\Auth\LoginController::class)->showLoginForm();
 })->name('administrator-login');
 
 Route::post('/administrator', [LoginController::class, 'login'])
@@ -60,19 +68,29 @@ Route::post('/logout', [LoginController::class, 'logout'])
 */
 Route::middleware(['auth'])->group(function () {
 
-    // Dashboard Superadmin
+        // Dashboard Superadmin
     Route::get('/superadmin/dashboard', function () {
+        if (!Auth::check()) {
+            return redirect()->route('administrator-login');
+        }
+
         if (Auth::user()->role !== 'superadmin') {
             abort(403, 'Akses ditolak');
         }
+
         return view('auth.dashboard');
     })->name('superadmin.dashboard');
 
     // Dashboard Admin
     Route::get('/admin/dashboard', function () {
-        if (Auth::user()->role !== 'admin') {
-            abortz(403, 'Akses ditolak');
+        if (!Auth::check()) {
+            return redirect()->route('administrator-login');
         }
+
+        if (Auth::user()->role !== 'admin') {
+            abort(403, 'Akses ditolak');
+        }
+
         return view('auth.admin');
     })->name('admin.dashboard');
 
@@ -93,14 +111,28 @@ Route::middleware(['auth'])->group(function () {
         ->where('role', 'admin|superadmin')
         ->name('profil.update');
 
+   // ✅ Kelola Marketplace
+    Route::get('/{role}/marketplace/edit', [App\Http\Controllers\MarketplaceController::class, 'editPage'])
+        ->where('role', 'admin|superadmin')
+        ->name('admin.marketplace.edit');
+
+    Route::post('/{role}/marketplace/store', [App\Http\Controllers\MarketplaceController::class, 'store'])
+        ->where('role', 'admin|superadmin')
+        ->name('admin.marketplace.store');
+
+    Route::delete('/{role}/marketplace/{id}', [App\Http\Controllers\MarketplaceController::class, 'destroy'])
+        ->where('role', 'admin|superadmin')
+        ->name('admin.marketplace.destroy');
+
+
+
 
 
 
     //recources lainnya
     Route::resource('/profile', \App\Http\Controllers\ProfilController::class);
     Route::resource('/product', \App\Http\Controllers\ProductController::class);
-    Route::resource('/marketplace', \App\Http\Controllers\MarketplaceController::class);
-    Route::resource('/contact', \App\Http\Controllers\ContactController::class);
+   
     
     // ============================
     // CRUD USER (khusus superadmin)

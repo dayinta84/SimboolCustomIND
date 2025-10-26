@@ -7,79 +7,54 @@ use Illuminate\Http\Request;
 
 class MarketplaceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $marketplaces = Marketplace::all(); // ambil semua data
+        return view('visit.marketplace', compact('marketplaces'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    // ✅ Halaman untuk admin & superadmin
+    public function editPage()
     {
-        //
+        $marketplaces = Marketplace::all();
+        return view('dashboardadmin.marketplace.edit', compact('marketplaces'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    // ✅ Simpan marketplace baru
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'platform' => 'required|string',
+            'username' => 'nullable|string',
+            'followers' => 'nullable|string',
+            'description' => 'nullable|string',
+            'link' => 'nullable|url',
+            'icon' => 'nullable|image|max:2048',
+        ]);
+
+        $data = $request->only([
+            'platform', 'username', 'followers', 'description', 'link'
+        ]);
+
+        if ($request->hasFile('icon')) {
+            $data['icon'] = $request->file('icon')->store('icons', 'public');
+        }
+
+        Marketplace::create($data);
+
+        return back()->with('success', 'Marketplace berhasil ditambahkan!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Marketplace  $marketplace
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Marketplace $marketplace)
+    // ✅ Hapus marketplace
+    public function destroy($role, $id)
     {
-        //
-    }
+        $marketplace = Marketplace::findOrFail($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Marketplace  $marketplace
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Marketplace $marketplace)
-    {
-        //
-    }
+        if ($marketplace->icon && \Storage::disk('public')->exists($marketplace->icon)) {
+            \Storage::disk('public')->delete($marketplace->icon);
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Marketplace  $marketplace
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Marketplace $marketplace)
-    {
-        //
-    }
+        $marketplace->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Marketplace  $marketplace
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Marketplace $marketplace)
-    {
-        //
+        return back()->with('success', 'Marketplace berhasil dihapus!');
     }
 }
