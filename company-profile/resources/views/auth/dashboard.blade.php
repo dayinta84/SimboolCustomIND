@@ -1,53 +1,47 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Superadmin</title>
+@extends('layout.adminlte')
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+@section('title', 'Dashboard Superadmin')
 
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .navbar {
-            background: linear-gradient(90deg, #6610f2, #9b00ff);
-        }
-        .sidebar {
-            min-height: 100vh;
-            background-color: #ffffff;
-            border-right: 1px solid #dee2e6;
-        }
-        .sidebar .list-group-item.active {
-            background-color: #6610f2;
-            border-color: #6610f2;
-            color: white;
-        }
-        .sidebar .list-group-item:hover {
-            background-color: #e9ecef;
-        }
-    </style>
-</head>
+@section('sidebar')
+<nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column" role="menu">
+        <li class="nav-item">
+            <a href="{{ url('superadmin/dashboard') }}" class="nav-link active">
+                <i class="nav-icon fas fa-home"></i>
+                <p>Dashboard</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ url('superadmin/profil/edit') }}" class="nav-link">
+                <i class="nav-icon fas fa-user"></i>
+                <p>Kelola Profil</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ url('superadmin/contact/edit') }}" class="nav-link">
+                <i class="nav-icon fas fa-envelope"></i>
+                <p>Kelola Kontak</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ url('superadmin/product/edit') }}" class="nav-link">
+                <i class="nav-icon fas fa-box"></i>
+                <p>Kelola Produk</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ url('superadmin/users') }}" class="nav-link">
+                <i class="nav-icon fas fa-users"></i>
+                <p>Kelola User</p>
+            </a>
+        </li>
+    </ul>
+</nav>
+@endsection
 
-<body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
-        <div class="container-fluid">
-            <a class="navbar-brand fw-bold" href="#">Dashboard Superadmin</a>
-            <div class="d-flex align-items-center">
-                <span class="text-white me-3">
-                    👤 {{ Auth::user()->name }} (Superadmin)
-                </span>
-                <a class="btn btn-outline-light btn-sm"
-                   href="{{ route('logout') }}"
-                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                   Logout
-                </a>
-            </div>
-        </div>
-    </nav>
+@section('content')
+    <h3>Selamat Datang, {{ Auth::user()->name }} 👋</h3>
+    <p>Anda login sebagai <b>Superadmin</b>. Anda memiliki akses penuh terhadap semua data dan pengguna.</p>
 
     <!-- Logout form -->
     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -63,10 +57,9 @@
                     <a href="#" class="list-group-item list-group-item-action active">🏠 Dashboard</a>
                     <a href="{{ url('superadmin/home-content/edit') }}" class="list-group-item list-group-item-action">🖋 Kelola Halaman Home</a>
                     <a href="#" class="list-group-item list-group-item-action">📦 Kelola Produk</a>
-                    <a href="#" class="list-group-item list-group-item-action">🛍 Kelola Marketplace</a>
+                    <a href="{{ url('/' . Auth::user()->role . '/marketplace/edit') }}" class="list-group-item list-group-item-action">🛍 Kelola Marketplace</a>
                     <a href="{{ url('/' . Auth::user()->role . '/contact/edit') }}" class="list-group-item list-group-item-action">📞 Kelola Kontak</a>
                     <a href="{{ url('/superadmin/profil/edit') }}" class="list-group-item list-group-item-action">👤 Kelola Profil</a>
-                    <!-- 👇 tambahan khusus superadmin -->
                     <a href="{{ route('superadmin.users.index') }}" class="list-group-item list-group-item-action text-danger fw-bold">
                         ⚙️ Kelola User
                     </a>
@@ -84,11 +77,14 @@
                         <p>Gunakan menu di sebelah kiri untuk mengelola seluruh konten website termasuk manajemen pengguna.</p>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+                <div class="card mt-3 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="fw-bold">Kontrol Penuh</h5>
+                        <p>Kelola data website, produk, profil, kontak, dan juga manajemen pengguna di menu sidebar.</p>
+                    </div>
+                </div>
+            </div> <!-- end col utama -->
+        </div> <!-- end row -->
+    </div> <!-- end container -->
+@endsection
