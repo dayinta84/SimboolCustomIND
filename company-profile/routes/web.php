@@ -7,8 +7,10 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\MarketplaceController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\LayananController;
+use App\Http\Controllers\Admin\ProfilController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -67,17 +69,20 @@ Route::post('/logout', [LoginController::class, 'logout'])
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth'])->group(function () {
-
         // Dashboard Superadmin
     Route::get('/superadmin/dashboard', function () {
         if (!Auth::check()) {
             return redirect()->route('administrator-login');
         }
+        $user = Auth::user();
 
-        if (Auth::user()->role !== 'superadmin') {
-            abort(403, 'Akses ditolak');
+        // Kalau yang login bukan superadmin, redirect ke dashboard sesuai rolenya
+        if ($user->role !== 'superadmin') {
+            if ($user->role === 'admin') {
+                return redirect()->route('admin.dashboard');
+            }
+            return redirect('/');
         }
-
         return view('auth.dashboard');
     })->name('superadmin.dashboard');
 
@@ -86,11 +91,15 @@ Route::middleware(['auth'])->group(function () {
         if (!Auth::check()) {
             return redirect()->route('administrator-login');
         }
+        $user = Auth::user();
 
-        if (Auth::user()->role !== 'admin') {
-            abort(403, 'Akses ditolak');
+        // Kalau yang login bukan admin, redirect ke dashboard sesuai rolenya
+        if ($user->role !== 'admin') {
+            if ($user->role === 'superadmin') {
+                return redirect()->route('superadmin.dashboard');
+            }
+            return redirect('/');
         }
-
         return view('auth.admin');
     })->name('admin.dashboard');
 
@@ -111,6 +120,45 @@ Route::middleware(['auth'])->group(function () {
         ->where('role', 'admin|superadmin')
         ->name('profil.update');
 
+    // Bagian tambahan ProfilSection
+    Route::post('/profil/{role}/tambah-section', [ProfilController::class, 'tambahSection'])
+        ->where('role', 'admin|superadmin')
+        ->name('profil.tambahSection');
+    Route::put('/profil/{role}/edit-section/{id}', [ProfilController::class, 'editSection'])
+        ->where('role', 'admin|superadmin')
+        ->name('profil.editSection');
+    Route::delete('/profil/{role}/hapus-section/{id}', [ProfilController::class, 'hapusSection'])
+        ->where('role', 'admin|superadmin')
+        ->name('profil.hapusSection');
+
+    // Kelola layanan
+    Route::get('/{role}/profil/layanan', [LayananController::class, 'index'])
+        ->where('role', 'admin|superadmin')
+        ->name('layanan.index');
+    Route::post('/{role}/profil/layanan/store', [LayananController::class, 'store'])
+        ->where('role', 'admin|superadmin')
+        ->name('layanan.store');
+    Route::post('/{role}/profil/layanan/update/{id}', [LayananController::class, 'update'])
+        ->where('role', 'admin|superadmin')
+        ->name('layanan.update');
+    Route::delete('/{role}/profil/layanan/delete/{id}', [LayananController::class, 'destroy'])
+        ->where('role', 'admin|superadmin')
+        ->name('layanan.destroy');
+
+    // Bagian layanan edit
+    Route::post('/profil/{role}/tambah-layanan', [ProfilController::class, 'tambahLayanan'])
+        ->where('role', 'admin|superadmin')
+        ->name('layanan.store');
+
+    Route::put('/profil/{role}/edit-layanan/{id}', [ProfilController::class, 'editLayanan'])
+        ->where('role', 'admin|superadmin')
+        ->name('layanan.update');
+
+    Route::delete('/profil/{role}/hapus-layanan/{id}', [ProfilController::class, 'hapusLayanan'])
+        ->where('role', 'admin|superadmin')
+        ->name('layanan.destroy');
+
+        
    // ✅ Kelola Marketplace
     Route::get('/{role}/marketplace/edit', [App\Http\Controllers\MarketplaceController::class, 'editPage'])
         ->where('role', 'admin|superadmin')
