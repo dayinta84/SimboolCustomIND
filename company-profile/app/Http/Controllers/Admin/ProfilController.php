@@ -28,11 +28,14 @@ class ProfilController extends Controller
             'tentang' => 'required|string',
             'visi'    => 'required|string',
             'misi'    => 'required|string',
-            'image'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'image_tentang' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // jangan lupa validasi ini juga
+            'image'   => 'nullable|image|mimes:jpeg,png,jpg|max:10240',
+            'image_tentang' => 'nullable|image|mimes:jpeg,png,jpg|max:10240', // jangan lupa validasi ini juga
         ]);
 
-        $profil = Profil::firstOrNew();
+        $profil = Profil::first();
+        if (!$profil) {
+            $profil = new Profil();
+        }
 
         $profil->fill($request->only(['title', 'tentang', 'visi', 'misi']));
 
@@ -53,10 +56,14 @@ class ProfilController extends Controller
             $pathTentang = $request->file('image_tentang')->store('profil', 'public');
             $profil->image_tentang = $pathTentang;
         }
-        
+
         $profil->save();
 
-        return back()->with('success', 'Profil berhasil diperbarui!');
+        // tambahkan redirect agar view me-refresh dari database
+        return redirect()->route('profil.edit', ['role' => $role])
+            ->with('success', 'Profil berhasil diperbarui!');
+
+        // return back()->with('success', 'Profil berhasil diperbarui!');
     }
 
 
@@ -77,22 +84,29 @@ class ProfilController extends Controller
     }
 
     // Edit layanan
-    public function editLayanan(Request $request, $role, $id)
+    // public function editLayanan(Request $request, $role, $id)
+    // {
+    //     $request->validate([
+    //         'judul' => 'required|string|max:255',
+    //         'deskripsi' => 'required|string',
+    //     ]);
+
+    //     $layanan = Layanan::findOrFail($id);
+    //     $layanan->update([
+    //         'judul' => $request->judul,
+    //         'deskripsi' => $request->deskripsi,
+    //     ]);
+
+    //     return back()->with('success', 'Layanan berhasil diperbarui!');
+    // }
+
+    public function hapusLayanan($role, $id)
     {
-        $request->validate([
-            'judul' => 'required|string|max:255',
-            'deskripsi' => 'required|string',
-        ]);
-
         $layanan = Layanan::findOrFail($id);
-        $layanan->update([
-            'judul' => $request->judul,
-            'deskripsi' => $request->deskripsi,
-        ]);
+        $layanan->delete();
 
-        return back()->with('success', 'Layanan berhasil diperbarui!');
+        return back()->with('success', 'Layanan berhasil dihapus!');
     }
-
 
     public function tambahSection(Request $request, $role)
     {
