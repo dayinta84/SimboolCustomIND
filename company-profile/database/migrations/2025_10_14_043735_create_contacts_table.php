@@ -16,9 +16,10 @@ return new class extends Migration
          Schema::create('contacts', function (Blueprint $table) {
         $table->id();
         $table->string('alamat');
-        $table->string('gambar')->nullable();
         $table->json('whatsapp')->nullable(); // disimpan sebagai array nomor
         $table->timestamps();
+        $table->text('map')->nullable()->after('alamat');
+        $table->string('gambar')->nullable();
     });
     }
 
