@@ -36,7 +36,7 @@
             @foreach($layanans as $layanan)
                 <div class="col-md-3 mb-3">
                     <div class="card h-100 p-3 shadow-sm">
-                        <h5 class="fw-bold">{{ $layanan->judul_layanan }}</h5>
+                        <h5 class="fw-bold">{{ $layanan->judul }}</h5>
                         <p>{{ $layanan->deskripsi }}</p>
                     </div>
                 </div>

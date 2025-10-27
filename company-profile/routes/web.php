@@ -7,8 +7,10 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\MarketplaceController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\LayananController;
+use App\Http\Controllers\Admin\ProfilController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -142,6 +144,20 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/{role}/profil/layanan/delete/{id}', [LayananController::class, 'destroy'])
         ->where('role', 'admin|superadmin')
         ->name('layanan.destroy');
+
+    // Bagian layanan edit
+    Route::post('/profil/{role}/tambah-layanan', [ProfilController::class, 'tambahLayanan'])
+        ->where('role', 'admin|superadmin')
+        ->name('layanan.store');
+
+    Route::put('/profil/{role}/edit-layanan/{id}', [ProfilController::class, 'editLayanan'])
+        ->where('role', 'admin|superadmin')
+        ->name('layanan.update');
+
+    Route::delete('/profil/{role}/hapus-layanan/{id}', [ProfilController::class, 'hapusLayanan'])
+        ->where('role', 'admin|superadmin')
+        ->name('layanan.destroy');
+
         
    // ✅ Kelola Marketplace
     Route::get('/{role}/marketplace/edit', [App\Http\Controllers\MarketplaceController::class, 'editPage'])

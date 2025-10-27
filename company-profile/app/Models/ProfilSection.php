@@ -10,5 +10,5 @@ class ProfilSection extends Model
     use HasFactory;
 
     protected $table = 'profil_sections';
-    protected $fillable = ['judul', 'konten'];
+    protected $fillable = ['judul', 'isi'];
 }

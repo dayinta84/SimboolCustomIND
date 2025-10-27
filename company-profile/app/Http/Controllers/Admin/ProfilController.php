@@ -49,16 +49,51 @@ class ProfilController extends Controller
         return back()->with('success', 'Profil berhasil diperbarui!');
     }
 
+
+    // Tambah layanan
+    public function tambahLayanan(Request $request, $role)
+    {
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+        ]);
+
+        Layanan::create([
+            'judul' => $request->judul,
+            'deskripsi' => $request->deskripsi,
+        ]);
+
+        return back()->with('success', 'Layanan berhasil ditambahkan!');
+    }
+
+    // Edit layanan
+    public function editLayanan(Request $request, $role, $id)
+    {
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+        ]);
+
+        $layanan = Layanan::findOrFail($id);
+        $layanan->update([
+            'judul' => $request->judul,
+            'deskripsi' => $request->deskripsi,
+        ]);
+
+        return back()->with('success', 'Layanan berhasil diperbarui!');
+    }
+
+
     public function tambahSection(Request $request, $role)
     {
         $request->validate([
             'judul' => 'required|string|max:255',
-            'konten' => 'required|string',
+            'isi' => 'required|string',
         ]);
 
         ProfilSection::create([
             'judul' => $request->judul,
-            'konten' => $request->konten,
+            'isi' => $request->isi,
         ]);
 
         return back()->with('success', 'Section berhasil ditambahkan!');
@@ -68,13 +103,13 @@ class ProfilController extends Controller
     {
         $request->validate([
             'judul' => 'required|string|max:255',
-            'konten' => 'required|string',
+            'isi' => 'required|string',
         ]);
 
         $section = ProfilSection::findOrFail($id);
         $section->update([
             'judul' => $request->judul,
-            'konten' => $request->konten,
+            'isi' => $request->isi,
         ]);
 
         return back()->with('success', 'Section berhasil diperbarui!');
