@@ -29,6 +29,7 @@ class ProfilController extends Controller
             'visi'    => 'required|string',
             'misi'    => 'required|string',
             'image'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'image_tentang' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // jangan lupa validasi ini juga
         ]);
 
         $profil = Profil::firstOrNew();
@@ -44,6 +45,15 @@ class ProfilController extends Controller
             $profil->image = $path;
         }
 
+        if ($request->hasFile('image_tentang')) {
+            // hapus gambar lama tentang kami
+            if ($profil->image_tentang && Storage::disk('public')->exists($profil->image_tentang)) {
+                Storage::disk('public')->delete($profil->image_tentang);
+            }
+            $pathTentang = $request->file('image_tentang')->store('profil', 'public');
+            $profil->image_tentang = $pathTentang;
+        }
+        
         $profil->save();
 
         return back()->with('success', 'Profil berhasil diperbarui!');

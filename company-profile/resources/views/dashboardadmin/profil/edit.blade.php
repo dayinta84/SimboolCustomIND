@@ -18,11 +18,21 @@
                             <div class="border rounded p-4 text-muted">Belum ada gambar</div>
                         @endif
                         <input type="file" name="image" class="form-control mt-2">
+
+                        {{-- Gambar Tentang Kami --}}
+                        <div class="mb-3 mt-4 text-left">
+                            <label>Gambar Tentang Kami</label>
+                            @if($profil && $profil->image_tentang)
+                                <img src="{{ asset('storage/' . $profil->image_tentang) }}" class="img-fluid mb-2" style="max-height:150px;">
+                            @endif
+                            <input type="file" name="image_tentang" class="form-control">
+                        </div>
                     </div>
                     <div class="col-md-8">
                         <div class="mb-3">
                             <label>Judul / Nama Perusahaan</label>
                             <input type="text" name="title" value="{{ $profil->title ?? '' }}" class="form-control" required>
+                        </div>
                         <div class="mb-3">
                             <label>Tentang Kami</label>
                             <textarea name="tentang" class="form-control">{{ $profil->tentang ?? '' }}</textarea>
@@ -140,7 +150,6 @@
                             </form>
                         </td>
                     </tr>
-
 
                     <script>
                     function editLayanan(btn) {
