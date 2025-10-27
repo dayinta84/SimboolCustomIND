@@ -3,94 +3,117 @@
 @section('title', 'Edit Halaman Kontak')
 
 @section('sidebar')
-    <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
-            <li class="nav-item">
-                <a href="{{ route('admin.dashboard') }}" class="nav-link">
-                    <i class="nav-icon fas fa-home"></i>
-                    <p>Dashboard</p>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a href="{{ route('admin.contact.editpage', ['role' => Auth::user()->role]) }}" class="nav-link active">
-                    <i class="nav-icon fas fa-address-book"></i>
-                    <p>Kelola Kontak</p>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a href="{{ route('profil.edit', ['role' => Auth::user()->role]) }}" class="nav-link">
-                    <i class="nav-icon fas fa-user"></i>
-                    <p>Profil</p>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a href="{{ route('product.index') }}" class="nav-link">
-                    <i class="nav-icon fas fa-box"></i>
-                    <p>Produk</p>
-                </a>
-            </li>
-        </ul>
-    </nav>
+<nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+        <li class="nav-item">
+            <a href="{{ route('admin.dashboard') }}" class="nav-link">
+                <i class="nav-icon fas fa-home"></i>
+                <p>Dashboard</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('admin.contact.editpage', ['role' => Auth::user()->role]) }}" class="nav-link active">
+                <i class="nav-icon fas fa-address-book"></i>
+                <p>Kelola Kontak</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('profil.edit', ['role' => Auth::user()->role]) }}" class="nav-link">
+                <i class="nav-icon fas fa-user"></i>
+                <p>Profil</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('product.index') }}" class="nav-link">
+                <i class="nav-icon fas fa-box"></i>
+                <p>Produk</p>
+            </a>
+        </li>
+    </ul>
+</nav>
 @endsection
 
 @section('content')
-<div class="container-fluid">
+<div class="container mt-5">
+    <h2>Edit Kontak</h2>
+
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <div class="card card-primary">
-        <div class="card-header">
-            <h3 class="card-title">Edit Halaman Kontak</h3>
+    <form action="{{ route('admin.contact.updatepage', ['role' => Auth::user()->role]) }}" 
+      method="POST" enctype="multipart/form-data">
+        @csrf
+
+        <div class="mb-3">
+             <label>Gambar:</label><br> 
+             @if(!empty($contact->gambar)) 
+             <img src="{{ asset('storage/'.$contact->gambar) }}" width="150" alt="Gambar kontak"><br><br> 
+             @endif 
+             <input type="file" name="gambar" class="form-control"> 
         </div>
 
-        <form action="{{ route('admin.contact.updatepage', ['role' => Auth::user()->role]) }}" 
-              method="POST" enctype="multipart/form-data">
-            @csrf
+        {{-- Alamat --}}
+        <div class="mb-3">
+            <label>Alamat:</label>
+            <input type="text" name="alamat" value="{{ old('alamat', $contact->alamat ?? '') }}" class="form-control">
+        </div>
 
-            <div class="card-body">
-                <div class="form-group">
-                    <label>Alamat</label>
-                    <input type="text" name="alamat" class="form-control" 
-                           value="{{ old('alamat', $contact->alamat) }}" required>
-                </div>
+        {{-- WhatsApp --}}
+        <div class="mb-3">
+            <label class="form-label fw-bold">WhatsApp</label>
 
-                <div class="form-group">
-                    <label>Gambar (opsional)</label>
-                    <input type="file" name="gambar" class="form-control-file">
-                    @if($contact->gambar)
-                        <div class="mt-2">
-                            <img src="{{ asset('storage/' . $contact->gambar) }}" 
-                                 alt="Gambar Kontak" width="120" class="img-thumbnail">
-                        </div>
-                    @endif
-                </div>
+            <div id="whatsapp-container">
+                @php
+                    // Jika data sudah di-cast ke array di model
+                    $whatsapps = $contact->whatsapp ?? [''];
+                @endphp
 
-                <div class="form-group">
-                    <label>Nomor WhatsApp</label>
-                    @php
-                        $whatsapps = old('whatsapp', $contact->whatsapp ?? []);
-                    @endphp
-
-                    @foreach($whatsapps as $index => $wa)
-                        <div class="input-group mb-2">
-                            <input type="text" name="whatsapp[]" class="form-control" value="{{ $wa }}">
-                        </div>
-                    @endforeach
-
-                    <div class="input-group mb-2">
-                        <input type="text" name="whatsapp[]" class="form-control" placeholder="Tambah nomor baru">
+                @foreach($whatsapps as $wa)
+                    <div class="d-flex align-items-center mb-2">
+                        <input type="text" name="whatsapp[]" class="form-control me-2"
+                               value="{{ $wa }}" placeholder="0877xxxxxxx"
+                                maxlength="13" pattern="[0-9]{10,13}"
+                                title="Nomor harus terdiri dari 10–13 digit angka">
+                        <button type="button" class="btn btn-danger btn-sm" onclick="removeField(this)">Hapus</button>
                     </div>
-                </div>
+                @endforeach
             </div>
 
-            <div class="card-footer text-right">
-                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-            </div>
-        </form>
-    </div>
+            <button type="button" class="btn btn-success btn-sm mt-2" onclick="addField()">Tambah Nomor</button>
+        </div>
+
+        {{-- Google Maps --}}
+        <div class="mb-3">
+            <label for="map" class="form-label">Link Google Maps:</label>
+            <input type="text" name="map" id="map"
+                value="{{ $contact->map ?? '' }}"
+                class="form-control"
+                placeholder="Masukkan link Google Maps (contoh: https://www.google.com/maps/place/...)">
+            <small class="text-muted">
+                Cukup masukkan link Google Maps biasa, bukan link embed.
+            </small>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Simpan</button>
+    </form>
 </div>
+
+{{-- Script tambah/hapus field --}}
+<script>
+    function addField() {
+        const container = document.getElementById('whatsapp-container');
+        const div = document.createElement('div');
+        div.classList.add('d-flex', 'align-items-center', 'mb-2');
+        div.innerHTML = `
+            <input type="text" name="whatsapp[]" class="form-control me-2" placeholder="0877xxxxxxx">
+            <button type="button" class="btn btn-danger btn-sm" onclick="removeField(this)">Hapus</button>
+        `;
+        container.appendChild(div);
+    }
+
+    function removeField(button) {
+        button.parentElement.remove();
+    }
+</script>
 @endsection

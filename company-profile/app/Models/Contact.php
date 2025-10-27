@@ -11,8 +11,9 @@ class Contact extends Model
 
     protected $fillable = [
         'alamat',
-        'gambar',
         'whatsapp',
+        'map',
+        'gambar',
     ];
 
     protected $casts = [
