@@ -12,7 +12,7 @@
                 @csrf
                 <div class="row">
                     <div class="col-md-4 text-center">
-                        @if($profil->image)
+                        @if($profil && $profil->image)
                             <img src="{{ asset('storage/' . $profil->image) }}" alt="Gambar Profil" class="img-fluid rounded shadow-sm mb-2" style="max-height:200px;">
                         @else
                             <div class="border rounded p-4 text-muted">Belum ada gambar</div>
@@ -22,19 +22,18 @@
                     <div class="col-md-8">
                         <div class="mb-3">
                             <label>Judul / Nama Perusahaan</label>
-                            <input type="text" name="title" value="{{ $profil->title }}" class="form-control" required>
-                        </div>
+                            <input type="text" name="title" value="{{ $profil->title ?? '' }}" class="form-control" required>
                         <div class="mb-3">
                             <label>Tentang Kami</label>
-                            <textarea name="tentang" class="form-control" rows="3" required>{{ $profil->tentang }}</textarea>
+                            <textarea name="tentang" class="form-control">{{ $profil->tentang ?? '' }}</textarea>
                         </div>
                         <div class="mb-3">
                             <label>Visi</label>
-                            <textarea name="visi" class="form-control" rows="2">{{ $profil->visi }}</textarea>
+                            <textarea name="visi" class="form-control">{{ $profil->visi ?? '' }}</textarea>
                         </div>
                         <div class="mb-3">
                             <label>Misi</label>
-                            <textarea name="misi" class="form-control" rows="2">{{ $profil->misi }}</textarea>
+                            <textarea name="misi" class="form-control">{{ $profil->misi ?? '' }}</textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                     </div>
