@@ -1,48 +1,55 @@
-@extends('layout.app') {{-- kalau kamu punya layout utama, kalau tidak bisa hapus baris ini --}}
+@extends('layout.main') {{-- atau layouts/main.blade.php kalau kamu pakai frontend layout --}}
+@section('title', 'Profil Perusahaan')
 
 @section('content')
-<section class="py-5 text-center bg-light">
-  <div class="container">
+<section class="py-5 container">
+    {{-- Header Profil --}}
+    <div class="text-center mb-4">
+        @if($profil->image)
+            <img src="{{ asset('storage/' . $profil->image) }}" alt="Profil" class="rounded mb-3" style="max-height:200px;">
+        @endif
+        <h2>{{ $profil->title }}</h2>
+    </div>
 
-    {{-- Ambil data profil --}}
-    @php
-        $profil = App\Models\Profil::first();
-    @endphp
-
-    {{-- Gambar Profil --}}
-    @if(!empty($profil->image))
-      <img src="{{ asset('storage/'.$profil->image) }}" 
-           class="img-fluid mb-4 rounded shadow" 
-           alt="Profil" 
-           style="max-width: 350px;">
-    @endif
-
-    {{-- Judul dan Tentang --}}
-    <h2 class="fw-bold text-dark">{{ $profil->title ?? 'Tentang Kami' }}</h2>
-    <p class="mt-3 text-secondary fs-5">{{ $profil->tentang ?? 'Belum ada deskripsi.' }}</p>
+    {{-- Tentang --}}
+    <div class="mb-4">
+        <h4>Tentang Kami</h4>
+        <p>{{ $profil->tentang }}</p>
+    </div>
 
     {{-- Visi & Misi --}}
-    <div class="row mt-5 g-4 justify-content-center">
-      <div class="col-md-5">
-        <div class="p-4 bg-dark text-white rounded-3 shadow-sm h-100">
-          <h4 class="fw-bold mb-2">VISI</h4>
-          <p class="mb-0">{{ $profil->visi ?? '-' }}</p>
+    <div class="row mb-5">
+        <div class="col-md-6">
+            <h4>Visi</h4>
+            <p>{{ $profil->visi }}</p>
         </div>
-      </div>
-
-      <div class="col-md-5">
-        <div class="p-4 bg-dark text-white rounded-3 shadow-sm h-100">
-          <h4 class="fw-bold mb-2">MISI</h4>
-          <p class="mb-0">{{ $profil->misi ?? '-' }}</p>
+        <div class="col-md-6">
+            <h4>Misi</h4>
+            <p>{{ $profil->misi }}</p>
         </div>
-      </div>
     </div>
 
-    {{-- Layanan --}}
-    <div class="mt-5">
-      <h3 class="fw-bold text-dark">Layanan Kami</h3>
-      <p class="mt-2 text-secondary fs-5">{{ $profil->layanan ?? 'Belum ada layanan.' }}</p>
+    {{-- Layanan Kami --}}
+    <div class="text-center mb-5">
+        <h3>LAYANAN KAMI</h3>
+        <div class="row justify-content-center mt-4">
+            @foreach($layanans as $layanan)
+                <div class="col-md-3 mb-3">
+                    <div class="card h-100 p-3 shadow-sm">
+                        <h5 class="fw-bold">{{ $layanan->judul_layanan }}</h5>
+                        <p>{{ $layanan->deskripsi }}</p>
+                    </div>
+                </div>
+            @endforeach
+        </div>
     </div>
-  </div>
+
+    {{-- Section Tambahan --}}
+    @foreach($sections as $sec)
+        <div class="mb-5">
+            <h4>{{ strtoupper($sec->judul) }}</h4>
+            <p>{{ $sec->isi }}</p>
+        </div>
+    @endforeach
 </section>
 @endsection

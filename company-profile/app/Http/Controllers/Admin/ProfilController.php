@@ -4,40 +4,87 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Profil;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Profil;
+use App\Models\ProfilSection;
+use App\Models\Layanan;
+
 
 class ProfilController extends Controller
 {
-    public function edit()
+    public function edit($role)
     {
         $profil = Profil::first();
-        return view('dashboardadmin.profil.edit', compact('profil'));
+        $layanans = Layanan::all();
+        $sections = ProfilSection::all();
+
+        return view('dashboardadmin.profil.edit', compact('profil', 'layanans', 'sections'));
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $role)
     {
         $request->validate([
-            'title' => 'nullable|string|max:255',
-            'tentang' => 'nullable|string',
-            'visi' => 'nullable|string',
-            'misi' => 'nullable|string',
-            'layanan' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+            'title'   => 'required|string|max:255',
+            'tentang' => 'required|string',
+            'visi'    => 'required|string',
+            'misi'    => 'required|string',
+            'image'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $profil = Profil::first() ?? new Profil();
+        $profil = Profil::firstOrNew();
 
-        // upload gambar baru
+        $profil->fill($request->only(['title', 'tentang', 'visi', 'misi']));
+
         if ($request->hasFile('image')) {
-            if ($profil->image) {
+            // hapus gambar lama
+            if ($profil->image && Storage::disk('public')->exists($profil->image)) {
                 Storage::disk('public')->delete($profil->image);
             }
-            $profil->image = $request->file('image')->store('profil_images', 'public');
+            $path = $request->file('image')->store('profil', 'public');
+            $profil->image = $path;
         }
 
-        $profil->fill($request->only(['title', 'tentang', 'visi', 'misi', 'layanan']))->save();
+        $profil->save();
 
-        return redirect()->back()->with('success', 'Profil berhasil diperbarui!');
+        return back()->with('success', 'Profil berhasil diperbarui!');
+    }
+
+    public function tambahSection(Request $request, $role)
+    {
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'konten' => 'required|string',
+        ]);
+
+        ProfilSection::create([
+            'judul' => $request->judul,
+            'konten' => $request->konten,
+        ]);
+
+        return back()->with('success', 'Section berhasil ditambahkan!');
+    }
+
+    public function editSection(Request $request, $role, $id)
+    {
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'konten' => 'required|string',
+        ]);
+
+        $section = ProfilSection::findOrFail($id);
+        $section->update([
+            'judul' => $request->judul,
+            'konten' => $request->konten,
+        ]);
+
+        return back()->with('success', 'Section berhasil diperbarui!');
+    }
+
+    public function hapusSection($role, $id)
+    {
+        $section = ProfilSection::findOrFail($id);
+        $section->delete();
+
+        return back()->with('success', 'Section berhasil dihapus!');
     }
 }

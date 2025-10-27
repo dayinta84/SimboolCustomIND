@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Profil;
+use App\Models\ProfilSection;
 
 class ProfilController extends Controller
 {
