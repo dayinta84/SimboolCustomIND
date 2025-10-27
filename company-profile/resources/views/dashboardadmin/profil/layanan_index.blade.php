@@ -1,4 +1,4 @@
-@extends('layout.adminlte')
+<!-- @extends('layout.adminlte')
 @section('title', 'Kelola Layanan Kami')
 @section('sidebar')
 <ul class="nav nav-pills nav-sidebar flex-column">
@@ -89,4 +89,8 @@
         </div>
     </div>
 </div>
-@endsection
+@endsection -->
+ 
+
+
+<!-- TIDAK KEPAKE, PINDAH JADIIN SATU KE EDIT -->

@@ -13,7 +13,10 @@ class ProfilController extends Controller
     public function index()
     {
         $profil = Profil::first();
-        return view('visit.profile', compact('profil'));
+        $layanans = \App\Models\Layanan::all();
+        $sections = \App\Models\ProfilSection::all();
+
+        return view('visit.profile', compact('profil', 'layanans', 'sections'));
     }
 
     // (opsional) jika ada halaman detail profil
