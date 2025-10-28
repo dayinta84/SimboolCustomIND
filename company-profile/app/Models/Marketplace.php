@@ -13,7 +13,6 @@ class Marketplace extends Model
         'platform',
         'username',
         'followers',
-        'description',
         'link',
         'icon',
     ];

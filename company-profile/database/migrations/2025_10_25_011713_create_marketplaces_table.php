@@ -13,7 +13,6 @@ return new class extends Migration
             $table->string('platform'); // Shopee, TikTok, Instagram, Linktree
             $table->string('username')->nullable();
             $table->string('followers')->nullable();
-            $table->text('description')->nullable();
             $table->string('link')->nullable();
             $table->string('icon')->nullable(); // Simpan path gambar
             $table->timestamps();

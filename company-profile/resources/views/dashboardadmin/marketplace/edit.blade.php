@@ -34,10 +34,6 @@
                         <label class="form-label">Link</label>
                         <input type="url" name="link" class="form-control" placeholder="https://...">
                     </div>
-                    <div class="col-md-12 mb-3">
-                        <label class="form-label">Deskripsi</label>
-                        <textarea name="description" class="form-control" rows="2" placeholder="Deskripsi singkat akun..."></textarea>
-                    </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Icon (Logo Platform)</label>
                         <input type="file" name="icon" class="form-control">
@@ -60,7 +56,6 @@
                         <th>Platform</th>
                         <th>Username</th>
                         <th>Followers</th>
-                        <th>Deskripsi</th>
                         <th>Link</th>
                         <th>Icon</th>
                         <th>Aksi</th>
@@ -73,7 +68,6 @@
                             <td>{{ $market->platform }}</td>
                             <td>{{ $market->username }}</td>
                             <td>{{ $market->followers }}</td>
-                            <td>{{ $market->description }}</td>
                             <td>
                                 @if($market->link)
                                     <a href="{{ $market->link }}" target="_blank">Kunjungi</a>
@@ -85,10 +79,16 @@
                                 @endif
                             </td>
                             <td>
-                                <form action="{{ route('admin.marketplace.destroy', ['role' => Auth::user()->role, 'id' => $market->id]) }}" method="POST" class="d-inline">
+                                {{-- Tombol Edit --}}
+                               <a href="{{ route('admin.marketplace.edit.single', ['role' => Auth::user()->role, 'id' => $market->id]) }}" 
+                                    class="btn btn-warning btn-sm">Edit</a>
+                                {{-- Tombol Hapus --}}
+                                <form action="{{ route('admin.marketplace.destroy', ['role' => Auth::user()->role, 'id' => $market->id]) }}" 
+                                      method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">
+                                    <button type="submit" class="btn btn-danger btn-sm" 
+                                            onclick="return confirm('Yakin ingin menghapus?')">
                                         Hapus
                                     </button>
                                 </form>
