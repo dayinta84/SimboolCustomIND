@@ -90,8 +90,8 @@
 
     <!-- Sidebar -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        <a href="{{ url('/dashboard') }}" class="brand-link text-center">
-            <span class="brand-text font-weight-light">Company Profile</span>
+        <a class="brand-link text-center">
+            <span class="brand-text font-weight-light">Simbool Custom</span>
         </a>
 
         <div class="sidebar">
@@ -100,48 +100,48 @@
 
                     <!-- Menu Umum (Semua User) -->
                     <li class="nav-item">
-                        <a href="{{ url('/dashboard') }}" 
-                           class="nav-link {{ request()->is('dashboard') ? 'active' : '' }}">
+                        <a href="{{ url(Auth::user()->role . '/dashboard') }}" 
+                           class="nav-link {{ request()->is(Auth::user()->role . '/dashboard') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-home"></i>
                             <p>Dashboard</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ url('/superadmin/homecontent/edit') }}" 
-                           class="nav-link {{ request()->is('superadmin/homecontent*') ? 'active' : '' }}">
+                        <a href="{{ url(Auth::user()->role . '/home_content/edit') }}" 
+                           class="nav-link {{ request()->is(Auth::user()->role . '/beranda*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-edit"></i>
                             <p>Kelola Beranda</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ url('/product/edit') }}" 
-                           class="nav-link {{ request()->is('product*') ? 'active' : '' }}">
+                        <a href="{{ url(Auth::user()->role . '/product/edit') }}" 
+                           class="nav-link {{ request()->is(Auth::user()->role . '/product*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-box"></i>
                             <p>Kelola Produk</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ url('/superadmin/marketplace') }}" 
-                           class="nav-link {{ request()->is('superadmin/marketplace*') ? 'active' : '' }}">
+                        <a href="{{ url(Auth::user()->role . '/marketplace/edit') }}" 
+                           class="nav-link {{ request()->is(Auth::user()->role . '/marketplace*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-store"></i>
                             <p>Kelola Marketplace</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ url('/contact/edit') }}" 
-                           class="nav-link {{ request()->is('contact*') ? 'active' : '' }}">
+                        <a href="{{ url(Auth::user()->role . '/contact/edit') }}" 
+                           class="nav-link {{ request()->is(Auth::user()->role . '/contact*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-envelope"></i>
                             <p>Kelola Kontak</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ url('/superadmin/profil/edit') }}" 
-                           class="nav-link {{ request()->is('profil*') ? 'active' : '' }}">
+                        <a href="{{ url(Auth::user()->role . '/profil/edit') }}" 
+                           class="nav-link {{ request()->is(Auth::user()->role . '/profil*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-user"></i>
                             <p>Kelola Profil</p>
                         </a>

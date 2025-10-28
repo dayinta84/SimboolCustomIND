@@ -172,6 +172,14 @@ Route::middleware(['auth'])->group(function () {
         ->where('role', 'admin|superadmin')
         ->name('admin.marketplace.destroy');
 
+    Route::get('/{role}/marketplace/edit/{id}', [App\Http\Controllers\MarketplaceController::class, 'edit'])
+        ->where('role', 'admin|superadmin')
+        ->name('admin.marketplace.edit.single');
+
+    Route::post('/{role}/marketplace/update/{id}', [App\Http\Controllers\MarketplaceController::class, 'update'])
+        ->where('role', 'admin|superadmin')
+        ->name('admin.marketplace.update');
+
 
 
 
