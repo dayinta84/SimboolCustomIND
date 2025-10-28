@@ -14,8 +14,9 @@ return new class extends Migration
             $table->text('tentang')->nullable();      // Tentang kami
             $table->text('visi')->nullable();         // Visi
             $table->text('misi')->nullable();         // Misi
-            $table->text('layanan')->nullable();      // Layanan
+            //$table->text('layanan')->nullable();      // Layanan
             $table->string('image')->nullable();      // Gambar profil
+            $table->string('image_tentang')->nullable(); // Gambar tentang kami
             $table->timestamps();
         });
     }

@@ -14,7 +14,8 @@ class Profil extends Model
         'tentang',
         'visi',
         'misi',
-        'layanan',
+        // 'layanan',
         'image',
+        'image_tentang',
     ];
 }

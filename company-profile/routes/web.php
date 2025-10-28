@@ -7,7 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\MarketplaceController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\AboutController;
+// use App\Http\Controllers\AboutController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\Admin\ProfilController;
 
@@ -25,7 +25,7 @@ use App\Http\Controllers\Admin\ProfilController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
-Route::get('/about', [AboutController::class, 'index'])->name('about.index');
+// Route::get('/about', [AboutController::class, 'index'])->name('about.index');
 Route::get('/contact', [ContactController::class, 'frontendIndex'])->name('contact.index');
 Route::get('/contact/{contact}', [ContactController::class, 'show'])->name('contact.show');
 Route::get('/marketplace', [MarketplaceController::class, 'index'])->name('marketplace.index');
@@ -113,21 +113,21 @@ Route::middleware(['auth'])->group(function () {
         ->name('admin.contact.updatepage');
 
     // Kelola halaman profil
-    Route::get('/{role}/profil/edit', [App\Http\Controllers\Admin\ProfilController::class, 'edit'])
+    Route::get('/{role}/profil/edit', [ProfilController::class, 'edit'])
         ->where('role', 'admin|superadmin')
         ->name('profil.edit');
-    Route::post('/{role}/profil/update', [App\Http\Controllers\Admin\ProfilController::class, 'update'])
+    Route::put('/{role}/profil/update', [ProfilController::class, 'update'])
         ->where('role', 'admin|superadmin')
         ->name('profil.update');
 
     // Bagian tambahan ProfilSection
-    Route::post('/profil/{role}/tambah-section', [ProfilController::class, 'tambahSection'])
+    Route::post('/{role}/profil/tambah-section', [ProfilController::class, 'tambahSection'])
         ->where('role', 'admin|superadmin')
         ->name('profil.tambahSection');
-    Route::put('/profil/{role}/edit-section/{id}', [ProfilController::class, 'editSection'])
+    Route::put('/{role}/profil/edit-section/{id}', [ProfilController::class, 'editSection'])
         ->where('role', 'admin|superadmin')
         ->name('profil.editSection');
-    Route::delete('/profil/{role}/hapus-section/{id}', [ProfilController::class, 'hapusSection'])
+    Route::delete('/{role}/profil/hapus-section/{id}', [ProfilController::class, 'hapusSection'])
         ->where('role', 'admin|superadmin')
         ->name('profil.hapusSection');
 
@@ -146,15 +146,15 @@ Route::middleware(['auth'])->group(function () {
         ->name('layanan.destroy');
 
     // Bagian layanan edit
-    Route::post('/profil/{role}/tambah-layanan', [ProfilController::class, 'tambahLayanan'])
+    Route::post('/{role}/profil/tambah-layanan', [ProfilController::class, 'tambahLayanan'])
         ->where('role', 'admin|superadmin')
         ->name('layanan.store');
 
-    Route::put('/profil/{role}/edit-layanan/{id}', [ProfilController::class, 'editLayanan'])
-        ->where('role', 'admin|superadmin')
-        ->name('layanan.update');
+    // Route::put('/{role}/profil/edit-layanan/{id}', [ProfilController::class, 'editLayanan'])
+    //     ->where('role', 'admin|superadmin')
+    //     ->name('layanan.update');
 
-    Route::delete('/profil/{role}/hapus-layanan/{id}', [ProfilController::class, 'hapusLayanan'])
+    Route::delete('/{role}/profil/hapus-layanan/{id}', [ProfilController::class, 'hapusLayanan'])
         ->where('role', 'admin|superadmin')
         ->name('layanan.destroy');
 

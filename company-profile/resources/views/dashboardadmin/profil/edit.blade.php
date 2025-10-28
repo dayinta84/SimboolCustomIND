@@ -8,21 +8,45 @@
     {{-- Gambar Profil --}}
     <div class="card mb-4">
         <div class="card-body">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <form action="{{ route('profil.update', ['role' => Auth::user()->role]) }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                @method('PUT')
                 <div class="row">
                     <div class="col-md-4 text-center">
+                        {{-- Gambar Profil --}}
                         @if($profil && $profil->image)
                             <img src="{{ asset('storage/' . $profil->image) }}" alt="Gambar Profil" class="img-fluid rounded shadow-sm mb-2" style="max-height:200px;">
                         @else
                             <div class="border rounded p-4 text-muted">Belum ada gambar</div>
                         @endif
                         <input type="file" name="image" class="form-control mt-2">
+
+                        {{-- Gambar Tentang Kami --}}
+                        <div class="mb-3 mt-4 text-left">
+                            <label>Gambar Tentang Kami</label> <br>
+                            @if($profil && $profil->image_tentang)
+                                <img src="{{ asset('storage/' . $profil->image_tentang) }}" class="img-fluid mb-2" style="max-height:150px;">
+                            @endif
+                            <input type="file" name="image_tentang" class="form-control">
+                        </div>
                     </div>
+
+                    {{-- Kolom Kanan --}}
                     <div class="col-md-8">
                         <div class="mb-3">
                             <label>Judul / Nama Perusahaan</label>
                             <input type="text" name="title" value="{{ $profil->title ?? '' }}" class="form-control" required>
+                        </div>
                         <div class="mb-3">
                             <label>Tentang Kami</label>
                             <textarea name="tentang" class="form-control">{{ $profil->tentang ?? '' }}</textarea>
@@ -46,7 +70,6 @@
     <div class="card mt-4">
         <div class="card-header">
             <h5 class="mb-0 d-inline">Layanan Kami</h5>
-            <!-- 🔧 ubah data-bs ke data- -->
             <button class="btn btn-success btn-sm float-right" data-toggle="collapse" data-target="#tambahLayanan">+ Tambah</button>
         </div>
         <div class="collapse p-3" id="tambahLayanan">
@@ -98,12 +121,12 @@
     <div class="card mt-4">
         <div class="card-header">
             <h5 class="mb-0 d-inline">Section Tambahan</h5>
-            <!-- 🔧 ubah data-bs ke data- -->
             <button class="btn btn-success btn-sm float-right" data-toggle="collapse" data-target="#tambahSection">+ Tambah</button>
         </div>
         <div class="collapse p-3" id="tambahSection">
-            <form action="{{ route('profil.tambahSection', ['role' => Auth::user()->role]) }}" method="POST">
+            <form action="{{ route('profil.tambahSection', ['role' => Auth::user()->role]) }}" method="POST" id="sectionForm">
                 @csrf
+                <input type="hidden" name="_method" value="POST" id="sectionMethod">
                 <div class="row">
                     <div class="col-md-4">
                         <input type="text" name="judul" class="form-control" placeholder="Judul Section" required>
@@ -113,6 +136,7 @@
                     </div>
                     <div class="col-md-1">
                         <button class="btn btn-primary">Simpan</button>
+                        <!-- <button type="button" class="btn btn-secondary" onclick="resetSectionForm()">Batal</button> -->
                     </div>
                 </div>
             </form>
@@ -140,48 +164,122 @@
                             </form>
                         </td>
                     </tr>
-
-
-                    <script>
-                    function editLayanan(btn) {
-                        const id = btn.dataset.id;
-                        const judul = btn.dataset.judul;
-                        const deskripsi = btn.dataset.deskripsi;
-
-                        const form = document.querySelector('#tambahLayanan form');
-                        form.action = `/profil/{{ Auth::user()->role }}/edit-layanan/${id}`;
-                        form.querySelector('input[name="judul"]').value = judul;
-                        form.querySelector('textarea[name="deskripsi"]').value = deskripsi;
-
-                        // 🔽 Tambahkan ini
-                        form.querySelector('input[name="_method"]')?.remove();
-                        form.insertAdjacentHTML('beforeend', '<input type="hidden" name="_method" value="PUT">');
-
-                        document.querySelector('#tambahLayanan').classList.add('show');
-                    }
-
-                    function editSection(btn) {
-                        const id = btn.dataset.id;
-                        const judul = btn.dataset.judul;
-                        const isi = btn.dataset.isi;
-
-                        const form = document.querySelector('#tambahSection form');
-                        form.action = `/profil/{{ Auth::user()->role }}/edit-section/${id}`;
-                        form.querySelector('input[name="judul"]').value = judul;
-                        form.querySelector('textarea[name="isi"]').value = isi;
-
-                        // 🔽 Tambahkan ini juga
-                        form.querySelector('input[name="_method"]')?.remove();
-                        form.insertAdjacentHTML('beforeend', '<input type="hidden" name="_method" value="PUT">');
-
-                        document.querySelector('#tambahSection').classList.add('show');
-                    }
-                    </script>
-
                 @endforeach
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+{{-- ================== SCRIPT ================== --}}
+<script>
+function editLayanan(btn) {
+    const id = btn.dataset.id;
+    const judul = btn.dataset.judul;
+    const deskripsi = btn.dataset.deskripsi;
+
+    const form = document.querySelector('#tambahLayanan form');
+    form.action = "{{ route('layanan.update', ['role' => Auth::user()->role, 'id' => ':id']) }}".replace(':id', id);
+    
+    form.querySelector('input[name="judul"]').value = judul;
+    form.querySelector('textarea[name="deskripsi"]').value = deskripsi;
+
+    // form.querySelector('input[name="judul"]').value = judul;
+    // form.querySelector('textarea[name="deskripsi"]').value = deskripsi;
+
+    // form.querySelector('input[name="_method"]')?.remove();
+    // form.insertAdjacentHTML('beforeend', '<input type="hidden" name="_method" value="PUT">');
+
+    document.querySelector('#tambahLayanan').classList.add('show');
+}
+
+function editSection(btn) {
+    const id = btn.dataset.id;
+    const judul = btn.dataset.judul;
+    const isi = btn.dataset.isi;
+
+    const form = document.getElementById('sectionForm');
+    const methodInput = document.getElementById('sectionMethod');
+
+    // const form = document.querySelector('#tambahSection form');
+    // const methodInput = document.getElementById('sectionMethod');
+
+    form.action = "{{ route('profil.editSection', ['role' => Auth::user()->role, 'id' => ':id']) }}".replace(':id', id);
+    methodInput.value = 'PUT';
+
+    form.querySelector('input[name="judul"]').value = judul;
+    form.querySelector('textarea[name="isi"]').value = isi;
+
+    form.querySelector('input[name="_method"]')?.remove();
+    form.insertAdjacentHTML('beforeend', '<input type="hidden" name="_method" value="PUT">');
+
+    document.querySelector('#tambahSection').classList.add('show');
+}
+
+// Fungsi untuk reset form ke mode tambah
+function resetSectionForm() {
+    const form = document.getElementById('sectionForm');
+    const methodInput = document.getElementById('sectionMethod');
+    
+    form.action = "{{ route('profil.tambahSection', ['role' => Auth::user()->role]) }}";
+    methodInput.value = 'POST';
+    
+    form.querySelector('input[name="judul"]').value = '';
+    form.querySelector('textarea[name="isi"]').value = '';
+
+    // // Hapus method input jika ada (untuk mencegah konflik)
+    // const existingMethod = form.querySelector('input[name="_method"][value="PUT"]');
+    // if (existingMethod) {
+    //     existingMethod.remove();
+    // }
+}
+
+
+// ======== Preview Gambar Otomatis ========
+document.addEventListener('DOMContentLoaded', function() {
+    // Preview gambar utama
+    const imageInput = document.querySelector('input[name="image"]');
+    const imagePreview = document.querySelector('img[alt="Gambar Profil"]');
+
+    if (imageInput) {
+        imageInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    if (imagePreview) {
+                        imagePreview.src = event.target.result;
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    // Preview gambar tentang kami
+    const imageTentangInput = document.querySelector('input[name="image_tentang"]');
+    const imageTentangPreview = document.querySelector('img[src*="storage/"][class="img-fluid mb-2"]');
+
+    if (imageTentangInput) {
+        imageTentangInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    if (imageTentangPreview) {
+                        imageTentangPreview.src = event.target.result;
+                    } else {
+                        const newImg = document.createElement('img');
+                        newImg.src = event.target.result;
+                        newImg.classList.add('img-fluid', 'mb-2');
+                        newImg.style.maxHeight = '150px';
+                        imageTentangInput.insertAdjacentElement('beforebegin', newImg);
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+});
+</script>
 @endsection
