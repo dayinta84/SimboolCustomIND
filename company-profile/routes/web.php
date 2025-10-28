@@ -178,7 +178,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     //recources lainnya
-    Route::resource('/profile', \App\Http\Controllers\ProfilController::class);
+    Route::resource('/profile', \App\Http\Controllers\ProfilController::class); //link tampilan pengunjung
     Route::resource('/product', \App\Http\Controllers\ProductController::class);
    
     
