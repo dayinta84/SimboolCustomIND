@@ -7,7 +7,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\MarketplaceController;
 use App\Http\Controllers\ContactController;
-// use App\Http\Controllers\AboutController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\Admin\ProfilController;
 
@@ -17,21 +16,16 @@ use App\Http\Controllers\Admin\ProfilController;
 | Halaman Depan (Pengunjung)
 |--------------------------------------------------------------------------
 */
-// Route::get('/', function () {
-//     return view('welcome');
-// })->name('home');
-
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
-// Route::get('/about', [AboutController::class, 'index'])->name('about.index');
 Route::get('/contact', [ContactController::class, 'frontendIndex'])->name('contact.index');
 Route::get('/contact/{contact}', [ContactController::class, 'show'])->name('contact.show');
 Route::get('/marketplace', [MarketplaceController::class, 'index'])->name('marketplace.index');
 Route::get('/marketplace/{marketplace}', [MarketplaceController::class, 'show'])->name('marketplace.show');
-Route::get('/profile', [ProfilController::class, 'index'])->name('profile.index');
-Route::get('/profile/{profile}', [ProfilController::class, 'show'])->name('profile.show');
+Route::get('/profile', [\App\Http\Controllers\ProfilController::class, 'index'])->name('profile.index');
+Route::get('/profile/{profile}', [\App\Http\Controllers\ProfilController::class, 'show'])->name('profile.show');
 
 
 /*
@@ -182,12 +176,8 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-
-
-
     //recources lainnya
-    Route::resource('/profile', \App\Http\Controllers\ProfilController::class); //link tampilan pengunjung
-    Route::resource('/product', \App\Http\Controllers\ProductController::class);
+    //Route::resource('/product', \App\Http\Controllers\ProductController::class);
    
     
     // ============================
@@ -206,10 +196,6 @@ Route::middleware(['auth'])->group(function () {
     });
     
 });
-
-
-
-
 
 
 // routes untuk admin mengelola konten homepage

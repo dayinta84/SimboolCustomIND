@@ -83,22 +83,6 @@ class ProfilController extends Controller
         return back()->with('success', 'Layanan berhasil ditambahkan!');
     }
 
-    // Edit layanan
-    // public function editLayanan(Request $request, $role, $id)
-    // {
-    //     $request->validate([
-    //         'judul' => 'required|string|max:255',
-    //         'deskripsi' => 'required|string',
-    //     ]);
-
-    //     $layanan = Layanan::findOrFail($id);
-    //     $layanan->update([
-    //         'judul' => $request->judul,
-    //         'deskripsi' => $request->deskripsi,
-    //     ]);
-
-    //     return back()->with('success', 'Layanan berhasil diperbarui!');
-    // }
 
     public function hapusLayanan($role, $id)
     {
