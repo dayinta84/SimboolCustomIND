@@ -21,7 +21,7 @@
                         <li><a href="{{ url('/') }}" class="footer-link">Home</a></li>
                         <li><a href="{{ url('/produk') }}" class="footer-link">Produk</a></li>
                         <li><a href="{{ url('/profile') }}" class="footer-link">Profile</a></li>
-                        <li><a href="{{ url('/kontak') }}" class="footer-link">Kontak</a></li>
+                        <li><a href="{{ url('/contact') }}" class="footer-link">Kontak</a></li>
                     </ul>
                 </div>
 
@@ -29,8 +29,8 @@
                 <div class="col-md-2 d-flex flex-column justify-content-start">
                     <p class="fw-semibold mb-2">Marketplace</p>
                     <ul class="list-unstyled small mb-0">
-                        <li><a href="#" class="footer-link">Tiktok</a></li>
-                        <li><a href="#" class="footer-link">Shopee</a></li>
+                        <li><a href="https://www.tiktok.com/@simboolcustom.ind" class="footer-link">Tiktok</a></li>
+                        <li><a href="https://shopee.co.id/simboolcustom.ind" class="footer-link">Shopee</a></li>
                     </ul>
                 </div>
 

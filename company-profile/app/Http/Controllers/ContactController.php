@@ -54,7 +54,7 @@ class ContactController extends Controller
         'whatsapp' => 'array',
         'whatsapp.*' => 'nullable|string|max:13',
         'map' => 'nullable|string',
-        'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:10240',
     ]);
 
     // Ambil data pertama, atau buat baru jika belum ada

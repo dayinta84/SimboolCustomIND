@@ -12,11 +12,11 @@
       <!-- Menu -->
       <nav class="nav-menu" id="navMenu">
         <ul>
-          <li><a href="#">Beranda</a></li>
-          <li><a href="#">Produk</a></li>
-          <li><a href="#">Marketplace</a></li>
-          <li><a href="#">Kontak</a></li>
-          <li><a href="#">Profile</a></li>
+          <li><a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Beranda</a></li>
+          <li><a href="{{ route('products.index') }}" class="{{ request()->routeIs('products.*') ? 'active' : '' }}">Produk</a></li>
+          <li><a href="{{ route('marketplace.index') }}" class="{{ request()->routeIs('marketplace.*') ? 'active' : '' }}">Marketplace</a></li>
+          <li><a href="{{ route('contact.index') }}" class="{{ request()->routeIs('contact.*') ? 'active' : '' }}">Kontak</a></li>
+          <li><a href="{{ route('profile.index') }}" class="{{ request()->routeIs('profile.*') ? 'active' : '' }}">Profil</a></li>
         </ul>
       </nav>
     </div>
