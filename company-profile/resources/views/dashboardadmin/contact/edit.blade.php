@@ -2,37 +2,6 @@
 
 @section('title', 'Edit Halaman Kontak')
 
-@section('sidebar')
-<nav class="mt-2">
-    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
-        <li class="nav-item">
-            <a href="{{ route('admin.dashboard') }}" class="nav-link">
-                <i class="nav-icon fas fa-home"></i>
-                <p>Dashboard</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('admin.contact.editpage', ['role' => Auth::user()->role]) }}" class="nav-link active">
-                <i class="nav-icon fas fa-address-book"></i>
-                <p>Kelola Kontak</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('profil.edit', ['role' => Auth::user()->role]) }}" class="nav-link">
-                <i class="nav-icon fas fa-user"></i>
-                <p>Profil</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('product.index') }}" class="nav-link">
-                <i class="nav-icon fas fa-box"></i>
-                <p>Produk</p>
-            </a>
-        </li>
-    </ul>
-</nav>
-@endsection
-
 @section('content')
 <div class="container mt-5">
     <h2>Edit Kontak</h2>
