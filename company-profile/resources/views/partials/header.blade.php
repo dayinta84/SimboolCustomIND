@@ -21,46 +21,61 @@
       </nav>
     </div>
   </div>
+
+  <!-- Garis animasi di bawah header -->
+  <div class="header-bottom-gradient"></div>
 </header>
 
 <style>
+/* ===== HEADER BASE ===== */
 .header {
-  background: #111;
-  color: white;
-  width: 100%;
   position: sticky;
   top: 0;
+  width: 100%;
   z-index: 999;
-  border-bottom: 3px solid transparent;
-  background-image: linear-gradient(#111, #111),
-                    linear-gradient(90deg, #d000ff, #00d4ff);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
+  background: radial-gradient(circle at top left, #0e0e0e, #111);
+  color: #fff;
+  overflow: hidden;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+  animation: fadeInHeader 1s ease-in-out;
 }
 
+/* Garis gradient bergerak di BAWAH header */
+.header-bottom-gradient {
+  height: 4px;
+  width: 100%;
+  background: linear-gradient(90deg, #d000ff, #6a00ff, #00d4ff, #d000ff);
+  background-size: 300% 300%;
+  animation: gradientFlow 6s ease infinite;
+}
 
+/* Container */
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 12px 20px;
+  padding: 14px 20px;
 }
 
+/* Header content */
 .header-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+/* Logo */
 .header-logo .logo {
   max-height: 55px;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  filter: drop-shadow(0 0 8px rgba(208, 0, 255, 0.3));
 }
 
 .header-logo .logo:hover {
   transform: scale(1.05);
+  filter: drop-shadow(0 0 12px rgba(208, 0, 255, 0.5));
 }
 
-/* MENU */
+/* ===== MENU ===== */
 .nav-menu ul {
   list-style: none;
   display: flex;
@@ -75,22 +90,44 @@
   text-decoration: none;
   font-weight: 600;
   letter-spacing: 0.4px;
-  transition: color 0.3s ease, border-color 0.3s ease;
   border-bottom: 2px solid transparent;
   padding-bottom: 4px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+/* Efek animasi underline seperti footer link */
+.nav-menu ul li a::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: -3px;
+  left: 0;
+  background: linear-gradient(90deg, #d000ff, #00d4ff);
+  transition: width 0.3s ease;
 }
 
 .nav-menu ul li a:hover {
-  color: #fff;
-  border-color: #c400ff;
+  color: #00d4ff;
+  text-shadow: 0 0 6px #00d4ff;
+}
+
+.nav-menu ul li a:hover::after {
+  width: 100%;
 }
 
 .nav-menu ul li a.active {
   color: #fff;
-  border-color: #c400ff;
+  text-shadow: 0 0 6px #d000ff;
+  border-color: transparent;
 }
 
-/* TOGGLE MENU */
+.nav-menu ul li a.active::after {
+  width: 100%;
+}
+
+/* ===== TOGGLE MENU ===== */
 .menu-toggle {
   display: none;
   font-size: 28px;
@@ -98,17 +135,17 @@
   color: white;
 }
 
-/* RESPONSIVE */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .nav-menu {
     display: none;
     position: absolute;
     top: 100%;
     left: 0;
-    background: #111;
+    background: #0e0e0e;
     width: 100%;
     border-top: 1px solid #333;
-    animation: fadeIn 0.3s ease;
+    animation: fadeInNav 0.3s ease;
   }
 
   .nav-menu.active {
@@ -126,10 +163,22 @@
     display: block;
   }
 
-  @keyframes fadeIn {
+  @keyframes fadeInNav {
     from {opacity: 0; transform: translateY(-10px);}
     to {opacity: 1; transform: translateY(0);}
   }
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes fadeInHeader {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>
 

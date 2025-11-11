@@ -20,6 +20,7 @@
                     <ul class="list-unstyled small mb-0">
                         <li><a href="{{ url('/') }}" class="footer-link">Home</a></li>
                         <li><a href="{{ url('/produk') }}" class="footer-link">Produk</a></li>
+                        <li><a href="{{ url('/marketplace') }}" class="footer-link">Marketplace</a></li>
                         <li><a href="{{ url('/profile') }}" class="footer-link">Profile</a></li>
                         <li><a href="{{ url('/contact') }}" class="footer-link">Kontak</a></li>
                     </ul>
@@ -38,8 +39,21 @@
                 <div class="col-md-2">
                     <p class="fw-semibold mb-2">Kontak</p>
                     <ul class="list-unstyled small mb-0">
-                        <li class="footer-item">+62 857-3509-3369</li>
-                        <li class="footer-item">info@simboolcustom.ind</li>
+                        <li class="footer-item">
+                            <a href="https://wa.me/6285931200646" target="_blank" class="footer-link">
+                                +62 859-3120-0646
+                            </a>
+                            </li>
+                            <li class="footer-item">
+                            <a href="https://wa.me/6289617024003" target="_blank" class="footer-link">
+                                +62 896-1702-4003
+                            </a>
+                            </li>
+                            <li class="footer-item">
+                            <a href="https://wa.me/62895410286959" target="_blank" class="footer-link">
+                                +62 895-4102-86959
+                            </a>
+                        </li>
                     </ul>
                 </div>
 
