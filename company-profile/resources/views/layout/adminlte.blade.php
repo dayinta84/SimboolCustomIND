@@ -116,8 +116,8 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ url(Auth::user()->role . '/product/edit') }}" 
-                           class="nav-link {{ request()->is(Auth::user()->role . '/product*') ? 'active' : '' }}">
+                        <a href="{{ url(Auth::user()->role . '/products') }}" 
+                           class="nav-link {{ request()->is(Auth::user()->role . '/products*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-box"></i>
                             <p>Kelola Produk</p>
                         </a>
