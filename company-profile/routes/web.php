@@ -136,10 +136,10 @@ Route::middleware(['auth'])->group(function () {
             Route::resource('products', ProductController::class)->names('admin.products');
         });
 
-    // KHUSUS ADMIN
-    Route::prefix('admin')->middleware('auth')->group(function () {
-        Route::resource('products', ProductController::class)->names('admin.products');
-    });
+    // // KHUSUS ADMIN
+    // Route::prefix('admin')->middleware('auth')->group(function () {
+    //     Route::resource('products', ProductController::class)->names('admin.products');
+    // });
 
 
     // ============================

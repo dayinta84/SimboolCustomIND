@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+<!-- @extends('layouts.dashboard')
 
 @section('content')
 <div class="container">
@@ -39,4 +39,4 @@
         </tbody>
     </table>
 </div>
-@endsection
+@endsection -->

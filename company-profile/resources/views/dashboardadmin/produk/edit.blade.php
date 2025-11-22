@@ -22,14 +22,14 @@
         </div>
     @endif
 
-
-    {{-- ============================ FORM TAMBAH / EDIT ============================ --}}
+    {{-- ================= FORM TAMBAH / EDIT ================= --}}
     <div class="card">
         <div class="card-body">
 
-            <form action="{{ isset($product) 
-                ? route('admin.products.update', $product->id) 
-                : route('admin.products.store') }}" 
+            <form 
+                action="{{ isset($product) 
+                    ? route('admin.products.update', ['role' => request()->route('role'), 'product' => $product->id]) 
+                    : route('admin.products.store', ['role' => request()->route('role')]) }}"
                 method="POST" enctype="multipart/form-data">
 
                 @csrf
@@ -73,7 +73,6 @@
                                 <option value="Sablon Kaos" {{ old('category', $product->category ?? '')=='Sablon Kaos'?'selected':'' }}>Sablon Kaos</option>
                                 <option value="Sticker" {{ old('category', $product->category ?? '')=='Sticker'?'selected':'' }}>Sticker</option>
                                 <option value="Striping" {{ old('category', $product->category ?? '')=='Striping'?'selected':'' }}>Striping</option>
-                                <!-- <option value="Lainnya" {{ old('category', $product->category ?? '')=='Lainnya'?'selected':'' }}>Lainnya</option> -->
                             </select>
                         </div>
 
@@ -94,8 +93,7 @@
         </div>
     </div>
 
-
-    {{-- ============================ TABEL PRODUK ============================ --}}
+    {{-- ================= TABEL PRODUK ================= --}}
     <div class="card mt-4">
         <div class="card-header"><strong>Daftar Produk</strong></div>
 
@@ -130,10 +128,14 @@
                             <td>{{ $p->description }}</td>
 
                             <td>
-                                <a href="{{ route('admin.products.edit', $p->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="{{ route('admin.products.edit', ['role' => request()->route('role'), 'product' => $p->id]) }}" 
+                                   class="btn btn-warning btn-sm">Edit</a>
 
-                                <form action="{{ route('admin.products.destroy', $p->id) }}" method="POST" style="display:inline">
-                                    @csrf @method('DELETE')
+                                <form 
+                                    action="{{ route('admin.products.destroy', ['role' => request()->route('role'), 'product' => $p->id]) }}" 
+                                    method="POST" style="display:inline">
+                                    @csrf
+                                    @method('DELETE')
                                     <button class="btn btn-danger btn-sm" onclick="return confirm('Hapus produk ini?')">Hapus</button>
                                 </form>
                             </td>

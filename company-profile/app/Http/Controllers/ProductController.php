@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -35,7 +36,7 @@ class ProductController extends Controller
     // ========================
     //  ADMIN CRUD
     // ========================
-    public function index()
+    public function index($role)
     {
         $products = Product::latest()->get();
         return view('dashboardadmin.produk.edit', compact('products'));
@@ -65,13 +66,13 @@ class ProductController extends Controller
         return back()->with('success', 'Produk berhasil ditambahkan');
     }
 
-    public function edit(Product $product)
+    public function edit($role, Product $product)
     {
         $products = Product::latest()->get();
         return view('dashboardadmin.produk.edit', compact('product','products'));
     }
 
-    public function update(Request $request, Product $product)
+    public function update(Request $request, $role, Product $product)
     {
         $request->validate([
             'name'        => 'required|max:255',
@@ -81,24 +82,30 @@ class ProductController extends Controller
         ]);
 
         if($request->hasFile('image')){
-            Storage::delete('public/'.$product->image);
+            if ($product->image) {
+                Storage::delete('public/'.$product->image);
+            }
             $product->image = $request->file('image')->store('products', 'public');
         }
 
-        $product->name        = $request->name;
-        $product->description = $request->description;
-        $product->category    = $request->category;
-        $product->save();
+        $product->update([
+            'name'        => $request->name,
+            'description' => $request->description,
+            'category'    => $request->category,
+        ]);
 
-        return redirect()->route('admin.products.index')->with('success','Produk diperbarui');
+        return redirect()->route('admin.products.index', ['role' => $role])
+            ->with('success','Produk diperbarui');
     }
 
-    public function destroy(Product $product)
+    public function destroy($role, Product $product)
     {
-        Storage::delete('public/'.$product->image);
+        if ($product->image) {
+            Storage::delete('public/'.$product->image);
+        }
 
         $product->delete();
 
-        return back()->with('success','Produk berhasil dihapus');
+        return back()->with('success', 'Produk berhasil dihapus');
     }
 }
