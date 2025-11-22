@@ -1,94 +1,178 @@
 @extends('layout.main')
 
-@section('title', 'Home - SIMBOOL CUSTOM INDUSTRIES')
-
 @section('content')
-    {{-- Hero Section --}}
-    <section class="hero text-center py-5" style="background-color: #f8f9fa;">
-        <div class="container">
-            <h1 class="fw-bold text-uppercase" style="color:#f72585;">
-                SIMBOOL CUSTOM INDUSTRIES
-            </h1>
-            <p class="lead text-dark mb-4">
-                Digital Printing and Everything<br>
-                <span class="fw-semibold">Build for Quality</span>
-            </p>
 
-            <div class="hero-images d-flex justify-content-center flex-wrap gap-4">
-                <img src="{{ asset('images/hero_printing.png') }}" alt="Printing" style="height:130px;">
-                <img src="{{ asset('images/hero_design.png') }}" alt="Design" style="height:130px;">
-                <img src="{{ asset('images/hero_fashion.png') }}" alt="Fashion" style="height:130px;">
-                <img src="{{ asset('images/hero_handprint.png') }}" alt="Handprint" style="height:130px;">
+<style>
+    /* ==== HERO + SLIDER BACKGROUND ==== */
+    .hero-banner {
+        position: relative;
+        width: 100%;
+        height: 380px;
+        overflow: hidden;
+    }
+
+    .hero-banner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(70%);
+    }
+
+    .hero-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: white;
+        z-index: 10;
+    }
+
+    .hero-text h1 {
+        font-size: 40px;
+        font-weight: 800;
+        text-shadow: 0 3px 10px rgba(0, 0, 0, .7);
+    }
+
+    .hero-text h3 {
+        font-size: 22px;
+        margin-top: 10px;
+        font-weight: 600;
+        text-shadow: 0 3px 8px rgba(0, 0, 0, .7);
+    }
+
+    /* ==== Swiper ==== */
+    .swiper-slide img {
+        width: 100%;
+        height: 380px;
+        object-fit: cover;
+    }
+
+    /* ==== LAYANAN ==== */
+    .layanan-box {
+        border: 2px solid #E639E6;
+        background: #fff;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        transition: .3s;
+    }
+
+    .layanan-box:hover {
+        transform: scale(1.05);
+    }
+</style>
+
+
+<div class="container-fluid px-0">
+
+    {{-- ======================================
+         HERO (Judul di atas slider)
+    ======================================= --}}
+    <div class="hero-banner">
+
+        {{-- TEXT DI ATAS SLIDER --}}
+        <div class="hero-text">
+            <h1>{{ $content->title ?? 'Judul Belum Diatur' }}</h1>
+            <h3>{{ $content->subtitle ?? 'Subjudul Belum Diatur' }}</h3>
+        </div>
+
+        {{-- SLIDER --}}
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+
+                @forelse($sliders as $slide)
+                    <div class="swiper-slide">
+                        <img src="{{ asset('storage/'.$slide->image) }}" alt="Slider Image">
+                    </div>
+                @empty
+                    <div class="swiper-slide">
+                        <img src="https://via.placeholder.com/1600x400?text=No+Slider" alt="">
+                    </div>
+                @endforelse
+
             </div>
+        </div>
+    </div>
+
+
+
+
+    {{-- ======================================
+     LAYANAN KAMI (Tampilan seperti produk)
+======================================= --}}
+<div class="mt-5 container">
+
+    <h2 class="fw-bold text-center mb-4">LAYANAN KAMI</h2>
+
+    <div class="row">
+
+        @forelse($layanan as $item)
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm border-0">
+
+                    {{-- GAMBAR --}}
+                    @if($item->image)
+                        <img src="{{ asset('storage/'.$item->image) }}"
+                             class="card-img-top"
+                             style="height:220px; object-fit:cover;">
+                    @else
+                        <img src="https://via.placeholder.com/220"
+                             class="card-img-top"
+                             style="height:220px; object-fit:cover;">
+                    @endif
+
+                    {{-- BODY --}}
+                    <div class="card-body text-center">
+                        <h6 class="fw-bold text-uppercase">{{ $item->nama_layanan }}</h6>
+                    </div>
+
+                </div>
+            </div>
+        @empty
+            <div class="col-12 text-center text-muted py-4">
+                Belum ada layanan yang ditambahkan.
+            </div>
+        @endforelse
+
+    </div>
+
+</div>
+
+
+
+
+    {{-- ======================================
+         MENGAPA KAMI
+    ======================================= --}}
+    <section class="mt-5 text-center">
+
+        <h3 class="fw-bold">Mengapa Kami</h3>
+
+        <div class="row mt-4 justify-content-center">
+
+            @if($content)
+                <div class="col-md-3 bg-black text-white p-4 rounded-4 m-2">
+                    <h4 class="fw-bold">{{ $content->why_1_title }}</h4>
+                    <p>{{ $content->why_1_desc }}</p>
+                </div>
+
+                <div class="col-md-3 bg-black text-white p-4 rounded-4 m-2">
+                    <h4 class="fw-bold">{{ $content->why_2_title }}</h4>
+                    <p>{{ $content->why_2_desc }}</p>
+                </div>
+
+                <div class="col-md-3 bg-black text-white p-4 rounded-4 m-2">
+                    <h4 class="fw-bold">{{ $content->why_3_title }}</h4>
+                    <p>{{ $content->why_3_desc }}</p>
+                </div>
+            @else
+                <p class="text-muted">Konten "Mengapa Kami" belum diatur.</p>
+            @endif
+
         </div>
     </section>
 
-    {{-- Services Section --}}
-    <section class="services py-5 bg-dark text-white">
-        <div class="container">
-            <h2 class="text-center mb-5 fw-bold" style="color:#f72585;">Layanan Kami</h2>
+</div>
 
-            <div class="d-flex justify-content-center mb-4 flex-wrap gap-3">
-                <button class="btn btn-outline-light btn-sm px-3 active">All</button>
-                <button class="btn btn-outline-light btn-sm px-3">Banner</button>
-                <button class="btn btn-outline-light btn-sm px-3">Decal</button>
-                <button class="btn btn-outline-light btn-sm px-3">Striping</button>
-                <button class="btn btn-outline-light btn-sm px-3">Sablon Kaos</button>
-                <button class="btn btn-outline-light btn-sm px-3">Stiker</button>
-            </div>
-
-            <div class="row justify-content-center g-4">
-                <div class="col-6 col-md-2 text-center">
-                    <img src="{{ asset('images/stiker.jpg') }}" alt="Stiker" class="img-fluid rounded shadow-sm mb-2" style="height:100px; object-fit:cover;">
-                    <h6 class="fw-semibold" style="color:#f72585;">STIKER</h6>
-                </div>
-                <div class="col-6 col-md-2 text-center">
-                    <img src="{{ asset('images/sablon.jpg') }}" alt="Sablon Kaos" class="img-fluid rounded shadow-sm mb-2" style="height:100px; object-fit:cover;">
-                    <h6 class="fw-semibold" style="color:#f72585;">SABLON KAOS</h6>
-                </div>
-                <div class="col-6 col-md-2 text-center">
-                    <img src="{{ asset('images/striping.jpg') }}" alt="Striping" class="img-fluid rounded shadow-sm mb-2" style="height:100px; object-fit:cover;">
-                    <h6 class="fw-semibold" style="color:#f72585;">STRIPING</h6>
-                </div>
-                <div class="col-6 col-md-2 text-center">
-                    <img src="{{ asset('images/decal.jpg') }}" alt="Decal" class="img-fluid rounded shadow-sm mb-2" style="height:100px; object-fit:cover;">
-                    <h6 class="fw-semibold" style="color:#f72585;">DECAL</h6>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    {{-- Mengapa Kami Section --}}
-    <section class="why-us py-5" style="background-color:#fff;">
-        <div class="container text-center">
-            <h2 class="fw-bold mb-5" style="color:#f72585;">Mengapa Kami</h2>
-
-            <div class="row justify-content-center g-4">
-                <div class="col-md-3">
-                    <div class="p-3 bg-dark text-white rounded-4">
-                        <h6 class="fw-semibold mb-2">Kualitas Print Bagus</h6>
-                        <p class="small">Menggunakan printer berkualitas didukung tinta dan bahan premium untuk hasil maksimal.</p>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="p-3 bg-dark text-white rounded-4">
-                        <h6 class="fw-semibold mb-2">Print Quickly</h6>
-                        <p class="small">Dikerjakan dengan waktu yang cepat sehingga pelanggan tidak menunggu lama.</p>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="p-3 bg-dark text-white rounded-4">
-                        <h6 class="fw-semibold mb-2">Best Service</h6>
-                        <p class="small">Pelayanan ramah dan hasil sesuai keinginan pelanggan untuk kepuasan Anda.</p>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="p-3 bg-dark text-white rounded-4">
-                        <h6 class="fw-semibold mb-2">Best Price</h6>
-                        <p class="small">Harga bersaing tanpa mengorbankan kualitas hasil printing yang tinggi.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 @endsection

@@ -7,14 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class HomeContent extends Model
 {
     protected $fillable = [
-        'hero_title',
-        'hero_subtitle',
-        'hero_background',
-        'services',
-        'tagline',
-    ];
-
-    protected $casts = [
-        'services' => 'array',
+        'title',
+        'subtitle',
+        'why_1_title', 'why_1_desc',
+        'why_2_title', 'why_2_desc',
+        'why_3_title', 'why_3_desc',
     ];
 }

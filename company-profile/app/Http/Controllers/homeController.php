@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\LayananList;
+use App\Models\Slider;
 use App\Models\HomeContent;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        // Ambil data pertama dari tabel home_contents
-        $content = HomeContent::first();
+        $sliders = Slider::all();
+        $layanan = LayananList::all();
+        $content = HomeContent::first(); // ← ini penting
 
-        // Kirim data ke tampilan (halaman pengunjung)
-        return view('visit.home', compact('content'));
+        return view('visit.home', compact('sliders', 'layanan', 'content'));
     }
 }

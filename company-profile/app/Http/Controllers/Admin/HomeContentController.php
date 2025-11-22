@@ -3,86 +3,169 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\HomeContent;
+use App\Models\Slider;
+use App\Models\LayananList;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class HomeContentController extends Controller
 {
-    public function __construct()
+    /*
+    |--------------------------------------------------------------------------
+    | FRONTEND HOME
+    |--------------------------------------------------------------------------
+    */
+    public function publicHome()
     {
-        $this->middleware('auth');
-        // tambahan: cek role di middleware atau di method
+        $content  = HomeContent::first();
+        $sliders  = Slider::all();
+        $layanan  = LayananList::all();
+
+        return view('frontend.home.index', compact(
+            'content',
+            'sliders',
+            'layanan'
+        ));
     }
 
-    // form edit
+    /*
+    |--------------------------------------------------------------------------
+    | HALAMAN EDIT HOME (ADMIN)
+    |--------------------------------------------------------------------------
+    */
     public function edit()
     {
-        // ambil record pertama (satu row untuk home)
-        $content = HomeContent::first();
-        return view('admin.home_content.edit', compact('content'));
+        $content  = HomeContent::first();
+        $sliders  = Slider::all();
+        $layanan  = LayananList::all();
+
+        return view('dashboardadmin.home_content.edit', compact(
+            'content',
+            'sliders',
+            'layanan'
+        ));
     }
 
-    // proses update
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE HOME CONTENT
+    |--------------------------------------------------------------------------
+    */
     public function update(Request $request)
     {
-        $content = HomeContent::first();
-        if (!$content) {
-            $content = new HomeContent();
-        }
-
-        $data = $request->validate([
-            'hero_title' => 'nullable|string|max:255',
-            'hero_subtitle' => 'nullable|string',
-            'tagline' => 'nullable|string|max:255',
-            'hero_background' => 'nullable|image|max:2048', // 2MB
-            // services ditangani sebagai arrays
-            'services' => 'nullable|array',
-            'services.*.title' => 'nullable|string|max:100',
-            'services.*.desc' => 'nullable|string|max:255',
-            'services.*.image' => 'nullable|image|max:2048',
+        $request->validate([
+            'title'        => 'nullable|string|max:255',
+            'subtitle'     => 'nullable|string|max:255',
+            'why_1_title'  => 'nullable|string|max:255',
+            'why_1_desc'   => 'nullable|string',
+            'why_2_title'  => 'nullable|string|max:255',
+            'why_2_desc'   => 'nullable|string',
+            'why_3_title'  => 'nullable|string|max:255',
+            'why_3_desc'   => 'nullable|string',
         ]);
 
-        // handle hero image upload
-        if ($request->hasFile('hero_background')) {
-            // hapus file lama jika ada
-            if ($content->hero_background && Storage::disk('public')->exists($content->hero_background)) {
-                Storage::disk('public')->delete($content->hero_background);
-            }
-            $path = $request->file('hero_background')->store('home', 'public');
-            $data['hero_background'] = $path;
+        $data = $request->only([
+            'title', 'subtitle',
+            'why_1_title', 'why_1_desc',
+            'why_2_title', 'why_2_desc',
+            'why_3_title', 'why_3_desc',
+        ]);
+
+        $content = HomeContent::first();
+
+        if (!$content) {
+            HomeContent::create($data);
+        } else {
+            $content->update($data);
         }
 
-        // handle services images (simpan path)
-        $services = $content->services ?? [];
-        if ($request->has('services') && is_array($request->services)) {
-            $newServices = [];
-            foreach ($request->services as $index => $svc) {
-                $svcTitle = $svc['title'] ?? null;
-                $svcDesc = $svc['desc'] ?? null;
-                $svcImagePath = $services[$index]['image'] ?? null;
+        return back()->with('success', 'Konten home berhasil diperbarui');
+    }
 
-                // kalau ada file baru untuk service
-                if (isset($svc['image']) && $request->file("services.$index.image")) {
-                    // hapus lama kalau ada
-                    if ($svcImagePath && Storage::disk('public')->exists($svcImagePath)) {
-                        Storage::disk('public')->delete($svcImagePath);
-                    }
-                    $svcImagePath = $request->file("services.$index.image")->store("home/services", 'public');
-                }
+    /*
+    |--------------------------------------------------------------------------
+    | SLIDER
+    |--------------------------------------------------------------------------
+    */
+    public function addSlider(Request $request)
+    {
+        $request->validate([
+            'image'    => 'required|image|max:2048',
+            'title'    => 'nullable|string|max:255',
+            'subtitle' => 'nullable|string|max:255',
+        ]);
 
-                $newServices[] = [
-                    'title' => $svcTitle,
-                    'desc' => $svcDesc,
-                    'image' => $svcImagePath,
-                ];
-            }
-            $data['services'] = $newServices;
+        $path = $request->file('image')->store('sliders', 'public');
+
+        Slider::create([
+            'image'    => $path,
+            'title'    => $request->title,
+            'subtitle' => $request->subtitle,
+        ]);
+
+        return back()->with('success', 'Slider berhasil ditambahkan.');
+    }
+
+    public function deleteSlider($id)
+    {
+        $slider = Slider::findOrFail($id);
+
+        if ($slider->image && Storage::disk('public')->exists($slider->image)) {
+            Storage::disk('public')->delete($slider->image);
         }
 
-        $content->fill($data);
-        $content->save();
+        $slider->delete();
 
-        return redirect()->back()->with('success', 'Konten home berhasil disimpan.');
+        return back()->with('success', 'Slider berhasil dihapus');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | LAYANAN LIST (SAMA DENGAN ROUTE)
+    |--------------------------------------------------------------------------
+    */
+
+    /** ADD LAYANAN */
+    public function addLayananList(Request $request)
+    {
+        $request->validate([
+            'nama_layanan' => 'required|string|max:255',
+            'deskripsi'    => 'nullable|string',
+        ]);
+
+        LayananList::create([
+            'nama_layanan' => $request->nama_layanan,
+            'deskripsi'    => $request->deskripsi,
+        ]);
+
+        return back()->with('success', 'Layanan berhasil ditambahkan');
+    }
+
+    /** UPDATE LAYANAN */
+    public function updateLayananList(Request $request, $id)
+    {
+        $layanan = LayananList::findOrFail($id);
+
+        $request->validate([
+            'nama_layanan' => 'required|string|max:255',
+            'deskripsi'    => 'nullable|string',
+        ]);
+
+        $layanan->update([
+            'nama_layanan' => $request->nama_layanan,
+            'deskripsi'    => $request->deskripsi,
+        ]);
+
+        return back()->with('success', 'Layanan berhasil diperbarui');
+    }
+
+    /** DELETE LAYANAN */
+    public function deleteLayananList($id)
+    {
+        $layanan = LayananList::findOrFail($id);
+        $layanan->delete();
+
+        return back()->with('success', 'Layanan berhasil dihapus');
     }
 }

@@ -14,6 +14,7 @@
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a href="{{ route('superadmin.dashboard') }}" class="nav-link">Dashboard</a></li>
+                    <li class="nav-item"><a href="{{ route('home.index') }}" class="nav-link">Profil</a></li>
                     <li class="nav-item"><a href="{{ route('profile.index') }}" class="nav-link">Profil</a></li>
                     <li class="nav-item"><a href="{{ route('product.index') }}" class="nav-link">Produk</a></li>
                     <li class="nav-item"><a href="{{ route('contact.index') }}" class="nav-link">Kontak</a></li>

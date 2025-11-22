@@ -9,6 +9,8 @@ use App\Http\Controllers\MarketplaceController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\Admin\ProfilController;
+use App\Http\Controllers\Admin\HomeContentController;
+use App\Http\Controllers\LayananListController;
 
 
 /*
@@ -26,6 +28,8 @@ Route::get('/marketplace', [MarketplaceController::class, 'index'])->name('marke
 Route::get('/marketplace/{marketplace}', [MarketplaceController::class, 'show'])->name('marketplace.show');
 Route::get('/profile', [\App\Http\Controllers\ProfilController::class, 'index'])->name('profile.index');
 Route::get('/profile/{profile}', [\App\Http\Controllers\ProfilController::class, 'show'])->name('profile.show');
+Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home.index');
+Route::get('/home/{home}', [\App\Http\Controllers\HomeController::class, 'show'])->name('home.show');
 
 
 /*
@@ -134,12 +138,65 @@ Route::middleware(['auth'])->group(function () {
 
             //products
             Route::resource('products', ProductController::class)->names('admin.products');
+
+            // // HOME CONTENT
+            // Route::get('/home_content/edit', [HomeContentController::class, 'edit'])->name('admin.home-content.edit');
+            // Route::post('/home_content/update', [HomeContentController::class, 'update'])->name('admin.home-content.update');
+
+            // // SLIDER
+            // Route::post('/home_content/slider/store', [HomeContentController::class, 'addSlider'])->name('admin.slider.store');
+            // Route::delete('/home_content/slider/delete/{id}', [HomeContentController::class, 'deleteSlider'])->name('admin.slider.delete');
+
+            // // LAYANAN LIST
+            // Route::post('/layananlist/add', [HomeContentController::class, 'addLayananList'])->name('admin.layananlist.add');
+            // Route::post('/layananlist/update/{id}', [HomeContentController::class, 'updateLayananList'])->name('admin.layananlist.update');
+            // Route::delete('/layananlist/delete/{id}', [HomeContentController::class, 'deleteLayananList'])->name('admin.layananlist.delete');
+   
         });
 
-    // // KHUSUS ADMIN
-    // Route::prefix('admin')->middleware('auth')->group(function () {
-    //     Route::resource('products', ProductController::class)->names('admin.products');
-    // });
+            // HOME CONTENT
+    Route::get('/{role}/home_content/edit', 
+        [HomeContentController::class, 'edit'])
+        ->where('role', 'admin|superadmin')
+        ->name('admin.home_content.edit');
+
+    Route::post('/{role}/home_content/update',
+        [HomeContentController::class, 'update'])
+        ->where('role', 'admin|superadmin')
+        ->name('admin.home_content.update');
+
+    // SLIDER
+    Route::post('/{role}/home_content/slider/store',
+        [HomeContentController::class, 'addSlider'])
+        ->where('role', 'admin|superadmin')
+        ->name('admin.slider.store');
+
+    Route::delete('/{role}/home_content/slider/delete/{id}',
+        [HomeContentController::class, 'deleteSlider'])
+        ->where('role', 'admin|superadmin')
+        ->name('admin.slider.delete');
+
+
+    // LAYANAN LIST
+    Route::post('/{role}/layananlist/add',
+        [HomeContentController::class, 'addLayananList'])
+        ->where('role', 'admin|superadmin')
+        ->name('admin.layananlist.add');
+
+    Route::post('/{role}/layananlist/update/{id}',
+        [HomeContentController::class, 'updateLayananList'])
+        ->where('role', 'admin|superadmin')
+        ->name('admin.layananlist.update');
+
+    Route::delete('/{role}/layananlist/delete/{id}',
+        [HomeContentController::class, 'deleteLayananList'])
+        ->where('role', 'admin|superadmin')
+        ->name('admin.layananlist.delete');
+
+    // KHUSUS ADMIN
+    Route::prefix('admin')->middleware('auth')->group(function () {
+        Route::resource('products', ProductController::class)->names('admin.products');
+    });
 
 
     // ============================
@@ -161,13 +218,6 @@ Route::middleware(['auth'])->group(function () {
 
 // routes untuk admin mengelola konten homepage
 // di bagian middleware(['auth'])->group(...) BLM KEPAKE OPSIONAL
-Route::get('/admin/home-content/edit', [\App\Http\Controllers\Admin\HomeContentController::class, 'edit'])
-    ->name('admin.home-content.edit')
-    ->middleware('can:manage-content'); // opsional: gunakan gate/ability atau cek role di middleware
-
-Route::post('/admin/home-content/update', [\App\Http\Controllers\Admin\HomeContentController::class, 'update'])
-    ->name('admin.home-content.update')
-    ->middleware('can:manage-content');
 
 
     //KONTEN SUPERADMIN & ADMIN
