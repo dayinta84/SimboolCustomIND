@@ -14,14 +14,14 @@
     <!-- ======================= SLIDER ======================= -->
     <h4>Slider</h4>
 
-    <form action="{{ route('admin.slider.store', $role) }}" method="POST">
+    <form action="{{ route('admin.slider.store', $role) }}" method="POST" enctype="multipart/form-data">
         @csrf
         <input type="file" name="image" required>
         <button class="btn btn-primary mt-2">Tambah Slider</button>
     </form>
 
     <div class="row mt-3">
-        @foreach($sliders as $slide)
+        @foreach($slides as $slide)
             <div class="col-md-3">
                 <img src="{{ asset('storage/'.$slide->image) }}" class="img-fluid mb-1">
 

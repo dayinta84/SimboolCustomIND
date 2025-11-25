@@ -19,12 +19,12 @@ class HomeContentController extends Controller
     public function publicHome()
     {
         $content  = HomeContent::first();
-        $sliders  = Slider::all();
+        $slides  = Slider::all();
         $layanan  = LayananList::all();
 
         return view('frontend.home.index', compact(
             'content',
-            'sliders',
+            'slides',
             'layanan'
         ));
     }
@@ -37,12 +37,12 @@ class HomeContentController extends Controller
     public function edit()
     {
         $content  = HomeContent::first();
-        $sliders  = Slider::all();
+        $slides  = Slider::all();
         $layanan  = LayananList::all();
 
         return view('dashboardadmin.home_content.edit', compact(
             'content',
-            'sliders',
+            'slides',
             'layanan'
         ));
     }
@@ -96,7 +96,7 @@ class HomeContentController extends Controller
             'subtitle' => 'nullable|string|max:255',
         ]);
 
-        $path = $request->file('image')->store('sliders', 'public');
+        $path = $request->file('image')->store('slide', 'public');
 
         Slider::create([
             'image'    => $path,

@@ -12,16 +12,15 @@ return new class extends Migration
      * @return void
      */
     public function up()
-{
-    Schema::create('sliders', function (Blueprint $table) {
-        $table->id();
-        $table->string('image');
-        $table->string('title')->nullable();
-        $table->string('subtitle')->nullable();
-        $table->timestamps();
-    });
-}
-
+    {
+        Schema::create('slide', function (Blueprint $table) {
+            $table->id();
+            $table->string('image'); // path gambar slider 
+            $table->string('title')->nullable(); // optional title 
+            $table->string('subtitle')->nullable();
+            $table->timestamps();
+        });
+    }
 
     /**
      * Reverse the migrations.
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sliders');
+        Schema::dropIfExists('slide');
     }
 };

@@ -139,59 +139,25 @@ Route::middleware(['auth'])->group(function () {
             //products
             Route::resource('products', ProductController::class)->names('admin.products');
 
-            // // HOME CONTENT
-            // Route::get('/home_content/edit', [HomeContentController::class, 'edit'])->name('admin.home-content.edit');
-            // Route::post('/home_content/update', [HomeContentController::class, 'update'])->name('admin.home-content.update');
+            // HOME CONTENT 
+            Route::get('/home_content/edit', [HomeContentController::class, 'edit']) ->name('admin.home_content.edit'); 
+            Route::post('/home_content/update', [HomeContentController::class, 'update']) ->name('admin.home_content.update'); 
+            //Route::put('/home_content/update/{role}', [HomeContentController::class, 'update']) ->name('admin.home_content.update');
 
-            // // SLIDER
-            // Route::post('/home_content/slider/store', [HomeContentController::class, 'addSlider'])->name('admin.slider.store');
-            // Route::delete('/home_content/slider/delete/{id}', [HomeContentController::class, 'deleteSlider'])->name('admin.slider.delete');
+            // SLIDER 
+            Route::post('/home_content/slider/store', [HomeContentController::class, 'addSlider']) ->name('admin.slider.store'); 
+            Route::delete('/home_content/slider/delete/{id}', [HomeContentController::class, 'deleteSlider']) ->name('admin.slider.delete');
+            
+           // LAYANAN LIST
+            Route::post('/layananlist/add',[HomeContentController::class, 'addLayananList'])->where('role', 'admin|superadmin')->name('admin.layananlist.add');
+            Route::post('/layananlist/update/{id}',[HomeContentController::class, 'updateLayananList'])->where('role', 'admin|superadmin')->name('admin.layananlist.update');
+            Route::delete('/layananlist/delete/{id}',[HomeContentController::class, 'deleteLayananList'])->where('role', 'admin|superadmin')->name('admin.layananlist.delete');
 
-            // // LAYANAN LIST
-            // Route::post('/layananlist/add', [HomeContentController::class, 'addLayananList'])->name('admin.layananlist.add');
-            // Route::post('/layananlist/update/{id}', [HomeContentController::class, 'updateLayananList'])->name('admin.layananlist.update');
-            // Route::delete('/layananlist/delete/{id}', [HomeContentController::class, 'deleteLayananList'])->name('admin.layananlist.delete');
-   
         });
 
-            // HOME CONTENT
-    Route::get('/{role}/home_content/edit', 
-        [HomeContentController::class, 'edit'])
-        ->where('role', 'admin|superadmin')
-        ->name('admin.home_content.edit');
-
-    Route::post('/{role}/home_content/update',
-        [HomeContentController::class, 'update'])
-        ->where('role', 'admin|superadmin')
-        ->name('admin.home_content.update');
-
-    // SLIDER
-    Route::post('/{role}/home_content/slider/store',
-        [HomeContentController::class, 'addSlider'])
-        ->where('role', 'admin|superadmin')
-        ->name('admin.slider.store');
-
-    Route::delete('/{role}/home_content/slider/delete/{id}',
-        [HomeContentController::class, 'deleteSlider'])
-        ->where('role', 'admin|superadmin')
-        ->name('admin.slider.delete');
 
 
-    // LAYANAN LIST
-    Route::post('/{role}/layananlist/add',
-        [HomeContentController::class, 'addLayananList'])
-        ->where('role', 'admin|superadmin')
-        ->name('admin.layananlist.add');
-
-    Route::post('/{role}/layananlist/update/{id}',
-        [HomeContentController::class, 'updateLayananList'])
-        ->where('role', 'admin|superadmin')
-        ->name('admin.layananlist.update');
-
-    Route::delete('/{role}/layananlist/delete/{id}',
-        [HomeContentController::class, 'deleteLayananList'])
-        ->where('role', 'admin|superadmin')
-        ->name('admin.layananlist.delete');
+    
 
     // KHUSUS ADMIN
     Route::prefix('admin')->middleware('auth')->group(function () {
@@ -215,83 +181,5 @@ Route::middleware(['auth'])->group(function () {
     });
     
 });
-
-// routes untuk admin mengelola konten homepage
-// di bagian middleware(['auth'])->group(...) BLM KEPAKE OPSIONAL
-
-
-    //KONTEN SUPERADMIN & ADMIN
-    // Kelola halaman kontak
-    // Route::get('/{role}/contact/edit', [\App\Http\Controllers\ContactController::class, 'editPage'])
-    //     ->where('role', 'admin|superadmin')
-    //     ->name('admin.contact.editpage');
-    // Route::post('/{role}/contact/update', [\App\Http\Controllers\ContactController::class, 'updatePage'])
-    //     ->where('role', 'admin|superadmin')
-    //     ->name('admin.contact.updatepage');
-
-    // Kelola halaman profil
-    // Route::get('/{role}/profil/edit', [ProfilController::class, 'edit'])
-    //     ->where('role', 'admin|superadmin')
-    //     ->name('profil.edit');
-    // Route::put('/{role}/profil/update', [ProfilController::class, 'update'])
-    //     ->where('role', 'admin|superadmin')
-    //     ->name('profil.update');
-
-    // Bagian tambahan ProfilSection
-    // Route::post('/{role}/profil/tambah-section', [ProfilController::class, 'tambahSection'])
-    //     ->where('role', 'admin|superadmin')
-    //     ->name('profil.tambahSection');
-    // Route::put('/{role}/profil/edit-section/{id}', [ProfilController::class, 'editSection'])
-    //     ->where('role', 'admin|superadmin')
-    //     ->name('profil.editSection');
-    // Route::delete('/{role}/profil/hapus-section/{id}', [ProfilController::class, 'hapusSection'])
-    //     ->where('role', 'admin|superadmin')
-    //     ->name('profil.hapusSection');
-
-    // Kelola layanan
-    // Route::get('/{role}/profil/layanan', [LayananController::class, 'index'])
-    //     ->where('role', 'admin|superadmin')
-    //     ->name('layanan.index');
-    // Route::post('/{role}/profil/layanan/store', [LayananController::class, 'store'])
-    //     ->where('role', 'admin|superadmin')
-    //     ->name('layanan.store');
-    // Route::post('/{role}/profil/layanan/update/{id}', [LayananController::class, 'update'])
-    //     ->where('role', 'admin|superadmin')
-    //     ->name('layanan.update');
-    // Route::delete('/{role}/profil/layanan/delete/{id}', [LayananController::class, 'destroy'])
-    //     ->where('role', 'admin|superadmin')
-    //     ->name('layanan.destroy');
-
-    // Bagian layanan edit INI APA BISA DIHAPUS ATAU APA YA
-    // Route::post('/{role}/profil/tambah-layanan', [ProfilController::class, 'tambahLayanan'])
-    //     ->where('role', 'admin|superadmin')
-    //     ->name('layanan.store');
-    // Route::delete('/{role}/profil/hapus-layanan/{id}', [ProfilController::class, 'hapusLayanan'])
-    //     ->where('role', 'admin|superadmin')
-    //     ->name('layanan.destroy');
-
-        
-   // ✅ Kelola Marketplace
-    // Route::get('/{role}/marketplace/edit', [App\Http\Controllers\MarketplaceController::class, 'editPage'])
-    //     ->where('role', 'admin|superadmin')
-    //     ->name('admin.marketplace.edit');
-    // Route::post('/{role}/marketplace/store', [App\Http\Controllers\MarketplaceController::class, 'store'])
-    //     ->where('role', 'admin|superadmin')
-    //     ->name('admin.marketplace.store');
-    // Route::delete('/{role}/marketplace/{id}', [App\Http\Controllers\MarketplaceController::class, 'destroy'])
-    //     ->where('role', 'admin|superadmin')
-    //     ->name('admin.marketplace.destroy');
-    // Route::get('/{role}/marketplace/edit/{id}', [App\Http\Controllers\MarketplaceController::class, 'edit'])
-    //     ->where('role', 'admin|superadmin')
-    //     ->name('admin.marketplace.edit.single');
-    // Route::post('/{role}/marketplace/update/{id}', [App\Http\Controllers\MarketplaceController::class, 'update'])
-    //     ->where('role', 'admin|superadmin')
-    //     ->name('admin.marketplace.update');
-
-
-    
-
-    
-    
 
 
