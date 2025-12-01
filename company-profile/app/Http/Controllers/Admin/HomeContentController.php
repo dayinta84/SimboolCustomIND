@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\HomeContent;
 use App\Models\Slider;
@@ -39,11 +40,13 @@ class HomeContentController extends Controller
         $content  = HomeContent::first();
         $slides  = Slider::all();
         $layanan  = LayananList::all();
+        $role = Auth::user()->role; // Mendapatkan segmen pertama dari URL sebagai role
 
         return view('dashboardadmin.home_content.edit', compact(
             'content',
             'slides',
-            'layanan'
+            'layanan',
+            'role'
         ));
     }
 
@@ -107,7 +110,7 @@ class HomeContentController extends Controller
         return back()->with('success', 'Slider berhasil ditambahkan.');
     }
 
-    public function deleteSlider($id)
+    public function deleteSlider($role, $id) #ini yg menyebabkan hapus eror, tambahkan role jgn lupa   
     {
         $slider = Slider::findOrFail($id);
 

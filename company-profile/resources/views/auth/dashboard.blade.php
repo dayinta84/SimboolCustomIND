@@ -3,36 +3,130 @@
 @section('title', 'Dashboard Superadmin')
 
 @section('content')
-    <h3>Selamat Datang, {{ Auth::user()->name }} 👋</h3>
-    <p>Anda login sebagai <b>Superadmin</b>. Anda memiliki akses penuh terhadap semua data dan pengguna.</p>
+<div class="container-fluid">
 
-    <!-- Logout form -->
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-        @csrf
-    </form>
+    <!-- Judul Tengah -->
+    <div class="dashboard-title text-center mb-5">
+        <h1 class="welcome-text fw-bold">Selamat Datang, {{ Auth::user()->name }} 👋</h1>
+        <p class="subtitle-text">Anda login sebagai <b>Superadmin</b>. Kelola seluruh konten website dengan mudah.</p>
+    </div>
 
-    <!-- Konten -->
-    <div class="container-fluid mt-3">
-        <div class="row">
-            <!-- Konten utama -->
-            <div class="col-md-9 col-lg-10">
-                <div class="card shadow-sm mt-3">
-                    <div class="card-header bg-white fw-bold">
-                        Selamat Datang, {{ Auth::user()->name }} 👋
-                    </div>
-                    <div class="card-body">
-                        <p>Anda login sebagai <strong>Superadmin</strong>.</p>
-                        <p>Gunakan menu di sebelah kiri untuk mengelola seluruh konten website termasuk manajemen pengguna.</p>
-                    </div>
+    <!-- GRID MENU UTAMA -->
+    <div class="row g-5">
+
+        <!-- Card: Kelola Beranda -->
+        <div class="col-md-4">
+            <a href="{{ url('superadmin/home_content/edit') }}" class="text-decoration-none">
+                <div class="card dashboard-card text-center p-4 shadow-lg border-0 h-100 pastel-blue">
+                    <i class="fas fa-edit fa-3x mb-3 icon-white"></i>
+                    <h5 class="fw-bold text-dark">Kelola Beranda</h5>
+                    <p class="text-muted">Edit slider, judul, dan tampilan utama website.</p>
                 </div>
+            </a>
+        </div>
 
-                <div class="card mt-3 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="fw-bold">Kontrol Penuh</h5>
-                        <p>Kelola data website, produk, profil, kontak, dan juga manajemen pengguna di menu sidebar.</p>
-                    </div>
+        <!-- Card: Kelola Produk -->
+        <div class="col-md-4">
+            <a href="{{ url('superadmin/products') }}" class="text-decoration-none">
+                <div class="card dashboard-card text-center p-4 shadow-lg border-0 h-100 pastel-green">
+                    <i class="fas fa-box-open fa-3x mb-3 icon-white"></i>
+                    <h5 class="fw-bold text-dark">Kelola Produk</h5>
+                    <p class="text-muted">Tambah dan kelola produk website.</p>
                 </div>
-            </div> <!-- end col utama -->
-        </div> <!-- end row -->
-    </div> <!-- end container -->
+            </a>
+        </div>
+
+        <!-- Card: Kelola Marketplace -->
+        <div class="col-md-4">
+            <a href="{{ url('superadmin/marketplace/edit') }}" class="text-decoration-none">
+                <div class="card dashboard-card text-center p-4 shadow-lg border-0 h-100 pastel-yellow">
+                    <i class="fas fa-store fa-3x mb-3 icon-white"></i>
+                    <h5 class="fw-bold text-dark">Kelola Marketplace</h5>
+                    <p class="text-muted">Atur marketplace & link pembelian.</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Card: Kelola Kontak -->
+        <div class="col-md-4">
+            <a href="{{ url('superadmin/contact/edit') }}" class="text-decoration-none">
+                <div class="card dashboard-card text-center p-4 shadow-lg border-0 h-100 pastel-purple">
+                    <i class="fas fa-envelope fa-3x mb-3 icon-white"></i>
+                    <h5 class="fw-bold text-dark">Kelola Kontak</h5>
+                    <p class="text-muted">Ubah alamat dan nomor WhatsApp admin.</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Card: Kelola Profil -->
+        <div class="col-md-4">
+            <a href="{{ url('superadmin/profil/edit') }}" class="text-decoration-none">
+                <div class="card dashboard-card text-center p-4 shadow-lg border-0 h-100 pastel-pink">
+                    <i class="fas fa-user-cog fa-3x mb-3 icon-white"></i>
+                    <h5 class="fw-bold text-dark">Kelola Profil Perusahaan</h5>
+                    <p class="text-muted">Edit visi, misi & informasi perusahaan.</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Card: Manajemen User -->
+        <div class="col-md-4">
+            <a href="{{ url('/superadmin/users') }}" class="text-decoration-none">
+                <div class="card dashboard-card text-center p-4 shadow-lg border-0 h-100 pastel-orange">
+                    <i class="fas fa-users fa-3x mb-3 icon-white"></i>
+                    <h5 class="fw-bold text-dark">Manajemen User</h5>
+                    <p class="text-muted">Kelola semua pengguna sistem.</p>
+                </div>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<!-- STYLE -->
+<style>
+    /* JUDUL UTAMA */
+    .welcome-text {
+        font-size: 2.7rem;
+        color: #000000; /* HITAM */
+        text-shadow: 0 4px 18px rgba(128, 0, 128, 0.55); /* BAYANGAN UNGU */
+        font-weight: 800;
+    }
+
+    .subtitle-text {
+        font-size: 1.2rem;
+        color: #000000ff;
+        margin-top: 5px;
+    }
+
+    /* KARTU DASHBOARD */
+    .dashboard-card {
+        border-radius: 22px;
+        transition: .3s ease-in-out;
+    }
+    .dashboard-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0,0,0,.35);
+    }
+
+    /* IKON PUTIH */
+    .icon-white {
+        color: white !important;
+        text-shadow: 0 3px 12px rgba(0,0,0,.4);
+    }
+
+    /* WARNA PASTEL */
+    .pastel-blue    { background: #7aa7ffcc !important; }   /* pastel biru gelap */
+    .pastel-green   { background: #7bff9ccc !important; }   /* pastel hijau gelap */
+    .pastel-yellow  { background: #ffe680cc !important; }   /* pastel kuning gelap */
+    .pastel-pink    { background: #ff8fb2cc !important; }   /* pastel pink gelap */
+    .pastel-lav     { background: #b19fffcc !important; }   /* pastel ungu gelap */
+    .pastel-orange  { background: #ffb173cc !important; }   /* pastel oranye gelap */
+    /* JARAK ANTAR KOTAK */
+    .row.g-5 > .col-md-4 {
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+</style>
+
 @endsection

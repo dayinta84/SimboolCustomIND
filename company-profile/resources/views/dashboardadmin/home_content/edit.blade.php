@@ -4,7 +4,7 @@
 
 @php
     // Ambil role dari URL (admin / superadmin)
-    $role = request()->segment(1);
+    $role = Auth::user()->role;
 @endphp
 
 <div class="container">
@@ -14,7 +14,7 @@
     <!-- ======================= SLIDER ======================= -->
     <h4>Slider</h4>
 
-    <form action="{{ route('admin.slider.store', $role) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.slider.store', ['role' => $role]) }}" method="POST" enctype="multipart/form-data">
         @csrf
         <input type="file" name="image" required>
         <button class="btn btn-primary mt-2">Tambah Slider</button>
@@ -22,17 +22,17 @@
 
     <div class="row mt-3">
         @foreach($slides as $slide)
-            <div class="col-md-3">
-                <img src="{{ asset('storage/'.$slide->image) }}" class="img-fluid mb-1">
+        <div class="col-md-3">
+            <img src="{{ asset('storage/'.$slide->image) }}" class="img-fluid mb-1">
 
-                <form action="{{ route('admin.slider.delete', ['role' => $role, 'id' => $slide->id]) }}" 
-                      method="POST">
-                    @csrf 
-                    @method('DELETE')
-                    <button class="btn btn-danger btn-sm">Hapus</button>
-                </form>
-            </div>
-        @endforeach
+            <form action="{{ route('admin.slider.delete', ['role' => $role, 'id' => $slide->id]) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin hapus?')">Hapus</button>
+            </form>
+
+        </div>
+    @endforeach
     </div>
 
     <hr>
