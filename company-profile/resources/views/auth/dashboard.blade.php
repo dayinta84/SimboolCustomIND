@@ -106,7 +106,7 @@
     }
     .dashboard-card:hover {
         transform: translateY(-10px);
-        box-shadow: 0 20px 40px rgba(0,0,0,.35);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
     }
 
     /* IKON PUTIH */
@@ -116,12 +116,13 @@
     }
 
     /* WARNA PASTEL */
-    .pastel-blue    { background: #7aa7ffcc !important; }   /* pastel biru gelap */
-    .pastel-green   { background: #7bff9ccc !important; }   /* pastel hijau gelap */
-    .pastel-yellow  { background: #ffe680cc !important; }   /* pastel kuning gelap */
-    .pastel-pink    { background: #ff8fb2cc !important; }   /* pastel pink gelap */
-    .pastel-lav     { background: #b19fffcc !important; }   /* pastel ungu gelap */
-    .pastel-orange  { background: #ffb173cc !important; }   /* pastel oranye gelap */
+   /* WARNA MACARON MANIS YANG INDAH DAN ELEGAN */
+    .pastel-blue    { background: #0b3b5fcc !important; } /* Biru Laut Pucat */
+    .pastel-green   { background: #068e4acc !important; } /* Sage Hijau Lembut */
+    .pastel-yellow  { background: #9f7700cc !important; } /* Beige Pucat (Vanilla) */
+    .pastel-pink    { background: #810013cc !important; } /* Mawar Pudar (Dusty Rose) */
+    .pastel-purple  { background: #510585cc !important; } /* Mauve Lembut */
+    .pastel-orange  { background: #ab3511cc !important; } /* Coral Pucat */
     /* JARAK ANTAR KOTAK */
     .row.g-5 > .col-md-4 {
         margin-top: 8px;

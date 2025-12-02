@@ -1,3 +1,6 @@
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
 <footer class="footer-section text-white">
     <div class="footer-top-gradient"></div>
 
@@ -18,11 +21,31 @@
                 <div class="col-md-2 d-flex flex-column justify-content-start">
                     <p class="fw-semibold mb-2">Menu</p>
                     <ul class="list-unstyled small mb-0">
-                        <li><a href="{{ url('/') }}" class="footer-link">Home</a></li>
-                        <li><a href="{{ url('/produk') }}" class="footer-link">Produk</a></li>
-                        <li><a href="{{ url('/marketplace') }}" class="footer-link">Marketplace</a></li>
-                        <li><a href="{{ url('/profile') }}" class="footer-link">Profile</a></li>
-                        <li><a href="{{ url('/contact') }}" class="footer-link">Kontak</a></li>
+                        <li>
+                            <a href="{{ url('/') }}" class="footer-link d-flex align-items-center">
+                                <i class="bi bi-house-door footer-icon me-2"></i> Beranda
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/produk') }}" class="footer-link d-flex align-items-center">
+                                <i class="bi bi-box-seam footer-icon me-2"></i> Produk
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/marketplace') }}" class="footer-link d-flex align-items-center">
+                                <i class="bi bi-shop-window footer-icon me-2"></i> Marketplace
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/profile') }}" class="footer-link d-flex align-items-center">
+                                <i class="bi bi-person-circle footer-icon me-2"></i> Profile
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/contact') }}" class="footer-link d-flex align-items-center">
+                                <i class="bi bi-telephone footer-icon me-2"></i> Kontak
+                            </a>
+                        </li>
                     </ul>
                 </div>
 
@@ -30,8 +53,26 @@
                 <div class="col-md-2 d-flex flex-column justify-content-start">
                     <p class="fw-semibold mb-2">Marketplace</p>
                     <ul class="list-unstyled small mb-0">
-                        <li><a href="https://www.tiktok.com/@simboolcustom.ind" class="footer-link">Tiktok</a></li>
-                        <li><a href="https://shopee.co.id/simboolcustom.ind" class="footer-link">Shopee</a></li>
+                        <li class="footer-item mb-2">
+                            <a href="https://www.tiktok.com/@simboolcustom.ind" class="footer-link d-flex align-items-center">
+                                <i class="bi bi-tiktok footer-icon"></i>
+                                <span class="ms-2">Tiktok</span>
+                            </a>
+                        </li>
+
+                        <li class="footer-item mb-2">
+                            <a href="https://shopee.co.id/simboolcustom.ind" class="footer-link d-flex align-items-center">
+                                <i class="bi bi-bag-fill footer-icon"></i>
+                                <span class="ms-2">Shopee</span>
+                            </a>
+                        </li>
+
+                        <li class="footer-item mb-2">
+                            <a href="https://www.instagram.com/simboolcustom.ind/" class="footer-link d-flex align-items-center">
+                                <i class="bi bi-instagram footer-icon"></i>
+                                <span class="ms-2">Instagram</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
 
@@ -39,19 +80,24 @@
                 <div class="col-md-2">
                     <p class="fw-semibold mb-2">Kontak</p>
                     <ul class="list-unstyled small mb-0">
-                        <li class="footer-item">
-                            <a href="https://wa.me/6285931200646" target="_blank" class="footer-link">
-                                +62 859-3120-0646
+                        <li class="footer-item mb-2">
+                            <a href="https://wa.me/6285931200646" target="_blank" class="footer-link d-flex align-items-center">
+                                <i class="bi bi-whatsapp footer-icon"></i>
+                                <span class="ms-2">+62 859-3120-0646</span>
                             </a>
-                            </li>
-                            <li class="footer-item">
-                            <a href="https://wa.me/6289617024003" target="_blank" class="footer-link">
-                                +62 896-1702-4003
+                        </li>
+
+                        <li class="footer-item mb-2">
+                            <a href="https://wa.me/6289617024003" target="_blank" class="footer-link d-flex align-items-center">
+                                <i class="bi bi-whatsapp footer-icon"></i>
+                                <span class="ms-2">+62 896-1702-4003</span>
                             </a>
-                            </li>
-                            <li class="footer-item">
-                            <a href="https://wa.me/62895410286959" target="_blank" class="footer-link">
-                                +62 895-4102-86959
+                        </li>
+
+                        <li class="footer-item mb-2">
+                            <a href="https://wa.me/62895410286959" target="_blank" class="footer-link d-flex align-items-center">
+                                <i class="bi bi-whatsapp footer-icon"></i>
+                                <span class="ms-2">+62 895-4102-86959</span>
                             </a>
                         </li>
                     </ul>
@@ -62,10 +108,9 @@
                     <p class="fw-semibold mb-2">Alamat</p>
                     <ul class="list-unstyled small mb-0">
                         <li class="footer-item">
+                            <i class="bi bi-geo-alt footer-icon"></i>
                             <span>
-                                Gang Cinta, Nglandung Tiga, Nglandung,<br>
-                                Kec. Geger, Kabupaten Madiun,<br>
-                                Jawa Timur 63171
+                                Gang Cinta, Nglandung Tiga, Nglandung, Kec. Geger, Kabupaten Madiun, Jawa Timur 63171    
                             </span>
                         </li>
                     </ul>
@@ -83,21 +128,19 @@
 <style>
 /* ===== FOOTER BASE ===== */
 .footer-section {
-    background: radial-gradient(circle at top left, #1a1a1a, #0e0e0e 80%);
+    background: #0b0b0f; /* Sama seperti navbar */
     position: relative;
     font-family: 'Poppins', sans-serif;
     overflow: hidden;
 }
 
-/* Animasi garis atas */
+/* GARIS ATAS GRADIENT (lebih modern, match navbar glow) */
 .footer-top-gradient {
     height: 5px;
     width: 100%;
-    background: linear-gradient(90deg, #d000ff, #6a00ff, #00d4ff, #d000ff);
+    background: linear-gradient(90deg, #d000ff, #00d4ff, #7000ff, #d000ff);
     background-size: 300% 300%;
     animation: gradientFlow 6s ease infinite;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
 }
 
 @keyframes gradientFlow {
@@ -106,9 +149,8 @@
     100% { background-position: 0% 50%; }
 }
 
-/* Animasi lembut muncul */
+/* Fade-in smooth */
 .footer-content {
-    background-color: transparent;
     animation: fadeIn 1s ease-in-out;
 }
 
@@ -117,32 +159,36 @@
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* ===== LOGO & TEXT SECTION ===== */
+/* ===== LOGO ===== */
 .footer-logo {
     width: 85px;
-    height: auto;
-    filter: drop-shadow(0 0 8px rgba(208, 0, 255, 0.3));
+    filter: drop-shadow(0 0 10px rgba(0,212,255,0.25));
     transition: transform 0.3s ease;
 }
 .footer-logo:hover {
-    transform: scale(1.05);
+    transform: scale(1.07);
 }
 
+/* TEXT GRADIENT */
 .footer-logo-text h5 {
     font-size: 1.4rem;
-    background: linear-gradient(90deg, #d000ff, #6a00ff, #00d4ff);
+    background: linear-gradient(90deg, #d000ff, #00d4ff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 6px rgba(208, 0, 255, 0.2);
+    text-shadow: 0 0 10px rgba(0,212,255,0.25);
     letter-spacing: 1px;
 }
 
-/* ===== LINK STYLING ===== */
+/* ===== LINK ===== */
 .footer-link {
-    color: #eaeaea;
+    color: #cfcfcf;
     text-decoration: none;
     position: relative;
     transition: all 0.3s ease;
+}
+.footer-link:hover {
+    color: #00d4ff;
+    text-shadow: 0 0 8px #00d4ff;
 }
 .footer-link::after {
     content: '';
@@ -154,36 +200,31 @@
     background: linear-gradient(90deg, #d000ff, #00d4ff);
     transition: width 0.3s ease;
 }
-.footer-link:hover {
-    color: #00d4ff;
-    text-shadow: 0 0 6px #00d4ff;
-}
 .footer-link:hover::after {
     width: 100%;
 }
 
-/* ===== ICON & TEXT COLOR ===== */
+/* TEXT COLOR */
 .footer-section p,
 .footer-section span,
 .footer-item {
-    color: #ccc;
-    transition: color 0.3s ease;
+    color: #cfcfcf;
 }
 .footer-section .fw-semibold {
-    color: #fff;
+    color: #ffffff;
 }
 
 /* ===== FOOTER BOTTOM ===== */
 .footer-bottom {
     font-size: 0.9rem;
     background: #0d0d0d;
-    color: #bbb;
+    color: #bdbdbd;
     border-top: 1px solid rgba(255,255,255,0.1);
-    letter-spacing: 0.4px;
     backdrop-filter: blur(6px);
+    letter-spacing: 0.4px;
 }
 
-/* ===== EFEK HALUS ===== */
+/* ===== BACKGROUND GLOW ===== */
 .footer-section::before {
     content: "";
     position: absolute;
@@ -191,7 +232,7 @@
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(208,0,255,0.08), transparent 60%);
+    background: radial-gradient(circle, rgba(0,212,255,0.08), transparent 60%);
     animation: glowMove 12s linear infinite;
 }
 @keyframes glowMove {
@@ -207,15 +248,19 @@
         text-align: center;
         flex-direction: column;
     }
-
-    .footer-logo-text {
-        margin-left: 0;
-        margin-top: 10px;
+    
+    .footer-section .col-md-2,
+    .footer-section .col-md-3 {
+        text-align: center;
     }
 
-    .footer-section .col-md-3,
-    .footer-section .col-md-2 {
-        text-align: left;
+    .footer-section ul {
+        padding-left: 0 !important;
+    }
+
+    .footer-link,
+    .footer-item {
+        justify-content: center !important;
     }
 }
 </style>

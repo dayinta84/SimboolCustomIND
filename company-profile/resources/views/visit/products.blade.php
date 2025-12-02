@@ -3,31 +3,55 @@
 @section('content')
 
 <style>
-    .product-card {
-        transition: .25s ease;
-        border-radius: 12px;
-        overflow: hidden;
-        background: #fff;
-    }
-    .product-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 6px 18px rgba(0,0,0,.15);
-    }
+.product-card {
+    background: rgba(0,0,0,0.12);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: .25s ease;
+}
 
-    .category-pill {
-        font-size: 13px;
-        cursor: pointer;
-        border: 1px solid #dcdcdc;
-        transition: .2s;
-    }
-    .category-pill:hover {
-        opacity: .85;
-    }
+.product-card:hover {
+    background: rgba(0,0,0,0.20);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,.15);
+}
 
-    .card-img-top {
-        border-bottom: 1px solid #eee;
-    }
+.card-img-top {
+    height: 180px;
+    object-fit: cover;
+}
+
+/* TEXT PUTIH */
+.product-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.product-category {
+    font-size: 11px;
+    color: #e2e2e2;
+}
+
+/* BUTTON PUTIH */
+.btn-detail {
+    font-size: 11px;
+    padding: 5px 12px;
+    border-radius: 8px;
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.5);
+    background: transparent;
+}
+
+.btn-detail:hover {
+    background: rgba(255,255,255,0.15);
+    color: #ffffff;
+    border-color: #ffffff;
+}
 </style>
+
 
 <div class="container py-4">
 
@@ -55,6 +79,7 @@
         @endforeach
     </div>
 
+
     {{-- LIST PRODUK --}}
     <div class="row g-3">
         @forelse($products as $product)
@@ -64,29 +89,33 @@
                     {{-- GAMBAR --}}
                     @if($product->image)
                         <img src="{{ asset('storage/'.$product->image) }}"
-                             class="card-img-top"
-                             style="height:170px; object-fit:cover;">
+                             class="card-img-top">
                     @else
                         <div class="bg-light d-flex align-items-center justify-content-center"
-                             style="height:170px;">
+                             style="height:180px;">
                             <span class="text-muted small">No Image</span>
                         </div>
                     @endif
 
                     {{-- BODY --}}
                     <div class="card-body text-center p-2">
-                        <h6 class="fw-bold text-uppercase mb-1" style="font-size: 13px;">
+
+                        {{-- NAMA PRODUK (PUTIH) --}}
+                        <h6 class="product-name text-uppercase mb-1">
                             {{ $product->name }}
                         </h6>
-                        <small class="text-muted d-block mb-1" style="font-size: 11px;">
+
+                        {{-- KATEGORI (PUTIH MUDA) --}}
+                        <small class="product-category d-block mb-1">
                             {{ $product->category }}
                         </small>
 
+                        {{-- BUTTON DETAIL (PUTIH) --}}
                         <a href="{{ route('products.show', $product->id) }}"
-                        class="btn btn-outline-dark btn-sm mt-1"
-                        style="font-size: 11px; padding: 4px 10px;">
+                        class="btn-detail mt-1 d-inline-block">
                             Detail
                         </a>
+
                     </div>
 
                 </div>
