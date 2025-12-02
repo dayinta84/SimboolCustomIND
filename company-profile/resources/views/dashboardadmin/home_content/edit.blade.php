@@ -68,18 +68,18 @@
 
     <hr>
 
-    <!-- ======================= LAYANAN ======================= -->
+    <!-- ======================= LAYANAN =======================
     <h4>Layanan Kami</h4>
 
-    <!-- FORM TAMBAH LAYANAN -->
+    FORM TAMBAH LAYANAN
     <form action="{{ route('admin.layananlist.add', $role) }}" method="POST">
         @csrf
         <input type="text" name="nama_layanan" class="form-control" placeholder="Nama Layanan" required>
         <textarea name="deskripsi" class="form-control mt-2" placeholder="Deskripsi (opsional)"></textarea>
         <button class="btn btn-primary mt-2">Tambah Layanan</button>
-    </form>
+    </form> -->
 
-    <!-- LIST LAYANAN -->
+    <!-- LIST LAYANAN 
     <div class="mt-3">
         <h5>Daftar Layanan</h5>
 
@@ -89,7 +89,7 @@
                 <strong>{{ $item->nama_layanan }}</strong>
                 <p class="mb-1">{{ $item->deskripsi }}</p>
 
-                <!-- EDIT LAYANAN -->
+                EDIT LAYANAN
                 <form action="{{ route('admin.layananlist.update', ['role' => $role, 'id' => $item->id]) }}" 
                       method="POST" class="mb-2">
                     @csrf
@@ -99,7 +99,7 @@
                     <button class="btn btn-warning btn-sm mt-1">Update</button>
                 </form>
 
-                <!-- HAPUS LAYANAN -->
+                HAPUS LAYANAN
                 <form action="{{ route('admin.layananlist.delete', ['role' => $role, 'id' => $item->id]) }}" 
                       method="POST">
                     @csrf 
@@ -110,7 +110,7 @@
             </div>
         @endforeach
 
-    </div>
+    </div>-->
 
 </div>
 @endsection
