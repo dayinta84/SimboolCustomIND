@@ -178,14 +178,14 @@
                                         <td><span class="badge bg-info">{{ $p->category ?? '-' }}</span></td>
                                         <td class="text-truncate" style="max-width: 200px;" title="{{ strip_tags($p->description) }}">{!! strip_tags($p->description) !!}</td>
                                         <td>
-                                            <a href="{{ route('admin.products.edit', $p->id) }}" class="btn btn-xs btn-warning">
-                                                <i class="fas fa-edit"></i> Edit
+                                            <a href="{{ route('admin.products.edit', $p->id) }}" class="btn btn-sm btn-warning">
+                                                <i class="fas fa-edit"></i>
                                             </a>
                                             <form action="{{ route('admin.products.destroy', $p->id) }}" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Hapus produk ini?')">
-                                                    <i class="fas fa-trash"></i> Hapus
+                                                <button type="submit" class="btn btn-sm btn-danger flex-fill" onclick="return confirm('Hapus produk ini?')">
+                                                    <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </form>
                                         </td>

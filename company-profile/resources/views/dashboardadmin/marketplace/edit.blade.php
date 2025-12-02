@@ -132,7 +132,7 @@
                                                 <td>
                                                     <div class="d-flex gap-1">
                                                         <a href="{{ route('admin.marketplace.edit.single', ['role' => Auth::user()->role, 'id' => $market->id]) }}"
-                                                           class="btn btn-sm btn-warning flex-fill">
+                                                           class="btn btn-sm btn-warning">
                                                             <i class="fas fa-edit"></i>
                                                         </a>
                                                         <form action="{{ route('admin.marketplace.destroy', ['role' => Auth::user()->role, 'id' => $market->id]) }}"

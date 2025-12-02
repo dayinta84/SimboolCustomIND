@@ -48,13 +48,13 @@
                                         </td>
                                         <td>
                                             <a href="{{ route('superadmin.users.edit', $user->id) }}" class="btn btn-xs btn-warning">
-                                                <i class="fas fa-edit"></i> Edit
+                                                <i class="fas fa-edit"></i>
                                             </a>
                                             <form action="{{ route('superadmin.users.destroy', $user->id) }}" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-xs btn-danger" onclick="return confirm('Yakin hapus user ini?')">
-                                                    <i class="fas fa-trash-alt"></i> Hapus
+                                                    <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </form>
                                         </td>
