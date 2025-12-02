@@ -1,129 +1,91 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah User</title>
-    <style>
-        body {
-            background-color: #f5f5f5;
-            font-family: "Poppins", sans-serif;
-        }
+@extends('layout.adminlte')
+@section('title', 'Tambah User')
 
-        .form-container {
-            width: 700px;
-            margin: 50px auto;
-            background-color: #e9e9e9;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-        }
-
-        .form-header {
-            background-color: #1c1c1c;
-            color: white;
-            padding: 10px 15px;
-            font-weight: bold;
-            font-size: 15px;
-        }
-
-        .form-body {
-            padding: 25px 35px;
-        }
-
-        label {
-            font-weight: 600;
-            display: block;
-            margin-bottom: 6px;
-        }
-
-        .form-control,
-        .form-select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            background-color: #f8f8f8;
-            font-size: 14px;
-        }
-
-        .form-control:focus,
-        .form-select:focus {
-            outline: none;
-            border-color: #222;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .btn {
-            border: none;
-            padding: 8px 25px;
-            border-radius: 4px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s ease;
-        }
-
-        .btn-primary {
-            background-color: #000;
-        }
-
-        .btn-primary:hover {
-            background-color: #333;
-        }
-
-        .btn-secondary {
-            background-color: #000;
-        }
-
-        .btn-secondary:hover {
-            background-color: #333;
-        }
-    </style>
-</head>
-<body>
-    <div class="form-container">
-        <div class="form-header">Tambah User</div>
-        <div class="form-body">
-            <form action="{{ route('superadmin.users.store') }}" method="POST">
-                @csrf
-
-                <div>
-                    <label>Nama</label>
-                    <input type="text" name="name" class="form-control" required value="{{ old('name') }}">
+@section('content')
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-user-plus"></i> Tambah User</h3>
                 </div>
+                <!-- /.card-header -->
 
-                <div>
-                    <label>Username</label>
-                    <input type="text" name="username" class="form-control" required value="{{ old('username') }}">
-                </div>
+                <div class="card-body">
+                    @if(session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
 
-                <div>
-                    <label>Password</label>
-                    <input type="password" name="password" class="form-control" required>
-                </div>
+                    <form action="{{ route('superadmin.users.store') }}" method="POST">
+                        @csrf
 
-                <div>
-                    <label>Role</label>
-                    <select name="role" class="form-select" required>
-                        <option value="">-- Pilih Role --</option>
-                        <option value="admin">Admin</option>
-                        <option value="superadmin">Superadmin</option>
-                    </select>
-                </div>
+                        <div class="form-group">
+                            <label for="name">Nama</label>
+                            <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror"
+                                   value="{{ old('name') }}" required>
+                            @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
 
-                <div class="button-group">
-                    <button type="submit" class="btn btn-primary">Tambah</button>
-                    <a href="{{ route('superadmin.users.index') }}" class="btn btn-secondary">Kembali</a>
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" name="username" id="username" class="form-control @error('username') is-invalid @enderror"
+                                   value="{{ old('username') }}" required>
+                            @error('username')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror" required>
+                            @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="role">Role</label>
+                            <select name="role" id="role" class="form-control @error('role') is-invalid @enderror" required>
+                                <option value="">-- Pilih Role --</option>
+                                <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                                <option value="superadmin" {{ old('role') == 'superadmin' ? 'selected' : '' }}>Superadmin</option>
+                            </select>
+                            @error('role')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Tambah User
+                            </button>
+                            <a href="{{ route('superadmin.users.index') }}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Kembali
+                            </a>
+                        </div>
+                    </form>
                 </div>
-            </form>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
         </div>
+        <!-- /.col -->
     </div>
-</body>
-</html>
+    <!-- /.row -->
+</div>
+@endsection
