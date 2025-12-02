@@ -16,9 +16,7 @@ class ProductController extends Controller
     {
         $query = Product::query();
 
-        // ----------------------
         // FILTER KATEGORI
-        // ----------------------
         if ($request->has('category') && $request->category !== '') {
             $query->where('category', $request->category);
         }
@@ -36,9 +34,16 @@ class ProductController extends Controller
     // ========================
     //  ADMIN CRUD
     // ========================
-    public function index($role)
+    public function index(Request $request, $role)
     {
-        $products = Product::latest()->get();
+        $query = Product::query();
+
+        //filter kategori admin
+        if ($request->has('category') && $request->category !== '') {
+            $query->where('category', $request->category);
+        }
+        $products = $query->latest()->get();
+        //$products = Product::latest()->get();
         return view('dashboardadmin.produk.edit', compact('products'));
     }
 
