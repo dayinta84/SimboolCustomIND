@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class HomeContent extends Model
+class WhyContent extends Model
 {
     protected $fillable = [
         'title',
-        'subtitle'
+        'description',
     ];
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\LayananList;
 use App\Models\Slider;
 use App\Models\HomeContent;
+use App\Models\WhyContent;
 use App\Models\Product;
 use App\Models\Marketplace;
 use App\Models\Profil;
@@ -21,6 +22,7 @@ class HomeController extends Controller
         $marketplaces = Marketplace::all();   // ← perbaikan
         $profil = Profil::first();            // ← perbaikan
         $contact = Contact::first();          // ← perbaikan
+        $whys = WhyContent::all();
 
         return view('visit.home', compact(
             'content', 
@@ -28,7 +30,8 @@ class HomeController extends Controller
             'products',        // ← harus jamak
             'marketplaces', 
             'profil', 
-            'contact'
+            'contact',
+            'whys',
         ));
     }
 }

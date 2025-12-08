@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('slide', function (Blueprint $table) {
+        Schema::create('why_contents', function (Blueprint $table) {
             $table->id();
-            $table->string('image'); // path gambar slider 
-            $table->string('title')->nullable(); // optional title 
-            $table->string('subtitle')->nullable();
+            $table->string('title');
+            $table->text('description');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('slide');
+        Schema::dropIfExists('why_contents');
     }
 };

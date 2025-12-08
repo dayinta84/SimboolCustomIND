@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\HomeContent;
 use App\Models\Slider;
+use App\Models\WhyContent;
 use App\Models\LayananList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -41,12 +42,14 @@ class HomeContentController extends Controller
         $slides  = Slider::all();
         $layanan  = LayananList::all();
         $role = Auth::user()->role; // Mendapatkan segmen pertama dari URL sebagai role
+        $whys = WhyContent::all();
 
         return view('dashboardadmin.home_content.edit', compact(
             'content',
             'slides',
             'layanan',
-            'role'
+            'role',
+            'whys'
         ));
     }
 
@@ -60,20 +63,9 @@ class HomeContentController extends Controller
         $request->validate([
             'title'        => 'nullable|string|max:255',
             'subtitle'     => 'nullable|string|max:255',
-            'why_1_title'  => 'nullable|string|max:255',
-            'why_1_desc'   => 'nullable|string',
-            'why_2_title'  => 'nullable|string|max:255',
-            'why_2_desc'   => 'nullable|string',
-            'why_3_title'  => 'nullable|string|max:255',
-            'why_3_desc'   => 'nullable|string',
         ]);
 
-        $data = $request->only([
-            'title', 'subtitle',
-            'why_1_title', 'why_1_desc',
-            'why_2_title', 'why_2_desc',
-            'why_3_title', 'why_3_desc',
-        ]);
+        $data = $request->only(['title', 'subtitle']);
 
         $content = HomeContent::first();
 
@@ -125,7 +117,7 @@ class HomeContentController extends Controller
 
     /*
     |--------------------------------------------------------------------------
-    | LAYANAN LIST (SAMA DENGAN ROUTE)
+    | LAYANAN LIST (SAMA DENGAN ROUTE) nggk kepake ini
     |--------------------------------------------------------------------------
     */
 

@@ -17,12 +17,6 @@ return new class extends Migration
         $table->id();
         $table->string('title')->nullable();     // Judul besar
         $table->string('subtitle')->nullable();  // Teks kecil
-        $table->text('why_1_title')->nullable();
-        $table->text('why_1_desc')->nullable();
-        $table->text('why_2_title')->nullable();
-        $table->text('why_2_desc')->nullable();
-        $table->text('why_3_title')->nullable();
-        $table->text('why_3_desc')->nullable();
         $table->timestamps();
     });
 }

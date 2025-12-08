@@ -10,6 +10,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\Admin\ProfilController;
 use App\Http\Controllers\Admin\HomeContentController;
+use App\Http\Controllers\Admin\WhyContentController;
 use App\Http\Controllers\LayananListController;
 
 
@@ -122,7 +123,7 @@ Route::middleware(['auth'])->group(function () {
             // Layanan
             Route::get('/profil/layanan', [LayananController::class, 'index'])->name('layanan.index');
             Route::post('/profil/layanan/store', [LayananController::class, 'store'])->name('layanan.store');
-            Route::post('/profil/layanan/update/{id}', [LayananController::class, 'update'])->name('layanan.update');
+            Route::put('/profil/layanan/update/{id}', [LayananController::class, 'update'])->name('layanan.update');
             Route::delete('/profil/layanan/delete/{id}', [LayananController::class, 'destroy'])->name('layanan.destroy');
 
             // tambah layanan
@@ -153,9 +154,13 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/layananlist/update/{id}',[HomeContentController::class, 'updateLayananList'])->where('role', 'admin|superadmin')->name('admin.layananlist.update');
             Route::delete('/layananlist/delete/{id}',[HomeContentController::class, 'deleteLayananList'])->where('role', 'admin|superadmin')->name('admin.layananlist.delete');
 
+            //why
+            Route::get('/home_content/why/edit/{id}', [WhyContentController::class, 'edit'])->name('admin.why.edit');
+            Route::post('/home_content/why/update/{id}', [WhyContentController::class, 'update'])->name('admin.why.update');
+            Route::delete('/home_content/why/delete/{id}', [WhyContentController::class, 'delete'])->name('admin.why.delete');
+            Route::post('/home_content/why/store', [WhyContentController::class, 'store'])->name('admin.why.store');
+
         });
-
-
 
     
 
