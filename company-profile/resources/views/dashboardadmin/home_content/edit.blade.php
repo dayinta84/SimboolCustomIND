@@ -165,7 +165,7 @@
                                     <td class="text-muted">{{ Str::limit($why->description, 60) }}</td>
                                     <td>
                                         <button class="btn btn-sm btn-warning me-1"
-                                            onclick="openWhyEdit({{ $why->id }}, '{{ addslashes($why->title) }}', '{{ addslashes($why->description) }}')">
+                                            onclick="openWhyEdit('{{ $why->id }}', '{{ addslashes($why->title) }}', '{{ addslashes($why->description) }}')">
                                             <i class="fas fa-edit"></i>
                                         </button>
 

@@ -1,17 +1,14 @@
 <header class="floating-navbar">
   <div class="nav-inner">
 
-    <!-- Logo -->
     <div class="nav-logo">
       <img src="{{ asset('images/logo_simbool.png') }}" class="logo">
     </div>
 
-    <!-- Toggle Button -->
     <button class="nav-toggle" id="navToggle">
         <span></span><span></span><span></span>
     </button>
 
-    <!-- Menu -->
     <nav class="nav-menu" id="navMenu">
       <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Beranda</a>
       <a href="{{ route('products.index') }}" class="{{ request()->routeIs('products.*') ? 'active' : '' }}">Produk</a>
@@ -32,38 +29,55 @@
 .floating-navbar {
     position: sticky;
     top: 0;
-    padding: 14px 0;
     z-index: 9999;
+    width: 100%;
+    padding: 0; /* HAPUS padding biar nempel full */
+    background: transparent;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    background: transparent;
 }
 
+/* NAV DALAMNYA FULL WIDTH */
 .nav-inner {
-    width: min(92%, 1250px);
-    padding: 12px 28px;
-    background: rgba(20, 20, 20, 0.65);
-    backdrop-filter: blur(14px);
-    border-radius: 16px;
-    border: 1px solid rgba(255,255,255,0.1);
+    width: 100%; /* ← FULL */
+    padding: 14px 34px;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    background: rgba(30, 0, 40, 0.55); /* kamu bisa sesuaikan */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border-radius: 0; 
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3);
 }
 
 .logo {
     height: 40px;
 }
 
+/* GLOW BAR FULL WIDTH */
+.under-glow {
+    width: 100%; /* ← FULL */
+    height: 3px;
+    background: linear-gradient(90deg,#d000ff,#00d4ff,#7000ff);
+    animation: glowRun 6s infinite;
+}
+
+@keyframes glowRun {
+    0% { background-position: 0% }
+    50% { background-position: 100% }
+    100% { background-position: 0% }
+}
+
 /* ================= DESKTOP MENU ================= */
 
 .nav-menu {
     display: flex;
-    gap: 34px;
+    gap: 32px;
 }
 
 .nav-menu a {
@@ -72,7 +86,7 @@
     font-size: 15px;
     font-weight: 500;
     position: relative;
-    padding: 4px 0;
+    padding: 3px 0;
     transition: 0.2s ease;
 }
 
@@ -100,10 +114,9 @@
 /* ================= NEON GLOW ================= */
 
 .under-glow {
-    width: min(92%, 1250px);
+    width: 100%;                 /* ← FULL */
     height: 3px;
     background: linear-gradient(90deg,#d000ff,#00d4ff,#7000ff);
-    border-radius: 999px;
     animation: glowRun 6s infinite;
 }
 
@@ -128,7 +141,7 @@
     width: 26px;
     height: 3px;
     background: white;
-    border-radius: 8px;
+    border-radius: 4px;
     transition: .25s;
 }
 
@@ -136,22 +149,22 @@
 
     .nav-toggle { display: flex; }
 
-    /* === MOBILE DROPDOWN (DI-TENGAH) === */
     .nav-menu {
         position: absolute;
         top: 78px;
-        left: 50%;                     /* supaya center */
+        left: 50%;
         transform: translateX(-50%) translateY(-10px);
-        width: 90%;                    /* responsif */
-        max-width: 420px;              /* biar tidak terlalu lebar */
+        width: 90%;
+        max-width: 420px;
         padding: 20px 26px;
 
         flex-direction: column;
         gap: 20px;
+
         background: rgba(15,15,15,0.9);
         backdrop-filter: blur(14px);
 
-        border-radius: 16px;
+        border-radius: 0; /* ← MOBILE DROPDOWN JUGA KOTAK */
         border: 1px solid rgba(255,255,255,0.12);
 
         opacity: 0;
@@ -160,18 +173,12 @@
         box-shadow: 0 8px 26px rgba(0,0,0,0.5);
     }
 
-    .nav-menu a {
-        text-align: center;
-        width: 100%;   
-    }
-
     .nav-menu.show {
         opacity: 1;
         pointer-events: auto;
         transform: translateX(-50%) translateY(0);
     }
 
-    /* Hamburger → X */
     .nav-toggle.active span:nth-child(1) {
         transform: rotate(45deg) translateY(8px);
     }
