@@ -59,25 +59,25 @@
 
     {{-- FILTER KATEGORI --}}
     @php
-        $categories = ['Banner', 'Decal', 'Sablon Kaos', 'Sticker', 'Striping'];
-        $active = request('category');
-    @endphp
+    $active = request('category');
+@endphp
 
-    <div class="text-center mb-4">
-        <a href="{{ route('products.index') }}"
+<div class="text-center mb-4">
+    <a href="{{ route('products.index') }}"
+       class="badge category-pill rounded-pill px-3 py-2 mx-1
+       {{ $active ? 'bg-light text-dark' : 'bg-primary text-white border-0' }}">
+        All
+    </a>
+
+    @foreach($categories as $cat)
+        <a href="{{ route('products.index', ['category' => $cat]) }}"
            class="badge category-pill rounded-pill px-3 py-2 mx-1
-                  {{ $active ? 'bg-light text-dark' : 'bg-primary text-white border-0' }}">
-            All
+           {{ $active === $cat ? 'bg-primary text-white border-0' : 'bg-light text-dark' }}">
+            {{ $cat }}
         </a>
+    @endforeach
+</div>
 
-        @foreach($categories as $cat)
-            <a href="{{ route('products.index', ['category' => $cat]) }}"
-               class="badge category-pill rounded-pill px-3 py-2 mx-1
-                     {{ $active === $cat ? 'bg-primary text-white border-0' : 'bg-light text-dark' }}">
-                {{ $cat }}
-            </a>
-        @endforeach
-    </div>
 
 
     {{-- LIST PRODUK --}}

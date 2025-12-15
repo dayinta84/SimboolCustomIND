@@ -13,39 +13,51 @@ class ProductController extends Controller
     //  FRONTEND (visitor)
     // ========================
     public function frontendIndex(Request $request)
-    {
-        $query = Product::query();
+{
+    $query = Product::query();
 
-        // FILTER KATEGORI
-        if ($request->has('category') && $request->category !== '') {
-            $query->where('category', $request->category);
-        }
-
-        $products = $query->latest()->get();
-
-        return view('visit.products', compact('products'));
+    if ($request->filled('category')) {
+        $query->where('category', $request->category);
     }
 
-    public function show(Product $product)
-    {
-        return view('visit.show-product', compact('product'));
-    }
+    $products = $query->latest()->get();
+
+    // 🔥 KATEGORI DINAMIS
+    $categories = Product::whereNotNull('category')
+        ->select('category')
+        ->distinct()
+        ->orderBy('category')
+        ->pluck('category');
+
+    return view('visit.products', compact('products', 'categories'));
+
+}
+
 
     // ========================
     //  ADMIN CRUD
     // ========================
     public function index(Request $request, $role)
     {
-        $query = Product::query();
+    $query = Product::query();
 
-        //filter kategori admin
-        if ($request->has('category') && $request->category !== '') {
-            $query->where('category', $request->category);
-        }
-        $products = $query->latest()->get();
-        //$products = Product::latest()->get();
-        return view('dashboardadmin.produk.edit', compact('products'));
+    // filter kategori admin
+    if ($request->filled('category')) {
+        $query->where('category', $request->category);
     }
+
+    $products = $query->latest()->get();
+
+    // ambil kategori unik untuk dropdown / datalist
+    $categories = Product::whereNotNull('category')
+        ->select('category')
+        ->distinct()
+        ->orderBy('category')
+        ->pluck('category');
+
+    return view('dashboardadmin.produk.edit', compact('products', 'categories'));
+    }
+
 
     public function store(Request $request)
     {
