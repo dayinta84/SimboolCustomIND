@@ -140,6 +140,7 @@
                                             {{ $cat }}
                                         </option>
                                     @endforeach
+
                                 </select>
                             </div>
                         </form>

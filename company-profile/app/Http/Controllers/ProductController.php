@@ -73,7 +73,7 @@ class ProductController extends Controller
             'name'        => 'required|max:255',
             'description' => 'nullable|string',
             'category'    => 'nullable|string|max:100',
-            'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:10024',
         ]);
 
         $imagePath = null;
