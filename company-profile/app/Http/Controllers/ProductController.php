@@ -17,8 +17,10 @@ class ProductController extends Controller
         $query = Product::query();
 
         // FILTER KATEGORI
-        if ($request->has('category') && $request->category !== '') {
-            $query->where('category', $request->category);
+        $category = $request->get('category');
+
+        if ($category && $category !== 'all') {
+            $query->where('category', $category);
         }
 
         $products = $query->latest()->get();
@@ -39,8 +41,10 @@ class ProductController extends Controller
         $query = Product::query();
 
         //filter kategori admin
-        if ($request->has('category') && $request->category !== '') {
-            $query->where('category', $request->category);
+        $category = $request->get('category');
+
+        if ($category && $category !== 'all') {
+            $query->where('category', $category);
         }
         $products = $query->latest()->get();
         //$products = Product::latest()->get();

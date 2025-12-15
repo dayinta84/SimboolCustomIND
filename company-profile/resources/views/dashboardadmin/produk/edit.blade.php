@@ -135,16 +135,13 @@
                         <form method="GET" class="form-inline">
                             <div class="input-group input-group-sm">
                                 <select name="category" class="form-control float-right" onchange="this.form.submit()">
-                                    <option value="">-- Semua Kategori --</option>
+                                    <option value="all" {{ request('category') ? '' : 'selected' }}>-- Semua Kategori --</option>
                                     <option value="Banner" {{ request('category')=='Banner' ? 'selected' : '' }}>Banner</option>
                                     <option value="Decal" {{ request('category')=='Decal' ? 'selected' : '' }}>Decal</option>
                                     <option value="Sablon Kaos" {{ request('category')=='Sablon Kaos' ? 'selected' : '' }}>Sablon Kaos</option>
                                     <option value="Sticker" {{ request('category')=='Sticker' ? 'selected' : '' }}>Sticker</option>
                                     <option value="Striping" {{ request('category')=='Striping' ? 'selected' : '' }}>Striping</option>
                                 </select>
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-                                </div>
                             </div>
                         </form>
                     </div>
@@ -152,7 +149,7 @@
                 <!-- /.card-header -->
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table class="table table-hover text-nowrap">
+                        <table class="table table-hover">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -176,7 +173,9 @@
                                         </td>
                                         <td>{{ $p->name }}</td>
                                         <td><span class="badge bg-info">{{ $p->category ?? '-' }}</span></td>
-                                        <td class="text-truncate" style="max-width: 200px;" title="{{ strip_tags($p->description) }}">{!! strip_tags($p->description) !!}</td>
+                                        <td style="max-width:260px; white-space: normal;">
+                                             {{ Str::limit(str_replace('&nbsp;', ' ', strip_tags($p->description)), 90) }}
+                                        </td>
                                         <td>
                                             <a href="{{ route('admin.products.edit', $p->id) }}" class="btn btn-sm btn-warning">
                                                 <i class="fas fa-edit"></i>
@@ -213,8 +212,13 @@
     <!-- Summernote -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs4.min.css">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs4.min.js"></script>
+
+    {{-- kalau AdminLTE kamu belum include plugin ini, aktifkan: --}}
+    {{-- <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script> --}}
+
     <script>
         $(function () {
+
             // Inisialisasi Summernote
             $('#editor').summernote({
                 placeholder: 'Tulis deskripsi produk...',
@@ -225,34 +229,41 @@
                     ['insert', ['link']]
                 ],
                 callbacks: {
-                    onImageUpload: function(files) {
-                        // Jika ingin menangani upload gambar langsung ke editor, tambahkan logika di sini
-                        // Contoh sederhana (tanpa backend):
-                        // for(let i = 0; i < files.length; i++) {
-                        //     let reader = new FileReader();
-                        //     reader.onload = function(event) {
-                        //         $('#editor').summernote('insertImage', event.target.result);
-                        //     }
-                        //     reader.readAsDataURL(files[i]);
-                        // }
+                    onChange: function(contents) {
+                        // hapus inline color biar tidak jadi hitam di halaman dark
+                        contents = contents.replace(/color\s*:\s*[^;"']+;?/gi, '');
+                        contents = contents.replace(/<span\s+style="[^"]*">\s*<\/span>/gi, '');
+                        $('textarea[name="description"]').val(contents);
                     }
                 }
             });
 
             // Update nama file pada label input gambar
-            bsCustomFileInput.init();
+            if (window.bsCustomFileInput) {
+                bsCustomFileInput.init();
+            }
 
-            // Preview gambar sebelum upload
-            document.getElementById('image').addEventListener('change', function(e) {
-                const [file] = e.target.files;
-                if (file) {
+            // Preview gambar sebelum upload + set label nama file
+            const imageInput = document.getElementById('image');
+            if (imageInput) {
+                imageInput.addEventListener('change', function(e) {
+                    const file = e.target.files && e.target.files[0];
+                    if (!file) return;
+
+                    // preview
                     const reader = new FileReader();
-                    reader.onload = function(e) {
-                        document.getElementById('preview').src = e.target.result;
+                    reader.onload = function(ev) {
+                        const preview = document.getElementById('preview');
+                        if (preview) preview.src = ev.target.result;
                     };
                     reader.readAsDataURL(file);
-                }
-            });
+
+                    // label nama file (fallback kalau bsCustomFileInput tidak jalan)
+                    const label = document.querySelector('label[for="image"].custom-file-label');
+                    if (label) label.textContent = file.name;
+                });
+            }
+
         });
     </script>
 @endsection
