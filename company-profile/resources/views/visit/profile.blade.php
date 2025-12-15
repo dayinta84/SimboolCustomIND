@@ -11,14 +11,14 @@
     /* ====== HERO SECTION ====== */
     .hero-section {
         position: relative;
-        height: 40vh;
+        height: auto;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         text-align: center;
         padding: 0 15px;
-        margin-bottom: 2rem;
+        margin-bottom: 0;
     }
 
     .hero-section img {
@@ -233,7 +233,7 @@
 </style>
 
 {{-- ====== HERO SECTION ====== --}}
-<div class="hero-section">
+<div class="hero-section py-5">
     @if($profil->image)
         <img src="{{ asset('storage/' . $profil->image) }}" alt="Profil">
     @endif
@@ -242,7 +242,7 @@
 </div>
 
 {{-- ====== MAIN CONTENT ====== --}}
-<section class="container content py-5">
+<section class="container content py-2">
 
     {{-- Tentang Kami --}}
     <div class="tentang container dark-card">
