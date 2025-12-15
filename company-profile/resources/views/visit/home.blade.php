@@ -248,10 +248,6 @@
             <div class="swiper-pagination"></div>
         </div>
 
-        <div class="hero-text text-center position-absolute top-50 start-50 translate-middle text-white">
-            <h1 class="fw-bold">{{ $content->title ?? 'Solusi Cetak Terbaik' }}</h1>
-            <h4>{{ $content->subtitle ?? 'Cepat, Berkualitas, Terpercaya' }}</h4>
-
         <div class="hero-text">
             <h1>{{ $content->title ?? '' }}</h1>
             <h3>{{ $content->subtitle ?? '' }}</h3>
@@ -265,34 +261,15 @@
     <h3 class="section-title">TEMUKAN SOLUSI CETAKMU</h3>
     <div class="row justify-content-center g-4">
         @php
-            use App\Models\Product;
-
-            // AMBIL KATEGORI LANGSUNG DARI DATABASE
-            $categories = Product::whereNotNull('category')
-            ->select('category')
-            ->distinct()
-            ->orderBy('category')
-            ->pluck('category');
+            $categories = ['Banner', 'Decal', 'Sablon Kaos', 'Sticker', 'Striping'];
         @endphp
-
-            <div class="row justify-content-center g-4">
-
-        @forelse($categories as $cat)
+        @foreach($categories as $cat)
             @php
-                $product = Product::where('category', $cat)->first();
-                $image = ($product && $product->image)
-                    ? asset('storage/'.$product->image)
-                    : 'https://via.placeholder.com/300x180?text=Coming+Soon';
+                $product = \App\Models\Product::where('category', $cat)->first();
+                $image = $product ? asset('storage/'.$product->image) : 'https://via.placeholder.com/300x180?text=Coming+Soon';
             @endphp
-
             <div class="col-6 col-sm-4 col-md-2">
                 <a href="{{ route('products.index', ['category' => $cat]) }}" class="text-decoration-none">
-
-                <div class="dynamic-card text-center h-100">
-                        <img src="{{ $image }}" class="category-card">
-                        <div class="p-3">
-                            <h6 class="fw-bold mb-0 text-dark">{{ $cat }}</h6>
-
                     <div class="dark-card category-box h-100">
                         <img src="{{ $image }}" alt="{{ $cat }}" class="category-card img-fluid w-100">
                         <div class="card-body py-3">
@@ -301,28 +278,8 @@
                     </div>
                 </a>
             </div>
-
-        @empty
-            <div class="col-12 text-center text-muted">
-                Belum ada kategori produk.
-            </div>
-        @endforelse
-
+        @endforeach
     </div>
-</div>
-
-{{-- ================= SWIPER ================= --}}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script>
-    new Swiper(".mySwiper", {
-        loop: true,
-        autoplay: { delay: 4000 },
-        pagination: { el: ".swiper-pagination", clickable: true },
-        effect: "fade"
-    });
-</script>
-
 
     {{-- MENGAPA KAMI --}}
     <div class="mt-5 pt-5">
