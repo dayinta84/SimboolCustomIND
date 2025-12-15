@@ -95,9 +95,9 @@
 
         <h5 class="fw-bold mb-2 desc-title">Deskripsi Produk</h5>
 
-        <p class="product-desc">
-            {!! nl2br(e($product->description)) !!}
-        </p>
+        <div class="product-desc">
+            {!! $product->description !!}
+        </div>
 
     </div>
 

@@ -3,98 +3,96 @@
 
 @section('content')
 <style>
-    /* ====== BACKGROUND & FONT ====== */
     body {
-        background: linear-gradient(160deg, #0b0014 0%, #1a001f 50%, #000000 100%);
-        color: #fff;
+        color: #212529; /* default text color */
         font-family: 'Poppins', sans-serif;
-    }
-
-    h1, h2, h3, h4 {
-        color: #e66bff;
-        font-weight: 700;
-        text-shadow: 0 0 5px rgba(230, 107, 255, 0.4);
     }
 
     /* ====== HERO SECTION ====== */
     .hero-section {
         position: relative;
-        height: 50vh;
-        padding-bottom: 10px;
+        height: 40vh;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         text-align: center;
-        background: radial-gradient(circle at top, rgba(255, 0, 204, 0.15), transparent 70%);
-        overflow: hidden;
+        padding: 0 15px;
+        margin-bottom: 2rem;
     }
 
     .hero-section img {
         display: block;
-        margin: 0 auto 25px auto;
-        max-height: 220px;
+        margin: 0 auto 20px auto;
+        max-height: 180px;
         max-width: 90%;
         height: auto;
         border-radius: 12px;
-        box-shadow: 0 0 25px rgba(255, 0, 204, 0.3);
-        animation: fadeInDown 1s ease-out;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        animation: fadeInDown 0.8s ease-out;
     }
 
     .hero-section h1 {
-        font-size: 2.5rem;
+        font-size: 2.4rem;
         letter-spacing: 2px;
-        animation: fadeInUp 1s ease-out;
+        animation: fadeInUp 0.8s ease-out;
+
+        /* GRADIENT LOGO STYLE */
+        background: linear-gradient(90deg, #ff4fd8, #a855f7, #7c3aed);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+
+        text-shadow:
+            0 0 8px rgba(168, 85, 247, 0.6),
+            0 0 16px rgba(124, 58, 237, 0.4);
     }
 
     .hero-section p {
         max-width: 700px;
-        margin: 15px auto 0 auto;
-        color: #ddd;
-        font-size: 1.1rem;
-        animation: fadeIn 1.2s ease-out;
+        margin: 12px auto 0 auto;
+        color: #555;
+        font-size: 1rem;
+        animation: fadeIn 1s ease-out;
     }
 
     /* ====== CONTENT SECTIONS ====== */
     section.content {
-        margin-top: 10px;
+        margin-top: 0;
+        padding: 2rem 0;
     }
 
-    .tentang, .visi-misi, .layanan, .extra-section {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 0, 204, 0.15);
+    /* Default card container spacing (tanpa warna) */
+    .tentang, .visi-misi .box, .layanan .card, .extra-section {
         border-radius: 12px;
         padding: 25px;
-        margin-bottom: 50px;
-        box-shadow: 0 0 15px rgba(255, 0, 204, 0.1);
+        margin-bottom: 30px;
+        transition: all 0.3s ease;
+    }
+
+    .tentang:hover,
+    .visi-misi .box:hover,
+    .layanan .card:hover,
+    .extra-section:hover {
+        transform: translateY(-3px);
     }
 
     .tentang {
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 12px;
-        padding: 40px 30px;
-        margin-bottom: 50px;
-        box-shadow: 0 0 15px rgba(255, 0, 204, 0.15);
-    }
-
-    .tentang .row {
-        align-items: center;
-        /*gap: 20px;*/
+        padding: 35px;
     }
 
     .tentang img {
         width: 100%;
-        max-width: 450px;
+        max-width: 400px;
         border-radius: 10px;
-        box-shadow: 0 0 15px rgba(255, 0, 204, 0.25);
-    }
-    
-    .tentang p {
-        text-align: justify;
-        font-size: 1.05rem;
-        color: #ddd;
+        margin: 0 auto;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.08);
     }
 
+    .tentang p {
+        text-align: justify;
+        font-size: 1.02rem;
+        line-height: 1.7;
+    }
 
     /* ====== VISI & MISI ====== */
     .visi-misi {
@@ -105,18 +103,8 @@
     }
 
     .visi-misi .box {
-        flex: 1 1 350px;
-        background: rgba(255, 255, 255, 0.07);
-        border-radius: 12px;
-        padding: 30px;
+        flex: 1 1 320px;
         text-align: center;
-        transition: 0.3s;
-    }
-
-    .visi-misi .box:hover {
-        background: rgba(255, 255, 255, 0.15);
-        transform: translateY(-5px);
-        box-shadow: 0 0 20px rgba(255, 0, 204, 0.25);
     }
 
     .visi-misi p {
@@ -128,25 +116,102 @@
         text-align: center;
     }
 
+    .layanan h3 {
+        font-weight: 800;
+        margin-bottom: 1.8rem;
+        letter-spacing: 2px;
+
+        background: linear-gradient(90deg, #ff4fd8, #a855f7);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+
+        text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+    }
+
+    /* ====== DARK CARD STYLE (SAMAKAN DENGAN LAYANAN KAMI) ====== */
+    .dark-card {
+        background: linear-gradient(
+            145deg,
+            rgba(30, 30, 45, 0.95),
+            rgba(20, 20, 35, 0.95)
+        );
+        border: 1px solid rgba(168, 85, 247, 0.25);
+        border-radius: 14px;
+        color: #e5e7eb;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+        transition: all 0.3s ease;
+    }
+
+    .dark-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 30px rgba(168, 85, 247, 0.25);
+        border-color: rgba(168, 85, 247, 0.6);
+    }
+
+    .dark-card h4,
+    .dark-card h5 {
+        color: #f472ff;
+        letter-spacing: 1px;
+        text-shadow: 0 0 10px rgba(168, 85, 247, 0.6);
+    }
+
+    .dark-card p {
+        color: #d1d5db;
+    }
+
+    /* Layanan card tetap sama, tapi kita arahkan juga pakai dark-card agar konsisten */
     .layanan .card {
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 0, 204, 0.15);
-        border-radius: 12px;
-        color: #fff;
-        transition: 0.3s;
-        height: 100%;
+        background: linear-gradient(
+            145deg,
+            rgba(30, 30, 45, 0.95),
+            rgba(20, 20, 35, 0.95)
+        );
+        border: 1px solid rgba(168, 85, 247, 0.25);
+        border-radius: 14px;
+        color: #e5e7eb;
+
+        box-shadow: 0 5px 15px rgba(0,0,0,0.35);
+        transition: all 0.3s ease;
+
+        /* Atur lebar maksimum */
+        max-width: 80%;
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 18px 20px;
+        text-align: center;
+
+        /* Jarak antar card */
+        margin: 0 auto 20px auto;
     }
 
     .layanan .card:hover {
-        background: rgba(255, 255, 255, 0.15);
-        transform: translateY(-5px);
-        box-shadow: 0 0 15px rgba(255, 0, 204, 0.25);
+        transform: translateY(-6px);
+        box-shadow: 0 12px 30px rgba(168, 85, 247, 0.25);
+        border-color: rgba(168, 85, 247, 0.6);
+    }
+
+    .layanan .card h5 {
+        color: #f472ff;
+        letter-spacing: 1px;
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+        text-shadow: 0 0 10px rgba(168, 85, 247, 0.6);
+    }
+
+    .layanan .card p {
+        color: #d1d5db;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin: 0;
+        max-width: 90%;
     }
 
     @media (min-width: 768px) {
         .layanan .col-md-6 {
-            flex: 0 0 45%;
-            max-width: 45%;
+            flex: 0 0 calc(50% - 15px);
         }
     }
 
@@ -157,12 +222,12 @@
     }
 
     @keyframes fadeInDown {
-        from { opacity: 0; transform: translateY(-30px); }
+        from { opacity: 0; transform: translateY(-20px); }
         to { opacity: 1; transform: translateY(0); }
     }
 
     @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(30px); }
+        from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
     }
 </style>
@@ -180,7 +245,7 @@
 <section class="container content py-5">
 
     {{-- Tentang Kami --}}
-    <div class="tentang container">
+    <div class="tentang container dark-card">
         <h4 class="text-center mb-4">Tentang Kami</h4>
         <div class="row align-items-center">
             @if($profil->image_tentang)
@@ -196,11 +261,11 @@
 
     {{-- Visi & Misi --}}
     <div class="visi-misi">
-        <div class="box">
+        <div class="box dark-card">
             <h4>VISI</h4>
             <p>{{ $profil->visi }}</p>
         </div>
-        <div class="box">
+        <div class="box dark-card">
             <h4>MISI</h4>
             <p>{{ $profil->misi }}</p>
         </div>
@@ -211,7 +276,7 @@
         <h3>LAYANAN KAMI</h3>
         <div class="row mt-4 g-4 justify-content-center">
             @foreach($layanans as $layanan)
-                <div class="col-md-6 mb-4">
+                <div class="col-md-6 mb-4 mx-auto">
                     <div class="card p-4 shadow-sm">
                         <h5 class="fw-bold text-uppercase">{{ $layanan->judul }}</h5>
                         <p>{{ $layanan->deskripsi }}</p>
@@ -223,7 +288,7 @@
 
     {{-- Section Tambahan --}}
     @foreach($sections as $sec)
-        <div class="extra-section text-center">
+        <div class="extra-section text-center dark-card">
             <h4>{{ strtoupper($sec->judul) }}</h4>
             <p>{{ $sec->isi }}</p>
         </div>

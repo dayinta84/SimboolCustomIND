@@ -3,53 +3,83 @@
 @section('content')
 
 <style>
-.product-card {
-    background: rgba(0,0,0,0.12);
-    backdrop-filter: blur(4px);
-    border: 1px solid rgba(0,0,0,0.15);
-    border-radius: 16px;
-    overflow: hidden;
-    transition: .25s ease;
-}
+    h3.text-center.mb-4.fw-bold {
+        color: white;
+        font-weight: 800;
+        letter-spacing: 1px;
+    }
 
-.product-card:hover {
-    background: rgba(0,0,0,0.20);
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0,0,0,.15);
-}
+    .product-card {
+        background: rgba(0,0,0,0.12);
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(255,255,255,0.2); /* GARIS PUTIH TIPIS */
+        border-radius: 16px;
+        overflow: hidden;
+        transition: .25s ease;
+    }
 
-.card-img-top {
-    height: 180px;
-    object-fit: cover;
-}
+    .product-card:hover {
+        background: rgba(0,0,0,0.20);
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0,0,0,.15);
+    }
 
-/* TEXT PUTIH */
-.product-name {
-    font-size: 14px;
-    font-weight: 600;
-    color: #ffffff;
-}
+    .card-img-top {
+        height: 180px;
+        object-fit: cover;
+    }
 
-.product-category {
-    font-size: 11px;
-    color: #e2e2e2;
-}
+    /* TEXT PUTIH */
+    .product-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: #ffffff;
+    }
 
-/* BUTTON PUTIH */
-.btn-detail {
-    font-size: 11px;
-    padding: 5px 12px;
-    border-radius: 8px;
-    color: #ffffff;
-    border: 1px solid rgba(255,255,255,0.5);
-    background: transparent;
-}
+    .product-category {
+        font-size: 11px;
+        color: #e2e2e2;
+    }
 
-.btn-detail:hover {
-    background: rgba(255,255,255,0.15);
-    color: #ffffff;
-    border-color: #ffffff;
-}
+    /* BUTTON PUTIH */
+    .btn-detail {
+        font-size: 11px;
+        padding: 5px 12px;
+        border-radius: 8px;
+        color: #ffffff;
+        border: 1px solid rgba(255,255,255,0.5);
+        background: transparent;
+    }
+
+    .btn-detail:hover {
+        background: rgba(255,255,255,0.15);
+        color: #ffffff;
+        border-color: #ffffff;
+    }
+
+    /* BADGE FILTER (All & Kategori) */
+    .category-pill {
+        font-size: 12px;
+        font-weight: 500;
+        padding: 5px 12px;
+        transition: all 0.2s ease;
+    }
+
+    .category-pill.bg-primary {
+        background: #7D3C98 !important;
+        color: white !important;
+        border: none;
+    }
+
+    .category-pill.bg-light {
+        background: rgba(255,255,255,0.15) !important;
+        color: white !important;
+        border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .category-pill:hover {
+        transform: scale(1.05);
+    }
 </style>
 
 

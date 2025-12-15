@@ -18,6 +18,17 @@ class ProductController extends Controller
 
     if ($request->filled('category')) {
         $query->where('category', $request->category);
+
+        // FILTER KATEGORI
+        $category = $request->get('category');
+
+        if ($category && $category !== 'all') {
+            $query->where('category', $category);
+        }
+
+        $products = $query->latest()->get();
+
+        return view('visit.products', compact('products'));
     }
 
     $products = $query->latest()->get();
@@ -44,6 +55,16 @@ class ProductController extends Controller
     // filter kategori admin
     if ($request->filled('category')) {
         $query->where('category', $request->category);
+
+        //filter kategori admin
+        $category = $request->get('category');
+
+        if ($category && $category !== 'all') {
+            $query->where('category', $category);
+        }
+        $products = $query->latest()->get();
+        //$products = Product::latest()->get();
+        return view('dashboardadmin.produk.edit', compact('products'));
     }
 
     $products = $query->latest()->get();
