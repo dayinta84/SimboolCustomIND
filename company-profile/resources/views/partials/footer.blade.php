@@ -12,7 +12,7 @@
                 <!-- Logo & Nama -->
                 <div class="col-12 col-md-3 text-center text-md-start">
                     <div class="d-flex align-items-center justify-content-center justify-content-md-start">
-                        <img src="{{ asset('images/logo_simbool.png') }}" alt="Simbool Logo" class="footer-logo">
+                        <img src="{{ asset('images/logo_simboollogo.png') }}" alt="Simbool Logo" class="footer-logo">
                         <div class="footer-logo-text ms-2">
                             <h6 class="fw-bold mb-0 text-gradient">SIMBOOL</h6>
                             <h6 class="fw-bold mb-0 text-gradient">CUSTOM.IND</h6>

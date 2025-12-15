@@ -2,7 +2,7 @@
   <div class="nav-inner">
 
     <div class="nav-logo">
-      <img src="{{ asset('images/logo_simbool.png') }}" class="logo">
+      <img src="{{ asset('images/logo_simboollogo.png') }}" class="logo">
     </div>
 
     <button class="nav-toggle" id="navToggle">
