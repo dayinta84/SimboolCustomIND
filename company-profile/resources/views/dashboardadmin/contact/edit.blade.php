@@ -96,7 +96,7 @@
                                    class="form-control @error('map') is-invalid @enderror"
                                    placeholder="Masukkan link Google Maps (contoh: https://www.google.com/maps/place/...)">
                             <small class="text-muted">
-                                Cukup masukkan link Google Maps biasa, bukan link embed.
+                                Masukkan link Google Maps.
                             </small>
                             @error('map')
                                 <div class="invalid-feedback">{{ $message }}</div>

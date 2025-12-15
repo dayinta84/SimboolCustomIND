@@ -8,71 +8,115 @@ use Illuminate\Support\Facades\Storage;
 
 class ContactController extends Controller
 {
-     public function frontendIndex()
+    // =========================
+    // FRONTEND (VISITOR)
+    // =========================
+    public function frontendIndex()
     {
-        $contact = Contact::first();
-         if ($contact && !empty($contact->map)) {
-        $contact->map = $this->generateMapEmbed($contact->map);
-    }
+        $contact = Contact::first(); // ambil data pertama
         return view('visit.contact', compact('contact'));
     }
 
-    private function generateMapEmbed($url)
-{
-    // Jika link berasal dari google.com/maps atau maps.app.goo.gl
-    if (str_contains($url, 'google.com/maps') || str_contains($url, 'maps.app.goo.gl')) {
-        // Ambil bagian koordinat atau alamat dari URL
-        $encodedUrl = urlencode($url);
-
-        return '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d65389.75669183935!2d111.52666663007666!3d-7.630002101876529!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e79bd753f5cadd3%3A0xd41bd2bae580b564!2sSimbool%20Custom%20Industries!5e0!3m2!1sid!2sid!4v1761543297440!5m2!1sid!2sid" 
-         width="800" 
-        height="600" 
-       style="border:0;" 
-         allowfullscreen="" 
-       loading="lazy" 
-         referrerpolicy="no-referrer-when-downgrade">
-        </iframe>';
-    }
-
-    // Jika bukan link Google Maps, tampilkan link teks biasa
-    return '<p><a href="' . e($url) . '" target="_blank">Lihat di Google Maps</a></p>';
-}
-
-
-    // ✅ Halaman edit
+    // =========================
+    // ADMIN - EDIT PAGE
+    // =========================
     public function editPage()
     {
-        $contact = Contact::first(); // ambil data pertama
+        $contact = Contact::first();
         return view('dashboardadmin.contact.edit', compact('contact'));
     }
 
-    // ✅ Simpan perubahan
+    // =========================
+    // ADMIN - UPDATE PAGE
+    // =========================
     public function updatePage(Request $request)
 {
     $request->validate([
         'alamat' => 'required|string|max:255',
-        'whatsapp' => 'array',
+        'whatsapp' => 'nullable|array',
         'whatsapp.*' => 'nullable|string|max:13',
         'map' => 'nullable|string',
         'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:10240',
     ]);
 
-    // Ambil data pertama, atau buat baru jika belum ada
     $contact = Contact::first() ?? new Contact();
 
     $contact->alamat = $request->alamat;
-    $contact->whatsapp = array_filter($request->whatsapp ?? []); // hapus nilai kosong
-    $contact->map = $request->map;
+    $contact->whatsapp = array_values(array_filter($request->whatsapp ?? []));
 
-    // Upload gambar jika ada
+    $mapInput = trim((string) $request->map);
+    if ($mapInput !== '') {
+        if (str_contains($mapInput, 'maps.app.goo.gl') || str_contains($mapInput, 'goo.gl')) {
+            $mapInput = $this->resolveFinalUrl($mapInput);
+        }
+
+        if ($this->looksLikeCoords($mapInput)) {
+            $contact->map = $mapInput;
+        } else {
+            $coords = $this->extractCoordsFromGoogleUrl($mapInput);
+            $contact->map = $coords ?: $mapInput;
+        }
+    } else {
+        $contact->map = null;
+    }
+
     if ($request->hasFile('gambar')) {
+        if (!empty($contact->gambar) && Storage::disk('public')->exists($contact->gambar)) {
+            Storage::disk('public')->delete($contact->gambar);
+        }
+
         $path = $request->file('gambar')->store('contacts_images', 'public');
         $contact->gambar = $path;
     }
 
     $contact->save();
-    
 
     return redirect()->back()->with('success', 'Kontak berhasil diperbarui!');
-}
+    }
+
+    private function resolveFinalUrl(string $url): string
+    {
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 15,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_USERAGENT => 'Mozilla/5.0',
+            // penting: JANGAN NOBODY (biar GET beneran)
+            CURLOPT_NOBODY => false,
+            CURLOPT_HEADER => false,
+        ]);
+
+        curl_exec($ch);
+        $finalUrl = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+        curl_close($ch);
+
+        return $finalUrl ?: $url;
+    }
+    private function looksLikeCoords(string $text): bool
+    {
+        return (bool) preg_match('/^\s*-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?\s*$/', $text);
+    }
+
+    private function extractCoordsFromGoogleUrl(string $url): ?string
+    {
+        // 1) Embed pattern sering paling dekat ke lokasi place
+        if (preg_match('/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/', $url, $m)) {
+            return $m[1] . ',' . $m[2];
+        }
+
+        // 2) q=lat,lng lumayan jelas kalau memang koordinat
+        if (preg_match('/[?&]q=(-?\d+\.\d+),\s*(-?\d+\.\d+)/', $url, $m)) {
+            return $m[1] . ',' . $m[2];
+        }
+
+        // 3) @lat,lng paling terakhir karena sering cuma posisi kamera
+        if (preg_match('/@(-?\d+\.\d+),\s*(-?\d+\.\d+)/', $url, $m)) {
+            return $m[1] . ',' . $m[2];
+        }
+
+        return null;
+    }
 }
