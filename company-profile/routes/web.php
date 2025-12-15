@@ -139,6 +139,7 @@ Route::middleware(['auth'])->group(function () {
 
             //products
             Route::resource('products', ProductController::class)->names('admin.products');
+            
 
             // HOME CONTENT 
             Route::get('/home_content/edit', [HomeContentController::class, 'edit']) ->name('admin.home_content.edit'); 

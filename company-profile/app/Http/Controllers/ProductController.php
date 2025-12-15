@@ -13,8 +13,11 @@ class ProductController extends Controller
     //  FRONTEND (visitor)
     // ========================
     public function frontendIndex(Request $request)
-    {
-        $query = Product::query();
+{
+    $query = Product::query();
+
+    if ($request->filled('category')) {
+        $query->where('category', $request->category);
 
         // FILTER KATEGORI
         $category = $request->get('category');
@@ -28,17 +31,30 @@ class ProductController extends Controller
         return view('visit.products', compact('products'));
     }
 
-    public function show(Product $product)
-    {
-        return view('visit.show-product', compact('product'));
-    }
+    $products = $query->latest()->get();
+
+    // 🔥 KATEGORI DINAMIS
+    $categories = Product::whereNotNull('category')
+        ->select('category')
+        ->distinct()
+        ->orderBy('category')
+        ->pluck('category');
+
+    return view('visit.products', compact('products', 'categories'));
+
+}
+
 
     // ========================
     //  ADMIN CRUD
     // ========================
     public function index(Request $request, $role)
     {
-        $query = Product::query();
+    $query = Product::query();
+
+    // filter kategori admin
+    if ($request->filled('category')) {
+        $query->where('category', $request->category);
 
         //filter kategori admin
         $category = $request->get('category');
@@ -50,6 +66,26 @@ class ProductController extends Controller
         //$products = Product::latest()->get();
         return view('dashboardadmin.produk.edit', compact('products'));
     }
+
+    $products = $query->latest()->get();
+
+    // ambil kategori unik untuk dropdown / datalist
+    $categories = Product::whereNotNull('category')
+        ->select('category')
+        ->distinct()
+        ->orderBy('category')
+        ->pluck('category');
+
+    return view('dashboardadmin.produk.edit', compact('products', 'categories'));
+    }
+
+        // Di ProductController
+    public function show(Product $product)
+    {
+        return view('visit.show-product', compact('product'));
+    }
+
+
 
     public function store(Request $request)
     {

@@ -86,22 +86,20 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="category">Kategori</label>
-                                    <select name="category" id="category" class="form-control @error('category') is-invalid @enderror">
-                                        <option value="">-- Pilih Kategori --</option>
-                                        <option value="Banner" {{ old('category', $product->category ?? '')=='Banner'?'selected':'' }}>Banner</option>
-                                        <option value="Decal" {{ old('category', $product->category ?? '')=='Decal'?'selected':'' }}>Decal</option>
-                                        <option value="Sablon Kaos" {{ old('category', $product->category ?? '')=='Sablon Kaos'?'selected':'' }}>Sablon Kaos</option>
-                                        <option value="Sticker" {{ old('category', $product->category ?? '')=='Sticker'?'selected':'' }}>Sticker</option>
-                                        <option value="Striping" {{ old('category', $product->category ?? '')=='Striping'?'selected':'' }}>Striping</option>
-                                    </select>
-                                    @error('category')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
+                                    <label>Kategori</label>
 
+                                    <input list="category-list"
+                                        name="category"
+                                        class="form-control"
+                                        placeholder="Pilih atau ketik kategori baru"
+                                        value="{{ old('category', $product->category ?? '') }}">
+
+                                    <datalist id="category-list">
+                                        @foreach($categories as $cat)
+                                            <option value="{{ $cat }}">
+                                        @endforeach
+                                    </datalist>
+                                </div>
                                 <div class="form-group">
                                     <label for="editor">Deskripsi Produk</label>
                                     <textarea id="editor" name="description" class="form-control @error('description') is-invalid @enderror">{{ old('description', $product->description ?? '') }}</textarea>
@@ -135,6 +133,14 @@
                         <form method="GET" class="form-inline">
                             <div class="input-group input-group-sm">
                                 <select name="category" class="form-control float-right" onchange="this.form.submit()">
+
+                                <option value="">-- Semua Kategori --</option>
+                                    @foreach($categories as $cat)
+                                        <option value="{{ $cat }}" {{ request('category') == $cat ? 'selected' : '' }}>
+                                            {{ $cat }}
+                                        </option>
+                                    @endforeach
+
                                     <option value="all" {{ request('category') ? '' : 'selected' }}>-- Semua Kategori --</option>
                                     <option value="Banner" {{ request('category')=='Banner' ? 'selected' : '' }}>Banner</option>
                                     <option value="Decal" {{ request('category')=='Decal' ? 'selected' : '' }}>Decal</option>
