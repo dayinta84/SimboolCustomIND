@@ -79,6 +79,13 @@ class ProductController extends Controller
     return view('dashboardadmin.produk.edit', compact('products', 'categories'));
     }
 
+        // Di ProductController
+    public function show(Product $product)
+    {
+        return view('visit.show-product', compact('product'));
+    }
+
+
 
     public function store(Request $request)
     {
