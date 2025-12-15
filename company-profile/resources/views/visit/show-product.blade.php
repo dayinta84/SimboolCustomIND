@@ -66,9 +66,14 @@
 .desc-title {
     color: white;
 }
+
+/* JARAK DARI FOOTER */
+.content-wrapper {
+    padding-bottom: 100px; /* Bisa disesuaikan sesuai tinggi footer */
+}
 </style>
 
-<div class="container mt-4">
+<div class="container mt-4 content-wrapper">
 
     {{-- BOX 1 : GAMBAR + JUDUL --}}
     <div class="card shadow-sm detail-card p-3 mb-3">

@@ -141,12 +141,6 @@
                                         </option>
                                     @endforeach
 
-                                    <option value="all" {{ request('category') ? '' : 'selected' }}>-- Semua Kategori --</option>
-                                    <option value="Banner" {{ request('category')=='Banner' ? 'selected' : '' }}>Banner</option>
-                                    <option value="Decal" {{ request('category')=='Decal' ? 'selected' : '' }}>Decal</option>
-                                    <option value="Sablon Kaos" {{ request('category')=='Sablon Kaos' ? 'selected' : '' }}>Sablon Kaos</option>
-                                    <option value="Sticker" {{ request('category')=='Sticker' ? 'selected' : '' }}>Sticker</option>
-                                    <option value="Striping" {{ request('category')=='Striping' ? 'selected' : '' }}>Striping</option>
                                 </select>
                             </div>
                         </form>

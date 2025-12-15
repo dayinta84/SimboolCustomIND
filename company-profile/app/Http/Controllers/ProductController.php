@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -13,79 +12,60 @@ class ProductController extends Controller
     //  FRONTEND (visitor)
     // ========================
     public function frontendIndex(Request $request)
-{
-    $query = Product::query();
+    {
+        $query = Product::query();
 
-    if ($request->filled('category')) {
-        $query->where('category', $request->category);
-
-        // FILTER KATEGORI
+        // Ambil kategori filter dari request
         $category = $request->get('category');
 
         if ($category && $category !== 'all') {
             $query->where('category', $category);
         }
 
+        // Ambil produk sesuai filter
         $products = $query->latest()->get();
 
-        return view('visit.products', compact('products'));
+        // Ambil semua kategori unik untuk filter
+        $categories = Product::whereNotNull('category')
+            ->select('category')
+            ->distinct()
+            ->orderBy('category')
+            ->pluck('category');
+
+        return view('visit.products', compact('products', 'categories'));
     }
 
-    $products = $query->latest()->get();
-
-    // 🔥 KATEGORI DINAMIS
-    $categories = Product::whereNotNull('category')
-        ->select('category')
-        ->distinct()
-        ->orderBy('category')
-        ->pluck('category');
-
-    return view('visit.products', compact('products', 'categories'));
-
-}
-
+    // ========================
+    //  SHOW SINGLE PRODUCT (frontend)
+    // ========================
+    public function show(Product $product)
+    {
+        return view('visit.show-product', compact('product'));
+    }
 
     // ========================
     //  ADMIN CRUD
     // ========================
     public function index(Request $request, $role)
     {
-    $query = Product::query();
+        $query = Product::query();
 
-    // filter kategori admin
-    if ($request->filled('category')) {
-        $query->where('category', $request->category);
-
-        //filter kategori admin
         $category = $request->get('category');
-
         if ($category && $category !== 'all') {
             $query->where('category', $category);
         }
+
         $products = $query->latest()->get();
-        //$products = Product::latest()->get();
-        return view('dashboardadmin.produk.edit', compact('products'));
+
+        // Ambil kategori unik untuk dropdown / filter di admin
+        $categories = Product::whereNotNull('category')
+            ->select('category')
+            ->distinct()
+            ->orderBy('category')
+            ->pluck('category');
+
+        return view('dashboardadmin.produk.edit', compact('products', 'categories'));
     }
-
-    $products = $query->latest()->get();
-
-    // ambil kategori unik untuk dropdown / datalist
-    $categories = Product::whereNotNull('category')
-        ->select('category')
-        ->distinct()
-        ->orderBy('category')
-        ->pluck('category');
-
-    return view('dashboardadmin.produk.edit', compact('products', 'categories'));
-    }
-
-        // Di ProductController
-    public function show(Product $product)
-    {
-        return view('visit.show-product', compact('product'));
-    }
-
-
 
     public function store(Request $request)
     {
@@ -93,7 +73,7 @@ class ProductController extends Controller
             'name'        => 'required|max:255',
             'description' => 'nullable|string',
             'category'    => 'nullable|string|max:100',
-            'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:10024',
         ]);
 
         $imagePath = null;
