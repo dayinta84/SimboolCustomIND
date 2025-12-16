@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -94,7 +95,9 @@ class ProductController extends Controller
     public function edit($role, Product $product)
     {
         $products = Product::latest()->get();
-        return view('dashboardadmin.produk.edit', compact('product','products'));
+        $categories = Category::orderBy('name')->pluck('name');
+
+        return view('dashboardadmin.produk.edit', compact('product','products', 'categories'));
     }
 
     public function update(Request $request, $role, Product $product)
@@ -106,6 +109,8 @@ class ProductController extends Controller
             'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:10024',
         ]);
 
+        $data = $request->only(['name','description','category']);
+
         if($request->hasFile('image')){
             if ($product->image) {
                 Storage::delete('public/'.$product->image);
@@ -113,11 +118,7 @@ class ProductController extends Controller
             $product->image = $request->file('image')->store('products', 'public');
         }
 
-        $product->update([
-            'name'        => $request->name,
-            'description' => $request->description,
-            'category'    => $request->category,
-        ]);
+         $product->update($data);
 
         return redirect()->route('admin.products.index', ['role' => $role])
             ->with('success','Produk diperbarui');
