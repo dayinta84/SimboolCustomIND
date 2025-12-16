@@ -78,7 +78,7 @@
 <body>
   <div class="card">
     <div class="login-logo">
-      <img src="{{ asset('images/logo_simbool.png') }}" alt="Logo SIMBOOL">
+      <img src="{{ asset('images/logo_simboollogo.png') }}" alt="Logo SIMBOOL">
     </div>
     <h5 class="fw-bold text-black mb-3">Login Administrator</h5>
 
