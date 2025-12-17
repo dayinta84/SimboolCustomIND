@@ -20,7 +20,7 @@
                 <div class="card dashboard-card text-center p-4 shadow-lg border-0 h-100 pastel-blue">
                     <i class="fas fa-edit fa-3x mb-3 icon-white"></i>
                     <h5 class="fw-bold text-dark">Kelola Beranda</h5>
-                    <p class="text-muted">Edit slider, judul, dan tampilan utama website.</p>
+                    <p class="text-white">Edit slider, judul, dan tampilan utama website.</p>
                 </div>
             </a>
         </div>
@@ -31,7 +31,7 @@
                 <div class="card dashboard-card text-center p-4 shadow-lg border-0 h-100 pastel-green">
                     <i class="fas fa-box-open fa-3x mb-3 icon-white"></i>
                     <h5 class="fw-bold text-dark">Kelola Produk</h5>
-                    <p class="text-muted">Tambah dan kelola produk website.</p>
+                    <p class="text-white">Tambah dan kelola produk website.</p>
                 </div>
             </a>
         </div>
@@ -42,7 +42,7 @@
                 <div class="card dashboard-card text-center p-4 shadow-lg border-0 h-100 pastel-yellow">
                     <i class="fas fa-store fa-3x mb-3 icon-white"></i>
                     <h5 class="fw-bold text-dark">Kelola Marketplace</h5>
-                    <p class="text-muted">Atur marketplace & link pembelian.</p>
+                    <p class="text-white">Atur marketplace & link pembelian.</p>
                 </div>
             </a>
         </div>
@@ -53,7 +53,7 @@
                 <div class="card dashboard-card text-center p-4 shadow-lg border-0 h-100 pastel-purple">
                     <i class="fas fa-envelope fa-3x mb-3 icon-white"></i>
                     <h5 class="fw-bold text-dark">Kelola Kontak</h5>
-                    <p class="text-muted">Ubah alamat dan nomor WhatsApp admin.</p>
+                    <p class="text-white">Ubah alamat dan nomor WhatsApp admin.</p>
                 </div>
             </a>
         </div>
@@ -64,7 +64,7 @@
                 <div class="card dashboard-card text-center p-4 shadow-lg border-0 h-100 pastel-pink">
                     <i class="fas fa-user-cog fa-3x mb-3 icon-white"></i>
                     <h5 class="fw-bold text-dark">Kelola Profil Perusahaan</h5>
-                    <p class="text-muted">Edit visi, misi & informasi perusahaan.</p>
+                    <p class="text-white">Edit visi, misi & informasi perusahaan.</p>
                 </div>
             </a>
         </div>

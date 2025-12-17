@@ -46,8 +46,8 @@
                 <div class="row g-3 mt-1">
                     @foreach($slides as $slide)
                         <div class="col-lg-3 col-md-4 col-sm-6">
-                            <div class="card h-100 shadow-sm border">
-                                <img src="{{ asset('storage/'.$slide->image) }}" 
+                            <div class="card h-100 shadow-sm border"> <!-- coba ganti ini untuk storage -->
+                                <img src="{{ Storage::disk('uploads')->url($slide->image) }}" 
                                      class="card-img-top" 
                                      alt="Slider"
                                      style="height: 140px; object-fit: cover;">

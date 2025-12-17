@@ -1,12 +1,16 @@
 @extends('layout.main')
 
+@php use Illuminate\Support\Facades\Storage; @endphp
+
 @section('content')
 <div class="container py-5">
 
     {{-- Gambar Header --}}
     @if (!empty($contact?->gambar))
         <div class="text-center mb-5">
-            <img src="{{ asset('storage/' . $contact->gambar) }}" alt="Gambar Lokasi" class="img-fluid rounded-3 shadow-sm" style="max-height: 300px; object-fit: cover;">
+            <img src="{{ Storage::disk('uploads')->url($contact->gambar) }}" alt="Gambar Lokasi" 
+                class="img-fluid rounded-3 shadow-sm" 
+                style="max-height: 300px; object-fit: cover;">
         </div>
     @endif
 

@@ -1,6 +1,8 @@
 @extends('layout.adminlte')
 @section('title', 'Kelola Profil')
 
+@php use Illuminate\Support\Facades\Storage; @endphp
+
 @section('content')
 <div class="container-fluid">
     <h3 class="mb-4 fw-bold text-dark"><i class="fas fa-building"></i> Kelola Profil Perusahaan</h3>
@@ -35,9 +37,13 @@
                         <div class="text-center">
                             <!-- Logo / Gambar Utama -->
                             <div class="position-relative d-inline-block">
-                                <img id="previewLogo" src="{{ $profil && $profil->image ? asset('storage/' . $profil->image) : 'https://placehold.co/300x200?text=No+Logo&bg=f0f0f0&fg=6c757d' }}"
-                                     class="img-fluid rounded shadow-sm border" style="max-height: 200px; object-fit: contain;"
-                                     alt="Logo Perusahaan">
+                                <img id="previewLogo" 
+                                    src="{{ $profil && $profil->image && Storage::disk('uploads')->exists($profil->image)
+                                        ? Storage::disk('uploads')->url($profil->image)
+                                        : 'https://placehold.co/300x200?text=No+Logo&bg=f0f0f0&fg=6c757d' }}"
+                                    class="img-fluid rounded shadow-sm border" 
+                                    style="max-height: 200px; object-fit: contain;"
+                                    alt="Logo Perusahaan">
                                 <label for="image" class="btn btn-sm btn-outline-primary mt-2 w-100">
                                     <i class="fas fa-upload me-1"></i> Ganti Logo
                                 </label>
@@ -46,9 +52,13 @@
 
                             <!-- Gambar Tentang Kami -->
                             <div class="mt-4 position-relative d-inline-block">
-                                <img id="previewTentang" src="{{ $profil && $profil->image_tentang ? asset('storage/' . $profil->image_tentang) : 'https://placehold.co/300x150?text=No+Image&bg=f0f0f0&fg=6c757d' }}"
-                                     class="img-fluid rounded shadow-sm border" style="max-height: 150px; object-fit: contain;"
-                                     alt="Gambar Tentang Kami">
+                                <img id="previewTentang" 
+                                    src="{{ $profil && $profil->image_tentang 
+                                        ? Storage::disk('uploads')->url($profil->image_tentang) 
+                                        : 'https://placehold.co/300x150?text=No+Image&bg=f0f0f0&fg=6c757d' }}"
+                                    class="img-fluid rounded shadow-sm border" 
+                                    style="max-height: 150px; object-fit: contain;"
+                                    alt="Gambar Tentang Kami">
                                 <label for="image_tentang" class="btn btn-sm btn-outline-secondary mt-2 w-100">
                                     <i class="fas fa-upload me-1"></i> Ganti Gambar
                                 </label>

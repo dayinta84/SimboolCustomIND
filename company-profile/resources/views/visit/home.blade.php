@@ -1,5 +1,7 @@
 @extends('layout.main')
 
+@php use Illuminate\Support\Facades\Storage; @endphp
+
 @section('content')
 
 <style>
@@ -237,7 +239,7 @@
             <div class="swiper-wrapper">
                 @forelse($sliders as $slide)
                     <div class="swiper-slide">
-                        <img src="{{ asset('storage/'.$slide->image) }}" alt="Slider Image">
+                        <img src="{{ Storage::disk('uploads')->url($slide->image) }}" alt="Slider Image">
                     </div>
                 @empty
                     <div class="swiper-slide">
@@ -275,7 +277,7 @@
         @php
             $product = Product::where('category', $cat)->first();
             $image = ($product && $product->image)
-                ? asset('storage/'.$product->image)
+                ? Storage::disk('uploads')->url($product->image)
                 : 'https://via.placeholder.com/300x180?text=Coming+Soon';
         @endphp
 
@@ -364,7 +366,7 @@
         <div class="row align-items-center g-4">
             @if(isset($profil->image_tentang))
                 <div class="col-md-6 text-center">
-                    <img src="{{ asset('storage/' . $profil->image_tentang) }}"
+                    <img src="{{ Storage::disk('uploads')->url($profil->image_tentang) }}"
                          alt="Tentang Kami"
                          class="img-fluid rounded-4 shadow"
                          style="max-height: 420px; object-fit: cover;">
@@ -405,7 +407,7 @@
         <div class="row justify-content-center g-4">
             @foreach($marketplaces as $market)
                 @php
-                    $image = $market->icon ? asset('storage/' . $market->icon) : 'https://via.placeholder.com/80x80?text=M';
+                    $image = $market->icon ? Storage::disk('uploads')->url($market->icon) : 'https://via.placeholder.com/80x80?text=M';
                     $url = $market->link ?? '#';
                 @endphp
                 <div class="col-4 col-sm-3 col-md-2">

@@ -41,19 +41,19 @@ class ProfilController extends Controller
 
         if ($request->hasFile('image')) {
             // hapus gambar lama
-            if ($profil->image && Storage::disk('public')->exists($profil->image)) {
-                Storage::disk('public')->delete($profil->image);
+            if ($profil->image && Storage::disk('uploads')->exists($profil->image)) {
+                Storage::disk('uploads')->delete($profil->image);
             }
-            $path = $request->file('image')->store('profil', 'public');
+            $path = $request->file('image')->store('profil', 'uploads');
             $profil->image = $path;
         }
 
         if ($request->hasFile('image_tentang')) {
             // hapus gambar lama tentang kami
-            if ($profil->image_tentang && Storage::disk('public')->exists($profil->image_tentang)) {
-                Storage::disk('public')->delete($profil->image_tentang);
+            if ($profil->image_tentang && Storage::disk('uploads')->exists($profil->image_tentang)) {
+                Storage::disk('uploads')->delete($profil->image_tentang);
             }
-            $pathTentang = $request->file('image_tentang')->store('profil', 'public');
+            $pathTentang = $request->file('image_tentang')->store('profil', 'uploads');
             $profil->image_tentang = $pathTentang;
         }
 

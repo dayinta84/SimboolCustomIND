@@ -1,4 +1,6 @@
 @extends('layout.main')
+@php use Illuminate\Support\Facades\Storage; @endphp
+
 @section('title', 'Profil Perusahaan')
 
 @section('content')
@@ -234,8 +236,8 @@
 
 {{-- ====== HERO SECTION ====== --}}
 <div class="hero-section py-5">
-    @if($profil->image)
-        <img src="{{ asset('storage/' . $profil->image) }}" alt="Profil">
+    @if($profil->image && Storage::disk('uploads')->exists($profil->image))
+        <img src="{{ Storage::disk('uploads')->url($profil->image) }}" alt="Profil">
     @endif
     <h1>{{ strtoupper($profil->title) }}</h1>
     <!-- <p>{{ $profil->tentang }}</p> -->
@@ -248,11 +250,13 @@
     <div class="tentang container dark-card">
         <h4 class="text-center mb-4">Tentang Kami</h4>
         <div class="row align-items-center">
-            @if($profil->image_tentang)
-                <div class="col-md-6 text-center mb-3 mb-md-0">
-                    <img src="{{ asset('storage/' . $profil->image_tentang) }}" alt="Tentang Kami" class="img-fluid rounded shadow">
-                </div>
-            @endif
+            <div class="col-md-6 text-center mb-3 mb-md-0">
+                @if($profil->image_tentang && Storage::disk('uploads')->exists($profil->image_tentang))
+                    <img src="{{ Storage::disk('uploads')->url($profil->image_tentang) }}"
+                        alt="Tentang Kami" 
+                        class="img-fluid rounded shadow">
+                @endif
+            </div>
             <div class="col-md-6">
                 <p style="white-space: pre-line;">{{ $profil->tentang }}</p>
             </div>

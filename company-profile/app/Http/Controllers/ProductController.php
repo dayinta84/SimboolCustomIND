@@ -79,7 +79,7 @@ class ProductController extends Controller
 
         $imagePath = null;
         if($request->hasFile('image')){
-            $imagePath = $request->file('image')->store('products', 'public');
+            $imagePath = $request->file('image')->store('products', 'uploads');
         }
 
         Product::create([
@@ -111,11 +111,14 @@ class ProductController extends Controller
 
         $data = $request->only(['name','description','category']);
 
-        if($request->hasFile('image')){
-            if ($product->image) {
-                Storage::delete('public/'.$product->image);
+        if ($request->hasFile('image')) {
+            // hapus file lama
+            if ($product->image && Storage::disk('uploads')->exists($product->image)) {
+                Storage::disk('uploads')->delete($product->image);
             }
-            $product->image = $request->file('image')->store('products', 'public');
+
+            // simpan file baru + masukin ke data biar ke-update
+            $data['image'] = $request->file('image')->store('products', 'uploads');
         }
 
          $product->update($data);
@@ -126,8 +129,8 @@ class ProductController extends Controller
 
     public function destroy($role, Product $product)
     {
-        if ($product->image) {
-            Storage::delete('public/'.$product->image);
+        if ($product->image && Storage::disk('uploads')->exists($product->image)) {
+            Storage::disk('uploads')->delete($product->image);
         }
 
         $product->delete();

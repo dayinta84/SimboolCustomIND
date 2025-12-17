@@ -1,6 +1,9 @@
 @extends('layout.adminlte')
 @section('title', 'Edit Marketplace')
 
+@php use Illuminate\Support\Facades\Storage; @endphp
+
+
 @section('content')
 <div class="container mt-4">
     <h2 class="mb-4">Edit Marketplace</h2>
@@ -37,8 +40,8 @@
 
                 <div class="mb-3">
                     <label class="form-label">Icon (Logo)</label><br>
-                    @if($marketplace->icon)
-                        <img src="{{ asset('storage/' . $marketplace->icon) }}" width="60" class="mb-2"><br>
+                    @if($marketplace->icon && Storage::disk('uploads')->exists($marketplace->icon))
+                        <img src="{{ Storage::disk('uploads')->url($marketplace->icon) }}" width="60" class="mb-2"><br>
                     @endif
                     <input type="file" name="icon" class="form-control">
                 </div>

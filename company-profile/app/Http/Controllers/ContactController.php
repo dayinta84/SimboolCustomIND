@@ -61,11 +61,11 @@ class ContactController extends Controller
     }
 
     if ($request->hasFile('gambar')) {
-        if (!empty($contact->gambar) && Storage::disk('public')->exists($contact->gambar)) {
-            Storage::disk('public')->delete($contact->gambar);
+        if (!empty($contact->gambar) && Storage::disk('uploads')->exists($contact->gambar)) {
+            Storage::disk('uploads')->delete($contact->gambar);
         }
 
-        $path = $request->file('gambar')->store('contacts_images', 'public');
+        $path = $request->file('gambar')->store('contacts_images', 'uploads');
         $contact->gambar = $path;
     }
 

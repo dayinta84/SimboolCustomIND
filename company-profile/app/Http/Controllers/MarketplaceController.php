@@ -36,7 +36,7 @@ class MarketplaceController extends Controller
         ]);
 
         if ($request->hasFile('icon')) {
-            $data['icon'] = $request->file('icon')->store('icons', 'public');
+            $data['icon'] = $request->file('icon')->store('icons', 'uploads');
         }
 
         Marketplace::create($data);
@@ -72,10 +72,10 @@ class MarketplaceController extends Controller
 
         if ($request->hasFile('icon')) {
             // Hapus icon lama jika ada
-            if ($marketplace->icon && Storage::disk('public')->exists($marketplace->icon)) {
-                Storage::disk('public')->delete($marketplace->icon);
+            if ($marketplace->icon && Storage::disk('uploads')->exists($marketplace->icon)) {
+                Storage::disk('uploads')->delete($marketplace->icon);
             }
-            $data['icon'] = $request->file('icon')->store('icons', 'public');
+            $data['icon'] = $request->file('icon')->store('icons', 'uploads');
         }
 
         $marketplace->update($data);
@@ -89,8 +89,8 @@ class MarketplaceController extends Controller
     {
         $marketplace = Marketplace::findOrFail($id);
 
-        if ($marketplace->icon && \Storage::disk('public')->exists($marketplace->icon)) {
-            \Storage::disk('public')->delete($marketplace->icon);
+        if ($marketplace->icon && \Storage::disk('uploads')->exists($marketplace->icon)) {
+            \Storage::disk('uploads')->delete($marketplace->icon);
         }
 
         $marketplace->delete();

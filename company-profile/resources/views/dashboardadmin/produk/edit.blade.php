@@ -1,6 +1,9 @@
 @extends('layout.adminlte') {{-- Gunakan layout adminlte Anda --}}
 @section('title', 'Kelola Produk')
 
+@php use Illuminate\Support\Facades\Storage; @endphp
+
+
 @section('content')
 <div class="container-fluid">
     <div class="row">
@@ -61,12 +64,18 @@
                                     </div>
                                     <!-- Preview Gambar -->
                                     <div class="mt-2 text-center">
-                                        @if(isset($product) && $product->image)
-                                            <img id="preview" src="{{ asset('storage/'.$product->image) }}" 
-                                                 class="img-fluid img-thumbnail" style="max-height: 200px;" alt="Preview Gambar">
+                                        @if(isset($product) && $product->image && Storage::disk('uploads')->exists($product->image))
+                                            <img id="preview" 
+                                                src="{{ Storage::disk('uploads')->url($product->image) }}"
+                                                class="img-fluid img-thumbnail"
+                                                style="max-height: 200px;" 
+                                                alt="Preview Gambar">
                                         @else
-                                            <img id="preview" src="https://placehold.co/300x200?text=No+Image" 
-                                                 class="img-fluid img-thumbnail" style="max-height: 200px;" alt="No Image">
+                                            <img id="preview" 
+                                                src="https://placehold.co/300x200?text=No+Image" 
+                                                class="img-fluid img-thumbnail" 
+                                                style="max-height: 200px;" 
+                                                alt="No Image">
                                         @endif
                                     </div>
                                 </div>
@@ -165,8 +174,11 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>
-                                            @if($p->image)
-                                                <img src="{{ asset('storage/'.$p->image) }}" width="60" class="img-thumbnail" alt="Gambar Produk">
+                                            @if($p->image && Storage::disk('uploads')->exists($p->image))
+                                                <img src="{{ Storage::disk('uploads')->url($p->image) }}" 
+                                                    width="60" 
+                                                    class="img-thumbnail" 
+                                                    alt="Gambar Produk">
                                             @else
                                                 <span class="text-muted">-</span>
                                             @endif

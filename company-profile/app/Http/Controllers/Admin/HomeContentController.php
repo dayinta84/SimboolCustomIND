@@ -91,7 +91,8 @@ class HomeContentController extends Controller
             'subtitle' => 'nullable|string|max:255',
         ]);
 
-        $path = $request->file('image')->store('slide', 'public');
+        // $path = $request->file('image')->store('slide', 'public');
+        $path = $request->file('image')->store('slide', 'uploads');
 
         Slider::create([
             'image'    => $path,
@@ -102,12 +103,12 @@ class HomeContentController extends Controller
         return back()->with('success', 'Slider berhasil ditambahkan.');
     }
 
-    public function deleteSlider($role, $id) #ini yg menyebabkan hapus eror, tambahkan role jgn lupa   
+    public function deleteSlider($role, $id)   
     {
         $slider = Slider::findOrFail($id);
 
-        if ($slider->image && Storage::disk('public')->exists($slider->image)) {
-            Storage::disk('public')->delete($slider->image);
+        if ($slider->image && Storage::disk('uploads')->exists($slider->image)) {
+            Storage::disk('uploads')->delete($slider->image);
         }
 
         $slider->delete();

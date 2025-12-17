@@ -1,4 +1,5 @@
 @extends('layout.main')
+@php use Illuminate\Support\Facades\Storage; @endphp
 
 @section('content')
 
@@ -117,9 +118,8 @@
                 <div class="card product-card shadow-sm h-100">
 
                     {{-- GAMBAR --}}
-                    @if($product->image)
-                        <img src="{{ asset('storage/'.$product->image) }}"
-                             class="card-img-top">
+                    @if($product->image && Storage::disk('uploads')->exists($product->image))
+                        <img src="{{ Storage::disk('uploads')->url($product->image) }}" class="card-img-top">
                     @else
                         <div class="bg-light d-flex align-items-center justify-content-center"
                              style="height:180px;">

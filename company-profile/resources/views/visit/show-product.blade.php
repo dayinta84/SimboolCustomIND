@@ -1,4 +1,5 @@
 @extends('layout.main')
+@php use Illuminate\Support\Facades\Storage; @endphp
 
 @section('content')
 
@@ -83,9 +84,8 @@
             <i class="bi bi-arrow-left"></i>
         </a>
 
-        @if($product->image)
-            <img src="{{ asset('storage/'.$product->image) }}"
-                 class="detail-img mb-3">
+        @if($product->image && Storage::disk('uploads')->exists($product->image))
+            <img src="{{ Storage::disk('uploads')->url($product->image) }}" class="detail-img mb-3">
         @endif
 
         <h3 class="product-title">{{ $product->name }}</h3>

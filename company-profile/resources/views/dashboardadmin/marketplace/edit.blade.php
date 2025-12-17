@@ -1,6 +1,9 @@
 @extends('layout.adminlte')
 @section('title', 'Kelola Marketplace')
 
+@php use Illuminate\Support\Facades\Storage; @endphp
+
+
 @section('content')
 <div class="container-fluid">
     <div class="row">
@@ -123,8 +126,11 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    @if($market->icon)
-                                                        <img src="{{ asset('storage/' . $market->icon) }}" alt="{{ $market->platform }}" class="img-thumbnail rounded-circle" width="40" height="40">
+                                                    @if($market->icon && Storage::disk('uploads')->exists($market->icon))
+                                                        <img src="{{ Storage::disk('uploads')->url($market->icon) }}"
+                                                            alt="{{ $market->platform }}"
+                                                            class="img-thumbnail rounded-circle"
+                                                            width="40" height="40">
                                                     @else
                                                         <span class="text-muted">-</span>
                                                     @endif

@@ -1,6 +1,9 @@
 @extends('layout.adminlte')
 @section('title', 'Edit Halaman Kontak')
 
+@php use Illuminate\Support\Facades\Storage; @endphp
+
+
 @section('content')
 <div class="container-fluid">
     <div class="row justify-content-center">
@@ -28,8 +31,8 @@
                         <div class="form-group mb-4">
                             <label for="gambar" class="form-label"><i class="fas fa-image me-1"></i> Gambar Header</label>
                             <div class="text-center mb-3">
-                                @if(!empty($contact->gambar))
-                                    <img id="previewImage" src="{{ asset('storage/'.$contact->gambar) }}" 
+                                @if(!empty($contact->gambar) && Storage::disk('uploads')->exists($contact->gambar))
+                                    <img id="previewImage" src="{{ Storage::disk('uploads')->url($contact->gambar) }}" 
                                          class="img-fluid rounded border shadow-sm" style="max-height: 200px; object-fit: contain;" 
                                          alt="Preview Gambar Kontak">
                                 @else

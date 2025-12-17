@@ -1,4 +1,6 @@
 @extends('layout.main')
+@php use Illuminate\Support\Facades\Storage; @endphp
+
 
 @section('content')
 
@@ -49,10 +51,10 @@
                 
                 <div class="market-card text-center text-white">
 
-                    @if($market->icon)
-                        <img src="{{ asset('storage/' . $market->icon) }}" 
-                             class="img-fluid mb-3 market-img"
-                             alt="{{ $market->platform }}">
+                    @if($market->icon && Storage::disk('uploads')->exists($market->icon))
+                        <img src="{{ Storage::disk('uploads')->url($market->icon) }}" 
+                            class="img-fluid mb-3 market-img"
+                            alt="{{ $market->platform }}">
                     @endif
 
                     <h5 class="fw-bold mb-1">{{ $market->platform }}</h5>
